@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
-# Create your views here.
+js = []
+css = []
+
+def home(request):
+    return render(request, "login_system/home.html", {
+        "csss" : css,
+        "jss"  : js
+    })
