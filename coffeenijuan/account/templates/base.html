@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta property="og:image" content="{% static 'image link' %}" /> -->
+    <meta property="og:description" content="This is a Coffe ni Juan shop built by E-Group from UP Cebu." />
+    <meta property="og:title" content="E-Group | Coffe ni Juan" />
+    <meta property="og:image:width" content="1000"/>
+    <meta property="og:image:height" content="1000"/>
+    <!-- fav icons -->
+    <!-- <link rel="icon" type="image/png" href="{% static 'images/favicon-16x16.png' %}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/apple-touch-icon.png' %}" > -->
+
+    <title>Coffe ni Juan</title>
+    <link rel="stylesheet" href="{% static 'account/css/styles.css' %}" />
+    <script defer src="{% static 'account/js/common.js' %}"></script>
+  </head>
+  <body>
+    {% block body %} 
+    {% endblock %}  
+  </body>
+</html>

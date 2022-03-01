@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+# from account.forms import RegistrationForm
 
 js = []
 css = []
