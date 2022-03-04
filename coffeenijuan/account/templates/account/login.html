@@ -1,7 +1,28 @@
 {% extends "base.html" %}
 
 {% block body %}
+<form class="form-signin" method="post">
+    {% csrf_token %}
+    <h1>Log In</h1>
+  
+    {% for field in login_form %}
+        <p>
+            {{field.label_tag}}
+            {{field}}
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
 
-<h2>Log In</h2>
+    {% if login_form.non_field_errors %}
+        <div style="color: red">
+            <p>{{login_form.non_field_errors}}</p>
+        </div>
+    {% endif %}
+  
+    <button type="submit">Register</button>
+  
+</form>
 
 {% endblock %}
