@@ -2,6 +2,28 @@
 
 {% block body %}
 
-<h1>REGISTER</h1>
+<form class="form-signin" method="post">
+    {% csrf_token %}
+    <h1>Register</h1>
+  
+    {% for field in registration_form %}
+        <p>
+            {{field.label_tag}}
+            {{field}}
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
+
+    {% if registration_form.non_field_errors %}
+        <div style="color: red">
+            <p>{{registration_form.non_field_errors}}</p>
+        </div>
+    {% endif %}
+  
+    <button type="submit">Register</button>
+  
+  </form>
 
 {% endblock %}
