@@ -1,6 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm
+from coffeenijuan import settings
+from django.core.mail import EmailMessage, send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from urllib.parse import quote, unquote
+from .support import get_if_exists, encrypt, decrypt
+from django.http import HttpResponse
+from .models import Account
 
 js = []
 css = []
@@ -49,6 +57,31 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
+
+            
+            # For email verification
+
+            # --------Email Message--------------
+            # User Data
+            user = get_if_exists(Account, **{'email':email})
+
+            
+            # Sending Welcome Email
+            subject = "Welcome to Coffee ni Juan Coffee Shop!!"
+            message = "Hello {} {}".format(user.first_name, user.last_name)    
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [email]
+            send_mail(subject, message, from_email, to_list, fail_silently=False)
+
+            # Sending Verification Email
+            subject = "Confirm your Email at Coffee ni Juan Website"
+            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "/" + str(user.id)))
+            message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [email]
+            send_mail(subject, message, from_email, to_list, fail_silently=False)
+
+    
             return redirect('account:home')
         else:
             registration_form = form
@@ -67,3 +100,9 @@ def logout_view(request):
         logout(request)
         
     return redirect('account:home')
+
+def verify(request, token):
+    decrypted = decrypt(unquote(token))
+    return HttpResponse("user: {}".format(decrypted))
+
+    pass
