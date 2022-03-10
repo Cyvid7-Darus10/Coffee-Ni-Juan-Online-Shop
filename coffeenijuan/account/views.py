@@ -103,6 +103,11 @@ def logout_view(request):
 
 def verify(request, token):
     decrypted = decrypt(unquote(token))
-    return HttpResponse("user: {}".format(decrypted))
+    data = decrypted.split('/')
+    user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
 
-    pass
+    if user:
+        user.is_verified = True
+        user.save(update_fields=['is_verified'])
+    
+    return redirect('account:home')
