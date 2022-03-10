@@ -37,8 +37,8 @@ class Account(AbstractBaseUser):
 	username 				= models.CharField(max_length=30, unique=True)
 	first_name				= models.CharField(max_length=30, default="")
 	last_name				= models.CharField(max_length=30, default="")
-	address					= models.CharField(max_length=30, default="")
-	contact_number			= models.CharField(max_length=30, default="")
+	address					= models.CharField(max_length=30, default="None")
+	contact_number			= models.CharField(max_length=30, default="None")
 	date_joined				= models.DateTimeField(verbose_name='date joined', auto_now_add=True)
 	last_login				= models.DateTimeField(verbose_name='last login', auto_now=True)
 	is_admin				= models.BooleanField(default=False)
@@ -46,8 +46,8 @@ class Account(AbstractBaseUser):
 	is_staff				= models.BooleanField(default=False)
 	is_superuser			= models.BooleanField(default=False)
 	account_type			= models.CharField(max_length=60, default="customer")
-
-
+	is_verified				= models.BooleanField(default=False)
+	
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
