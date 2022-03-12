@@ -74,8 +74,7 @@ def register(request):
             send_mail(subject, message, from_email, to_list, fail_silently=False)
 
             # Sending Verification Email
-            subject = "Confirm your Email at Coffee ni Juan Website"
-            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "/" + str(user.id)))
+            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "@" + str(user.id)))
             message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
             from_email = settings.EMAIL_HOST_USER
             to_list = [email]
@@ -103,7 +102,9 @@ def logout_view(request):
 
 def verify(request, token):
     decrypted = decrypt(unquote(token))
-    data = decrypted.split('/')
+    
+    data = decrypted.split('@')
+    
     user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
 
     if user:
