@@ -2,22 +2,27 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm
 from coffeenijuan import settings
-from django.core.mail import EmailMessage, send_mail
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
+from django.core.mail import send_mail
 from urllib.parse import quote, unquote
 from .support import get_if_exists, encrypt, decrypt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Account
+from django.urls import reverse
 
 js = []
 css = []
+
+def prompt_message(request, type):
+    return HttpResponse(type)
+    pass
+
 
 def home(request):
     return render(request, "account/home.html", {
         "csss" : css,
         "jss"  : js
     })
+
 
 def login_view(request):
     if request.user.is_authenticated: 
@@ -94,21 +99,27 @@ def register(request):
         "registration_form" : registration_form
     })
 
+
 def logout_view(request):
     if request.user.is_authenticated: 
         logout(request)
         
     return redirect('account:home')
 
+
 def verify(request, token):
     decrypted = decrypt(unquote(token))
-    
     data = decrypted.split('@')
     
-    user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
+    user = None
+    if (data[1].isnumeric()):
+        user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
 
     if user:
         user.is_verified = True
         user.save(update_fields=['is_verified'])
-    
+    else:
+        url = reverse('account:prompt_message', kwargs={'type':"invalid_token"})
+        return HttpResponseRedirect(url)
+        
     return redirect('account:home')
