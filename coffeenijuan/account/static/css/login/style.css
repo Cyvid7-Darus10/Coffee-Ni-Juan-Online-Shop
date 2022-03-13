@@ -5,6 +5,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: small;
   overflow: hidden;
+  cursor: url('/static/resources/coffee.cur'), auto;
 }
 
 button, input[type="submit"], input[type="reset"] {
@@ -78,9 +79,9 @@ img.logo {
   padding: 8px 10px;
 }
 
-.button_text_container{
+.button_text_container {
   position: relative;
-  z-index: 10000;
+  z-index: 999;
 }
 
 .custom-btn:hover {
@@ -131,6 +132,10 @@ input[type=email], input[type=text], input[type=password]  {
   box-sizing: border-box;
   padding: 6px;
   font-size: 1.70em;
+}
+
+.submit-btn:hover {
+  color: black;
 }
 
 .options a {
