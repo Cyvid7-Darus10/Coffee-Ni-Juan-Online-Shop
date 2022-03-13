@@ -7,6 +7,17 @@ body {
   overflow: hidden;
 }
 
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  width: 100%;
+}
+
 .page {
   position: absolute;
   min-width: 100%;
@@ -50,21 +61,38 @@ img.logo {
   right: 10%;
 }
 
-.button1, .button2 {
-  left: 10%;
-  width: 10em;
-  border-radius: 6px;
-  color: white;
-  border: 2px solid #4b2108;
-  background-color: #4b2108;
+.custom-btn-container {
   margin: 20px 1px;
-  box-sizing: border-box;
-  padding: 8px 10px;    
 }
 
-.button2 {
+.custom-btn {
+  border: 2px solid #4b2108;
+  background-color: #4b2108;
+  color: white;
+  font-size: 16px;
+  font-weight: normal;
+  width: 10em;
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 8px 10px;
+}
+
+.button_text_container{
+  position: relative;
+  z-index: 10000;
+}
+
+.custom-btn:hover {
+  color:black;
+  font-weight: bolder;
+}
+
+
+.reverse-color {
   color: #4b2108;
   background-color: white;
+  font-weight: bolder;
 }
 
 .loginForm {
@@ -93,7 +121,7 @@ input[type=email], input[type=text], input[type=password]  {
   padding: 7px;
 }
 
-input[type=submit] {
+.submit-btn {
   width: 100%;
   border-radius: 4px;
   border: 2px solid #4b2108;
@@ -102,6 +130,7 @@ input[type=submit] {
   margin: 5px 0;
   box-sizing: border-box;
   padding: 6px;
+  font-size: 1.70em;
 }
 
 .options a {

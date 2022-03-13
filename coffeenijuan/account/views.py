@@ -25,6 +25,13 @@ def home(request):
 
 
 def login_view(request):
+    css = [
+        "/static/css/login/animation.css"
+    ]
+    js = [
+        "/static/js/animations.js"
+    ]
+
     if request.user.is_authenticated: 
         return redirect("account:home")
 

@@ -8,8 +8,22 @@
             <div class="col-8"></div>
             <div class="col-4">
                 <div class="navBar">
-                    <button type="button" class="button1" onclick="alert('Home')">HOME</button>
-                    <button type="button" class="button2" onclick="alert('No product for now')"><b>BUY PRODUCTS</b></button>
+                    <div class="animation-btn-container custom-btn-container">
+                        <span class="su_button_circle"></span>
+                        <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
+                            <span class="button_text_container">
+                                HOME
+                            </span>
+                       </a>
+                    </div>
+                    <div class="animation-btn-container custom-btn-container">
+                        <span class="su_button_circle"></span>
+                        <a type="button" class="custom-btn reverse-color animation-btn" href="{% url 'account:home' %}">
+                            <span class="button_text_container">
+                                BUY PRODUCTS
+                            </span>
+                       </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,17 +73,19 @@
                                     </div>
                                 {% endif %}
 
-                                <div class="rowfield">
-                                    <div class="col-10-md-1">
+                                <div class="rowfield submit-btn animation-btn-container">
+                                    <span class="su_button_circle"></span>
+                                    <div class="col-10-md-1 animation-btn">
                                         <input type="submit" name="login" value="LOGIN">        
                                     </div>
                                 </div>
+                              
                             </form>
 
                             <div class="rowfield">
                                 <div class="col-10-md-1 options text-center">
                                     <a class="forgotPassword" href="">Forgot Password?</a>
-                                    <a class="createAccount" href="">Create Account</a> 
+                                    <a class="createAccount" href="{% url 'account:register' %}">Create Account</a> 
                                 </div>
                             </div>
                         </form>

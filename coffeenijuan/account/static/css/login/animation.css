@@ -1,0 +1,66 @@
+.animation-btn {
+  transition: 400ms;
+  z-index: 100000;
+}
+
+.animation-btn-container {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+}
+
+.su_button_circle {
+  background-color: red;
+  border-radius: 1000px;
+  position: absolute;
+  left:0;
+  top:0;
+  width: 0px;
+  height: 0px;
+  margin-left: 0px;
+  margin-top: 0px;
+  pointer-events: none;
+}
+
+.explode-circle {
+  animation: explode 0.5s forwards;
+
+}
+
+.desplode-circle{
+  animation: desplode 0.5s forwards;
+}
+
+@keyframes explode {
+ 0% {
+   width: 0px;
+   height: 0px;
+   margin-left: 0px;
+   margin-top: 0px;
+   background-color: rgba(42, 53, 80,0.2);
+ }
+ 100% {
+   width: 400px;
+   height: 400px;
+   margin-left: -200px;
+   margin-top: -200px;
+   background-color: #ede1d3;
+ }
+}
+
+@keyframes desplode {
+ 0% {
+   width: 400px;
+   height: 400px;
+   margin-left: -200px;
+   margin-top: -200px;
+   background-color: #ede1d3;
+ }
+ 100% {
+   width: 0px;
+   height: 0px;
+   margin-left: 0px;
+   margin-top: 0px;
+   background-color: rgba(129, 80, 108,0.6);
+ }
+}

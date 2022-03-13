@@ -14,24 +14,33 @@
         <!-- Style -->
         <link rel="stylesheet" type="text/css" href="{% static 'css/login/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/login/media.css' %}">
-    
+        {% for css in csss %}
+            <link rel="stylesheet" type="text/css" href="{{ css }}" />
+        {% endfor %}
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  </script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>  
+        {% for js in jss %}
+            <script defer src="{{ js }}"></script>
+        {% endfor %}
+        
+
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap'); 
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Roboto:wght@300;400&display=swap');
-        /* @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap'); */
         </style>
     </head>
     <body>
         <img class="bg" src="{% static 'resources/bg.png' %}">
-
+        
         {% block content %} 
         {% endblock %}
         
         <div class="footer">
-      <div class="footer-content">
-        <hr class="footer-line" /> <br />
-        <b class="copyright"> © 2022 KAPE GITING. ALL RIGHTS RESERVED.</b>
-      </div>
-    </div>
+        <div class="footer-content">
+            <hr class="footer-line" /> <br />
+            <b class="copyright"> © 2022 KAPE GITING. ALL RIGHTS RESERVED.</b>
+        </div>
+        </div>
     </body>
 </html>
