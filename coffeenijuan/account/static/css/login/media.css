@@ -1,0 +1,53 @@
+/* Screen size width < 1280 px*/
+@media only screen and (max-width: 1280px) {
+	.createAccount::before {
+		content: "\A";
+  		white-space: pre;
+	}
+	.forgotPassword, .createAccount{
+		margin: 0;
+	}
+}
+
+/* Screen size width < 600 px*/
+@media only screen and (max-width: 600px) {
+	img.logo {
+		display: none;
+	}
+
+	.titleLogo {
+		display: unset;
+		float: right;
+	}
+
+	.loginForm {
+		position: absolute;
+		top: 50%;
+    	left: 50%;
+    	width: 60%;
+    	-ms-transform: translate(-50%, -50%);
+    	transform: translate(-50%, -50%);
+	}
+}
+
+/* Screen size width < 328 px*/
+@media only screen and (max-width: 328px) {
+	.titleLogo {
+		display: none;
+	}
+	.navBar {
+		font-size: 10px;
+	}
+	.footer-content {
+		font-size: 10px;
+	}
+	.title {
+		text-align: center;
+	}
+	.forgotPassword {
+		width: 50%;
+	}
+	.loginForm {
+		width: 75%;
+	}
+}

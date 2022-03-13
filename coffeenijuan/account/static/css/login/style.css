@@ -1,0 +1,176 @@
+body {
+  margin:0px;
+  padding:0px;
+  height:100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: small;
+  overflow: hidden;
+}
+
+.page {
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  height: 100vh;
+}
+
+img.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  z-index: -1;
+}
+
+img.logo {
+  width:  40vw;
+  height: 40vw;
+  max-width: 300px;
+  max-height: 300px;
+  margin: auto;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.header {
+  background: #ffffff;
+  z-index: 2;
+  height: 80px;
+  border-bottom: 1px solid rgb(46, 40, 32);
+}
+
+.navBar {
+  position: absolute;
+  right: 10%;
+}
+
+.button1, .button2 {
+  left: 10%;
+  width: 10em;
+  border-radius: 6px;
+  color: white;
+  border: 2px solid #4b2108;
+  background-color: #4b2108;
+  margin: 20px 1px;
+  box-sizing: border-box;
+  padding: 8px 10px;    
+}
+
+.button2 {
+  color: #4b2108;
+  background-color: white;
+}
+
+.loginForm {
+  height: 50%;
+  width: 45%;
+  padding-left: 25px;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 20%;
+}
+
+.title{
+  color: #4b2108;
+  font-family: 'Comfortaa', cursive;
+}
+
+input[type=email], input[type=text], input[type=password]  {
+  width: 100%;
+  border: 2px solid #4b2108;
+  border-radius: 2px;
+  padding: 5px 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  padding: 7px;
+}
+
+input[type=submit] {
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #4b2108;
+  background-color: #4b2108;
+  color: white;
+  margin: 5px 0;
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+.options a {
+  font-size: 12px;
+  color: #4b2108;
+}
+
+.content {
+  position:absolute;
+  height: 80%;
+  width: 100%;
+}
+
+.container {
+  max-width: 100% !important;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.row {
+  max-width: 100% !important;
+  height: 100%;
+}
+.rowfield {
+  max-width: 100% !important;
+  height: 50px !important;
+}
+
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10%; /* Height of the footer */
+  background: #ffffff;
+  border-top: 1px solid rgb(46, 40, 32);
+  z-index: 2;
+  text-align: center;
+}
+
+.footer-content{
+  height: 50%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+hr.footer-line{
+  display: inline-block;
+  width: 45%;
+  height: 3px;
+}
+
+.copyright {
+  position: relative;
+  top: -30%;
+}
+
+.forgotPassword, .createAccount{
+  margin: 1em;
+}
+
+.titleLogo {
+  display: none;
+  position: relative;
+  float: right;
+  -ms-transform: translateY(-25%);
+  transform: translateY(-25%);
+  width: 50px;
+  height: 50px;
+}
