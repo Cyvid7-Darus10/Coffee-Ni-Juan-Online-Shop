@@ -2,4 +2,5 @@
 **/.vscode/**
 **/__pycache__/
 **/__pycache__/**
+**/coffenijuan/__pycache__/**
 **.env**
