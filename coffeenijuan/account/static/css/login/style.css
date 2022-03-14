@@ -107,6 +107,17 @@ img.logo {
   left: 20%;
 }
 
+.registerForm{
+  height: 10%;
+  width: 45%;
+  padding-left: 25px;
+  position: relative;
+  top: 5%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 20%;
+}
+
 .title{
   color: #4b2108;
   font-family: 'Comfortaa', cursive;
@@ -195,7 +206,7 @@ hr.footer-line{
   top: -30%;
 }
 
-.forgotPassword, .createAccount{
+.forgotPassword, .createAccount, .termOfService, .privacy{
   margin: 1em;
 }
 

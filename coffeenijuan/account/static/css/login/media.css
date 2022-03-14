@@ -28,6 +28,14 @@
     	-ms-transform: translate(-50%, -50%);
     	transform: translate(-50%, -50%);
 	}
+	.registerForm {
+		position: absolute;
+		top: 50%;
+    	left: 50%;
+    	width: 60%;
+    	-ms-transform: translate(-50%, -50%);
+    	transform: translate(-50%, -50%);
+	}
 }
 
 /* Screen size width < 328 px*/
@@ -48,6 +56,9 @@
 		width: 50%;
 	}
 	.loginForm {
+		width: 75%;
+	}
+	.registerFrom{
 		width: 75%;
 	}
 }
