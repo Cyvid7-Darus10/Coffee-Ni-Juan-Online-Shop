@@ -19,6 +19,14 @@ button, input[type="submit"], input[type="reset"] {
   width: 100%;
 }
 
+#id_first_name, #id_last_name, #id_username {
+  display: none;
+}
+
+.show {
+  display: block !important;
+}
+
 .page {
   position: absolute;
   min-width: 100%;

@@ -18,6 +18,14 @@ def prompt_message(request, type):
 
 
 def home(request):
+    css = [
+        "/static/css/login/animation.css"
+    ]
+
+    js = [
+        "/static/js/animations.js"
+    ]
+    
     return render(request, "account/home.html", {
         "csss" : css,
         "jss"  : js
@@ -58,6 +66,14 @@ def login_view(request):
 
 
 def register(request):
+    css = [
+        "/static/css/login/animation.css"
+    ]
+
+    js = [
+        "/static/js/animations.js"
+    ]
+
     if request.user.is_authenticated: 
         return redirect("account:home")
 
@@ -86,7 +102,7 @@ def register(request):
             send_mail(subject, message, from_email, to_list, fail_silently=False)
 
             # Sending Verification Email
-            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "@" + str(user.id)))
+            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + str(user.id)))
             message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
             from_email = settings.EMAIL_HOST_USER
             to_list = [email]
@@ -116,11 +132,11 @@ def logout_view(request):
 
 def verify(request, token):
     decrypted = decrypt(unquote(token))
-    data = decrypted.split('@')
+    data = decrypted.split('.com')
     
     user = None
     if (data[1].isnumeric()):
-        user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
+        user = get_if_exists(Account, **{'email':data[0] + ".com", 'id':data[1]})
 
     if user:
         user.is_verified = True

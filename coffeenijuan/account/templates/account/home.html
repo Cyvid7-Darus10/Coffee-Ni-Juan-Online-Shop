@@ -1,6 +1,31 @@
 {% extends "base.html" %}
 
-{% block body %}
+{% block content %}
+    <div class="header">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4">
+                <div class="navBar">
+                    <div class="animation-btn-container custom-btn-container">
+                        <span class="su_button_circle"></span>
+                        <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
+                            <span class="button_text_container">
+                                HOME
+                            </span>
+                    </a>
+                    </div>
+                    <div class="animation-btn-container custom-btn-container">
+                        <span class="su_button_circle"></span>
+                        <a type="button" class="custom-btn reverse-color animation-btn" href="{% url 'account:home' %}">
+                            <span class="button_text_container">
+                                BUY PRODUCTS
+                            </span>
+                    </a>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
 
 <h1>HOME</h1>
 
