@@ -27,7 +27,7 @@
         </div>
     </div>
 
-<h1>HOME</h1>
+<!-- <h1>HOME</h1> -->
 
 {% if request.user.is_authenticated %}
     <p>Hello {{request.user}}</p><a href="{% url 'account:logout' %}">Logout</a>
