@@ -1,31 +1,32 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from account.forms import RegistrationForm, AccountAuthenticationForm
+from account.forms import RegistrationForm, AccountAuthenticationForm, ForgotPassword
 from coffeenijuan import settings
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from urllib.parse import quote, unquote
 from .support import get_if_exists, encrypt, decrypt
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Account
 from django.urls import reverse
+import datetime
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+
 
 js = []
 css = []
 
-def prompt_message(request, type):
-    return HttpResponse(type)
-    pass
+def prompt_message(request, type):  
+    return render(request, "prompt.html", {
+        "type" : type,
+        "csss" : css,
+        "jss"  : js
+    })
 
 
 def home(request):
-    css = [
-        "/static/css/login/animation.css"
-    ]
-
-    js = [
-        "/static/js/animations.js"
-    ]
-    
     return render(request, "account/home.html", {
         "csss" : css,
         "jss"  : js
@@ -33,13 +34,6 @@ def home(request):
 
 
 def login_view(request):
-    css = [
-        "/static/css/login/animation.css"
-    ]
-    js = [
-        "/static/js/animations.js"
-    ]
-
     if request.user.is_authenticated: 
         return redirect("account:home")
 
@@ -64,16 +58,7 @@ def login_view(request):
         "login_form" : login_form
     })
 
-
 def register(request):
-    css = [
-        "/static/css/login/animation.css"
-    ]
-
-    js = [
-        "/static/js/animations.js"
-    ]
-
     if request.user.is_authenticated: 
         return redirect("account:home")
 
@@ -102,9 +87,8 @@ def register(request):
             send_mail(subject, message, from_email, to_list, fail_silently=False)
 
             # Sending Verification Email
-            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + str(user.id)))
+            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "+" + str(user.id)))
             message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
-            from_email = settings.EMAIL_HOST_USER
             to_list = [email]
             send_mail(subject, message, from_email, to_list, fail_silently=False)
 
@@ -132,11 +116,11 @@ def logout_view(request):
 
 def verify(request, token):
     decrypted = decrypt(unquote(token))
-    data = decrypted.split('.com')
+    data = decrypted.split('+')
     
     user = None
     if (data[1].isnumeric()):
-        user = get_if_exists(Account, **{'email':data[0] + ".com", 'id':data[1]})
+        user = get_if_exists(Account, **{'email':data[0], 'id':data[1]})
 
     if user:
         user.is_verified = True
@@ -146,3 +130,47 @@ def verify(request, token):
         return HttpResponseRedirect(url)
         
     return redirect('account:home')
+
+
+def forgot_password(request):
+    if request.POST:
+        form = ForgotPassword(request.POST)
+        if form.is_valid():
+            email = request.POST['email']
+
+            user = get_if_exists(Account, **{'email':email})
+
+            if user:
+                subject = "PASSWORD RECOVERY"
+                email_template_name = "account/password_reset_email.txt"
+                c = {
+					"email": user.email,
+					'domain':'127.0.0.1:8000',
+					'site_name': 'Website',
+					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
+					"user": user,
+					'token': default_token_generator.make_token(user),
+					'protocol': 'http',
+					}
+
+                email = render_to_string(email_template_name, c)
+                from_email = settings.EMAIL_HOST_USER
+
+                try:
+                    send_mail(subject, email, from_email , [user.email], fail_silently=False)
+                except BadHeaderError:
+                    return HttpResponse('Invalid header found.')
+
+            url = reverse('account:prompt_message', kwargs={'type':"email_password_reset"})
+            return HttpResponseRedirect(url)
+
+    else:
+        form = ForgotPassword()
+
+    forgot_form = form
+
+    return render(request, "account/forgot.html", {
+        "csss" : css,
+        "jss"  : js,
+        "forgot_form" : forgot_form
+    })
