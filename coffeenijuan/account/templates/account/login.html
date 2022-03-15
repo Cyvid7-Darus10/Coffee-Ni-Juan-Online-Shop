@@ -2,96 +2,52 @@
 {% load static %}
 
 {% block content %}
-<div class="page">
-    <div class="header">
-        <div class="row">
-            <div class="col-8"></div>
-            <div class="col-4">
-                <div class="navBar">
-                    <div class="animation-btn-container custom-btn-container">
-                        <span class="su_button_circle"></span>
-                        <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
-                            <span class="button_text_container">
-                                HOME
-                            </span>
-                       </a>
-                    </div>
-                    <div class="animation-btn-container custom-btn-container">
-                        <span class="su_button_circle"></span>
-                        <a type="button" class="custom-btn reverse-color animation-btn" href="{% url 'account:home' %}">
-                            <span class="button_text_container">
-                                BUY PRODUCTS
-                            </span>
-                       </a>
-                    </div>
-                </div>
-            </div>
+<div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-top py-5">
+        <div class="col-md-9 col-lg-7 col-xl-4 d-none d-lg-block">
+            <img src="{% static 'resources/logo.png' %}">
         </div>
-    </div>
-
-    <div class="content ">
-        <div class="container ">
-            <div class="row">
-                <!-- logo -->
-                <div class="col-6">
-                    <img class="logo" src="{% static 'resources/logo.png' %}">
+        <div class="col-md-8 col-lg-4 col-xl-3 offset-xl-2">
+            <form action="{% url 'account:login' %}" method="post">
+                <div class="row">
+                    <h2 class="sign-title text-left title col-10"> Login </h2>
+                    <img class="d-lg-none d-sm-inline col col-2" height="50" width="50" src="{% static 'resources/logo.png' %}">
                 </div>
+                
+                {% csrf_token %}
+                {{ form }}
 
-                <!-- log in form -->
-                <div class="col-6"> 
-                    <div class="loginForm">
-                        <form action="{% url 'account:login' %}" method="post">
-                            <div class="rowfield">
-                                <div class="col-10-md-1">
-                                    <h2 class="sign-title text-left title">
-                                            Login
-                                            <img class="titleLogo" src="{% static 'resources/logo.png' %}">
-                                    </h2>
-                                </div>
+                {% for field in login_form %}
+                    <p>
+                        <div class="rowfield">
+                            <div class="col-10-md-1">
+                                {{field}}
                             </div>
-                            
-                            <form action="/your-name/" method="post">
-                                {% csrf_token %}
-                                {{ form }}
+                        </div>
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </p>
+                {% endfor %}
+            
+                {% if login_form.non_field_errors %}
+                    <div style="color: red">
+                        <p>{{login_form.non_field_errors}}</p>
+                    </div>
+                {% endif %}
 
-                                {% for field in login_form %}
-                                    <p>
-                                        <div class="rowfield">
-                                            <div class="col-10-md-1">
-                                                {{field}}
-                                            </div>
-                                        </div>
-                                        {% for error in field.errors %}
-                                            <p style="color: red">{{ error }}</p>
-                                        {% endfor %}
-                                    </p>
-                                {% endfor %}
-                            
-                                {% if login_form.non_field_errors %}
-                                    <div style="color: red">
-                                        <p>{{login_form.non_field_errors}}</p>
-                                    </div>
-                                {% endif %}
-
-                                <div class="rowfield submit-btn animation-btn-container">
-                                    <span class="su_button_circle"></span>
-                                    <div class="col-10-md-1 animation-btn">
-                                        <input class="button_text_container" type="submit" name="login" value="LOGIN">        
-                                    </div>
-                                </div>
-                              
-                            </form>
-
-                            <div class="rowfield">
-                                <div class="col-10-md-1 options text-center">
-                                    <a class="forgotPassword" href="">Forgot Password?</a>
-                                    <a class="createAccount" href="{% url 'account:register' %}">Create Account</a> 
-                                </div>
-                            </div>
-                        </form>
+                <div class="submit-btn animation-btn-container">
+                    <span class="su_button_circle"></span>
+                    <div class="col-10-md-1 animation-btn">
+                        <input class="button_text_container" type="submit" name="login" value="LOGIN">        
                     </div>
                 </div>
-            </div>
+
+                <div class="col-10-md-1 options text-center">
+                    <a class="px-3" href="">Forgot Password?</a>
+                    <a class="px-3" href="{% url 'account:register' %}">Create Account</a> 
+                </div>
+            </form>
         </div>
     </div>
 </div>
