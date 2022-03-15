@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {% if type == "email_password_reset" %}
+        <h1>Email password Reset</h1>
+    {% endif %}
+
+    {% if type == "invalid_token" %}
+        <h1>Invalid Token</h1>
+    {% endif %}
+
+{% endblock %}
