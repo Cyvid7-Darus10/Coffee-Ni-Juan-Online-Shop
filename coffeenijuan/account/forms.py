@@ -13,17 +13,17 @@ class RegistrationForm(UserCreationForm):
         )
     username = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'Username'}
+            attrs={'placeholder': 'Username', 'class': 'd-none'}
             )
         )
     first_name = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'First Name'}
+            attrs={'placeholder': 'First Name', 'class': 'd-none'}
                 )
             )
     last_name = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'Last Name'}
+            attrs={'placeholder': 'Last Name', 'class': 'd-none'}
             )
         )
     password1 = forms.CharField(
@@ -73,4 +73,10 @@ class AccountAuthenticationForm(forms.ModelForm):
 			if not authenticate(email=email, password=password):
 				raise forms.ValidationError("Invalid login")
 
+class ForgotPassword(forms.Form):
+    email = forms.EmailField(
+        max_length=60, widget=forms.EmailInput(
+            attrs={'placeholder': 'Email'}
+            ), help_text='Valid Email Required'
+        )
 
