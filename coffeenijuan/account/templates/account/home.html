@@ -3,45 +3,31 @@
 {% load static %}
 
 {% block content %}
-
-{% if request.user.is_authenticated %}
-    <p>Hello {{request.user}}</p><a href="{% url 'account:logout' %}">Logout</a>
-{% else %}
-    <a href="{% url 'account:login' %}">Login</a>
-    <a href="{% url 'account:register' %}">Register</a>
-
-    <div class="container" >
-            <div class="row d-flex justify-content-center align-items-top py-3">
-                <!-- menu of products -->
-                <div class=" d-none d-md-block col-md-8  ">
-                    <div class="row" >
-                        <div class=" col-md-4 text-center">
-                            <img class="rounded img-fluid" src="{% static 'resources/products/1.png' %}">
-                        </div>
-                        <div class=" col-md-4 text-center ">
-                            <img class="rounded img-fluid" src="{% static 'resources/products/2.png' %}">
-                        </div>
-                        <div class="col-md-4 text-center  ">
-                            <img class="rounded img-fluid" src="{% static 'resources/products/3.png' %}">
-                        </div>
-                    </div>
-                    <div class="row py-3">
-                        <div class=" col-md-6 text-center ">
-                            <img class="rounded img-fluid " style="max-width: 60%; height: auto;" src="{% static 'resources/products/4.png' %}">
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <img class="rounded img-fluid" style="max-width: 60%; height: auto;" src="{% static 'resources/products/5.png' %}">
-                        </div>
-                    </div>
+<div class="container" >
+    <div class="row d-flex justify-content-center align-items-top py-3">
+        <div class=" d-none d-md-block col-md-8 mt-auto">
+            <div class="row justify-content-center">
+                <div class="col-md-4 p-2 rotation-1">
+                    <img class="rounded img-fluid float-image" src="{% static 'resources/products/1.png' %}">
                 </div>
-                <!-- logo -->
-                <div class=" col-12 col-md-4 text-center py-5">
-                    <img class="rounded img-fluid" src="{% static 'resources/logo.png' %}">
+                <div class="col-md-4 p-2 rotation-2">
+                    <img class="rounded img-fluid float-image" src="{% static 'resources/products/2.png' %}">
                 </div>
-
+                <div class="col-md-4 p-2 rotation-3">
+                    <img class="rounded img-fluid float-image" src="{% static 'resources/products/3.png' %}">
+                </div>
+                <div class="col-md-4 p-2 rotation-1">
+                    <img class="rounded img-fluid float-image" src="{% static 'resources/products/4.png' %}">
+                </div>
+                <div class="col-md-4 p-2 rotation-2">
+                    <img class="rounded img-fluid float-image"  src="{% static 'resources/products/5.png' %}">
+                </div>
             </div>
         </div>
-{% endif %}
-
+        <div class=" col-12 col-md-4 p-2 text-center py-5">
+            <img class="rounded img-fluid" src="{% static 'resources/logo.png' %}">
+        </div>
+    </div>
+</div>
 
 {% endblock %}
