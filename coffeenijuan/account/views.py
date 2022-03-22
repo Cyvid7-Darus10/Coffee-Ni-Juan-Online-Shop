@@ -25,7 +25,6 @@ def prompt_message(request, type):
         "jss"  : js
     })
 
-
 def home(request):
     return render(request, "account/home.html", {
         "csss" : css,
