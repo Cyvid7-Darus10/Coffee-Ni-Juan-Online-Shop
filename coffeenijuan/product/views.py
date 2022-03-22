@@ -1,3 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+js = []
+css = []
+
+def productList(request):
+    return render(request, "product/productList.html", {
+        "csss" : css,
+        "jss"  : js
+    })
