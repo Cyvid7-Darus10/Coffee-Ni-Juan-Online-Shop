@@ -32,11 +32,20 @@
                     <li class="nav-item p-2">
                         <div class="animation-btn-container">
                             <span class="su_button_circle"></span>
-                            <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
-                                <span class="button_text_container">
-                                    HOME
-                                </span>
-                           </a>
+                            {% if page == "home" %}
+                                <a type="button" class="custom-btn animation-btn" href="{% url 'account:login' %}">
+                                    <span class="button_text_container">
+                                        LOGIN
+                                    </span>
+                                </a>
+                                <a class="d-block" href="{% url 'account:register' %}">Create Account</a> 
+                            {% else %}
+                                <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
+                                    <span class="button_text_container">
+                                        HOME
+                                    </span>
+                                </a>
+                            {% endif %}
                         </div>
                     </li>
                     <li class="nav-item p-2">
