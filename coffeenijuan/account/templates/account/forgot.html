@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-top py-5">
+        <div class="col-md-9 col-lg-7 col-xl-4 d-none d-lg-block">
+            <img src="{% static 'resources/logo.png' %}">
+        </div>
+        <div class="col-md-8 col-lg-4 col-xl-3 offset-xl-2">
+            <form action="{% url 'account:forgot_password' %}" method="post">
+                <div class="row">
+                    <h2 class="sign-title text-left title col-12"> Forgot Password </h2>
+                    <img class="d-lg-none d-sm-inline col col-2" height="50" width="50" src="{% static 'resources/logo.png' %}">
+                </div>
+                
+                {% csrf_token %}
+                {{ form }}
+
+                {% for field in forgot_form %}
+                    <p>
+                        <div class="rowfield">
+                            <div class="col-10-md-1">
+                                {{field}}
+                            </div>
+                        </div>
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </p>
+                {% endfor %}
+            
+                {% if forgot_form.non_field_errors %}
+                    <div style="color: red">
+                        <p>{{login_form.non_field_errors}}</p>
+                    </div>
+                {% endif %}
+
+                <div class="submit-btn animation-btn-container">
+                    <span class="su_button_circle"></span>
+                    <div class="col-10-md-1 animation-btn">
+                        <input class="button_text_container" type="submit" name="login" value="SEND EMAIL">        
+                    </div>
+                </div>
+
+                <div class="col-10-md-1 options text-center">
+                    <a class="px-3" href="{% url 'account:login' %}">Login</a> 
+                    <a class="px-3" href="{% url 'account:register' %}">Create na Account</a> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

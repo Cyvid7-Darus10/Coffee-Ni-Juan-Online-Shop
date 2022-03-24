@@ -155,7 +155,7 @@ def forgot_password(request):
 
             if user:
                 subject = "PASSWORD RECOVERY"
-                email_template_name = "account/password/password_reset_email.txt"
+                email_template_name = "password/password_reset_email.txt"
                 c = {
 					"email": user.email,
 					'domain':'127.0.0.1:8000',
