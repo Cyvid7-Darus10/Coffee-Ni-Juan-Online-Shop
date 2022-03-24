@@ -17,22 +17,31 @@ from django.utils.encoding import force_bytes
 
 js = []
 css = []
+page = "home"
 
-def prompt_message(request, type):  
+def prompt_message(request, type):
+    page = "prompt_message"
+
     return render(request, "prompt.html", {
         "type" : type,
         "csss" : css,
-        "jss"  : js
+        "jss"  : js,
+        'page' : page
     })
 
 def home(request):
+    page = "home"
+
     return render(request, "account/home.html", {
         "csss" : css,
-        "jss"  : js
+        "jss"  : js,
+        "page" : page
     })
 
 
 def login_view(request):
+    page = "login"
+
     if request.user.is_authenticated: 
         return redirect("account:home")
 
@@ -54,10 +63,13 @@ def login_view(request):
     return render(request, "account/login.html", {
         "csss" : css,
         "jss"  : js,
-        "login_form" : login_form
+        "login_form" : login_form,
+        "page" : page
     })
 
 def register(request):
+    page = "register"
+
     if request.user.is_authenticated: 
         return redirect("account:home")
 
@@ -102,7 +114,8 @@ def register(request):
     return render(request, "account/register.html", {
         "csss" : css,
         "jss"  : js,
-        "registration_form" : registration_form
+        "registration_form" : registration_form,
+        "page" : page
     })
 
 
@@ -141,7 +154,7 @@ def forgot_password(request):
 
             if user:
                 subject = "PASSWORD RECOVERY"
-                email_template_name = "account/password_reset_email.txt"
+                email_template_name = "password/password_reset_email.txt"
                 c = {
 					"email": user.email,
 					'domain':'127.0.0.1:8000',
@@ -171,5 +184,6 @@ def forgot_password(request):
     return render(request, "account/forgot.html", {
         "csss" : css,
         "jss"  : js,
-        "forgot_form" : forgot_form
+        "forgot_form" : forgot_form,
+        "page" : page
     })
