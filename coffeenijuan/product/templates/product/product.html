@@ -1,0 +1,84 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+{% block content %}
+    <!-- Background -->
+    <img class="bg" src="{% static 'resources/bg.png' %}">
+    
+    <!-- Article -->
+    <article class="container-fluid m-0 px-5">
+        <section class="row ">
+
+            <!-- Product Image -->
+            <div class="col-5 p-1">
+                <figure>
+                    <img class="productImage img-fluid float-image mt-4" src="{% static 'resources/products/5.png' %}" />
+                </figure>
+            </div>
+
+            <!-- Product Details -->
+            <div class="productDetails p-1 col-7">
+                <!-- Product Title -->
+                <div class="productTitle h3"><b>Title</b></div>
+
+                <!-- Details -->
+                <div class="details h5 container">
+
+                    <!-- Ratings and Sold -->
+                    <div class="rating d-flex p-2">
+                        <div class="stars m-0 p-0 yellow">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <i class="bi bi-star"></i>                          
+                        </div>
+                        <div class="ratingText ms-3 me-2 me-md-0">3.5 stars&nbsp</div>
+                        <div class="amountSold ps-0 m-0">|&nbsp100 sold</div>
+                    </div>
+
+                    <!-- Text Details -->
+                    <div class="row">
+                        <div class="textDetails col-6 h6 pt-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
+
+                        <!-- Add to Cart and Buy Now -->
+                        <div class="textDetails col-6 h6 pt-2">
+                            <form class="container-fluid p-0">
+                                <div class="row mb-3">
+                                    <div class="col-12 col-lg-3">Amount</div>
+                                    <button class="col-1 border-0 bg-transparent" ><b>-</b></button>
+                                    <input class="col-2" style="border-color: #4b2108" type="number" name="">
+                                    <button class="col-1 border-0 bg-transparent"><b>+</b></button>
+                                    <div class="remaining col-12 col-lg-6">30 remaining</div>                                   
+                                </div>
+                                <div class="row">
+                                    <div class="col-1"></div>
+                                    <button class="addToCart col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #b38f3f; border-color: #b38f3f ;"><h6 style="font-size:smaller">ADD TO CART</h6> </button>
+                                    <div class="col-2"></div>
+                                    <button class="buyNow col-4 btn-primary p-sm-1  shadow-sm mb-2 rounded" style="background-color: #4b2108; border-color: #4b2108 ;"><h6 style="font-size:smaller">BUY NOW</h6></button>                                  
+                                    <div class="col-1"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </section>
+
+        <hr class="similarProduct-line" /> 
+        <!-- Similar Products -->
+        <section class="similarProducts container mb-4">
+            <div class="row text-center">
+                <div class="similarProductsTitle "><h5><b>Similar Products</b></h5></div>
+                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/1.png' %}" />
+                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/2.png' %}" />
+                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/3.png' %}" />
+                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/4.png' %}" />
+            </div>
+        </section>
+    </article>
+{% endblock %}

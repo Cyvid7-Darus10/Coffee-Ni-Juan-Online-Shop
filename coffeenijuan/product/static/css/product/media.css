@@ -1,0 +1,10 @@
+/* Screen size width < 1280 px*/
+@media only screen and (max-width: 653px) {
+	.textDetails {
+		font-size: 12px;
+	}
+	.addToCart, .buyNow {
+		font-size: 12px;
+		width: 100px;
+	}
+}

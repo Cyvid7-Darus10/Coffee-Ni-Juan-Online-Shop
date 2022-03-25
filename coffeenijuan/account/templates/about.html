@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container" >
+    <div class="row d-flex justify-content-center align-items-top py-3">
+        <div class="d-block d-md-none col-2">
+            <img class="rounded img-fluid" src="{% static 'resources/logo.png' %}">
+        </div>
+        <div class="col-md-8 mt-auto">
+            <div class="p-2 row justify-content-center text-center text-md-end fw-bolder fs-4 fs-lg-3">
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Kape Giting is a startup that started at the beginning of the Covid pandemic. They are a small coffee shop and retail company that works directly with local farmers. They are located at 84M Matimtiman Street 1101 Quezon City, Philippines. Their mission is to make home brewing coffee that is nutritious, sustainable, and inexpensive for everyone by sourcing it from Filipino coffee farmers. They can provide better rates to local farmers by dealing directly with them and eliminating the middleman. Most of their coffee beans are from the local farmers of Nueva Viscaya, Negros Occidental, Nueva Ecija, and other local sources in the Philippines. They sell their coffee beans and coffee grounds for every Juan.
+            </div>
+        </div>
+        <div class="d-none d-md-block col-12 col-md-4 p-2 text-center py-5">
+            <img class="rounded img-fluid" src="{% static 'resources/logo.png' %}">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

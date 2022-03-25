@@ -24,33 +24,45 @@
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Roboto:wght@300;400&display=swap');
         </style>
     </head>
+
     <body>
+        <div class="loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+        </div>
         <header>
             <nav class="navbar bg-white justify-content-center justify-content-lg-end m-auto">
                 <ul class="nav px-lg-5">
                     <li class="nav-item p-2">
                         <div class="animation-btn-container">
                             <span class="su_button_circle"></span>
-                            {% if page == "home" %}
+                            {% if page == "home" and not user.is_authenticated %}
                                 <a type="button" class="custom-btn animation-btn" href="{% url 'account:login' %}">
                                     <span class="button_text_container">
                                         LOGIN
                                     </span>
                                 </a>
-                                <a class="d-block" href="{% url 'account:register' %}">Create Account</a> 
-                            {% else %}
+                            {% elif page == "about" %}
                                 <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
                                     <span class="button_text_container">
                                         HOME
                                     </span>
                                 </a>
+                            {% else %}
+                                <a type="button" class="custom-btn animation-btn" href="{% url 'account:about' %}">
+                                    <span class="button_text_container">
+                                        ABOUT
+                                    </span>
+                                </a>
                             {% endif %}
                         </div>
+                        {% if page == "home" and not user.is_authenticated %}
+                            <a class="d-block" href="{% url 'account:register' %}">Create Account</a> 
+                        {% endif %}
                     </li>
                     <li class="nav-item p-2">
                         <div class="animation-btn-container">
                             <span class="su_button_circle"></span>
-                            <a type="button" class="custom-btn reverse-color animation-btn" href="{% url 'account:home' %}">
+                            <a type="button" class="custom-btn reverse-color animation-btn" href="{% url 'product:index' %}">
                                 <span class="button_text_container">
                                     BUY PRODUCTS
                                 </span>
