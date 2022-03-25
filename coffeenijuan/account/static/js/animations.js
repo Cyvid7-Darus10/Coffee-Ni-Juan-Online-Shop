@@ -16,3 +16,7 @@ $(".animation-btn").mouseleave(function(e) {
     $(this).prev(".su_button_circle").addClass("desplode-circle");
 });
 
+$(window).on("load",function(){
+    $(".loader-wrapper").fadeOut("slow");
+});
+
