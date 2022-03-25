@@ -5,7 +5,7 @@ from django.shortcuts import render
 js = []
 css = []
 
-def product(request):
+def index(request):
     return render(request, "product/product.html", {
         "csss" : css,
         "jss"  : js
