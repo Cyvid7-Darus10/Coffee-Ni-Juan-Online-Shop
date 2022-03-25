@@ -38,6 +38,14 @@ def home(request):
         "page" : page
     })
 
+def about(request):
+    page = "about"
+
+    return render(request, "about.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page
+    })
 
 def login_view(request):
     page = "login"
@@ -145,6 +153,8 @@ def verify(request, token):
 
 
 def forgot_password(request):
+    page = "forgot_password"
+    
     if request.POST:
         form = ForgotPassword(request.POST)
         if form.is_valid():
