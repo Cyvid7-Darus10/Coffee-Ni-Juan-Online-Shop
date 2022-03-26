@@ -6,3 +6,4 @@
     - Cyrus David Pastelero
     - Jeff Erl Layahin
     - Mai Cabarrubias
+    - Jay Ann Amorsolo
