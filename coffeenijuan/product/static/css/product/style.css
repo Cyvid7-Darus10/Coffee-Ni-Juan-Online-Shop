@@ -137,5 +137,16 @@ button {
   padding: 0;
   display: table-cell;
   vertical-align: middle;
+}
+
+
+.plus, .minus {
+  user-select: none;
+  cursor: pointer;
+}
+
+.amount {
+  border: 2px solid black;
+  border-radius: 5px;
   text-align: center;
 }

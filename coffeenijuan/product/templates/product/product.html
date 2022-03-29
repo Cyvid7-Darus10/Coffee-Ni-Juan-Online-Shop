@@ -46,19 +46,20 @@
 
                         <!-- Add to Cart and Buy Now -->
                         <div class="textDetails col-6 h6 pt-2">
-                            <form class="container-fluid p-0">
+                            <form action="" method="post" class="container-fluid p-0">
+                                {% csrf_token %}
                                 <div class="row mb-3">
                                     <div class="col-12 col-lg-3">Amount</div>
-                                    <button class="col-1 border-0 bg-transparent" ><b>-</b></button>
-                                    <input class="col-2" style="border-color: #4b2108" type="number" name="">
-                                    <button class="col-1 border-0 bg-transparent"><b>+</b></button>
-                                    <div class="remaining col-12 col-lg-6">30 remaining</div>                                   
+                                    <div class="minus col-1 border-0 bg-transparent" ><b>-</b></div>
+                                        {{form.amount}}
+                                    <div class="plus col-1 border-0 bg-transparent"><b>+</b></div>
+                                    <div class="remaining col-12 col-lg-6">30 remaining</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-1"></div>
-                                    <button class="addToCart col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #b38f3f; border-color: #b38f3f ;"><h6 style="font-size:smaller">ADD TO CART</h6> </button>
+                                    <button type="submit" value="addToCart" class="addToCart col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #b38f3f; border-color: #b38f3f ;"><h6 style="font-size:smaller">ADD TO CART</h6> </button>
                                     <div class="col-2"></div>
-                                    <button class="buyNow col-4 btn-primary p-sm-1  shadow-sm mb-2 rounded" style="background-color: #4b2108; border-color: #4b2108 ;"><h6 style="font-size:smaller">BUY NOW</h6></button>                                  
+                                    <button type="submit" value="buyNow" class="buyNow col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #4b2108; border-color: #4b2108 ;"><h6 style="font-size:smaller">BUY NOW</h6></button>
                                     <div class="col-1"></div>
                                 </div>
                             </form>
