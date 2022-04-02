@@ -1,5 +1,4 @@
 body, html {
-  height: 100%;
   margin: 0;
 }
 
@@ -7,7 +6,6 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: small;
   background-image: url('/static/resources/bg.png');
-  height: 100%; 
   background-position: center;
   background-size: inherit;
   cursor: url('/static/resources/coffee.cur'), auto;
@@ -70,6 +68,12 @@ button, input[type="submit"], input[type="reset"] {
   font-weight: bolder;
 }
 
+.yellow-color {
+  color: #4b2108 !important;
+  background-color: #f5f4c7 !important;
+  font-weight: bolder;
+}
+
 .title {
   color: #4b2108;
   font-family: 'Comfortaa', cursive;
@@ -111,4 +115,20 @@ input[type=email], input[type=text], input[type=password]  {
   height: 50px;
 }
 
+/* for scroll */
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
