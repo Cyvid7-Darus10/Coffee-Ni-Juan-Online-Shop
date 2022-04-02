@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.db.models.fields import DateTimeField
+from account.models import Account
 
 class Base(models.Model):
     created = DateTimeField(default=datetime.now)
@@ -11,11 +12,50 @@ class Base(models.Model):
         abstract = True
 
 class Product(Base):
-    label   = models.CharField(max_length=250)
-    date    = models.DateField()
-    rating  = models.FloatField()
-    price   = models.FloatField()
-    description = models.CharField(max_length=500)
+    label       = models.CharField(max_length=250, blank=True, null=True)
+    image_url   = models.CharField(max_length=150, null=True)
+    date        = models.DateField(blank=True, null=True)
+    rating      = models.FloatField(blank=True, null=True)
+    price       = models.FloatField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.label} on {self.date} with {self.points} points"
+        return f"{self.label} on {self.date} with {self.price} price"
+
+    class Meta:
+        ordering = ['-date']
+
+
+class Review(Base):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    author  = models.ForeignKey(Account, on_delete=models.CASCADE)
+    rating  = models.FloatField(blank=True, null=True)
+    text    = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.author} on {self.product.label} with {self.rating} points"
+
+    def __repr__(self):
+        return f"<Review {self.author} on {self.product.label} with {self.rating} points>"
+
+    @property
+    def points(self):
+        return self.rating
+
+    class Meta:
+        ordering = ['-rating']
+
+
+class Comment(Base):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    author  = models.ForeignKey(Account, on_delete=models.CASCADE)
+    text    = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.author} on {self.product.label}"
+
+    def __repr__(self):
+        return f"<Comment {self.author} on {self.product.label}"
+
+    class Meta:
+        ordering = ['-created']
