@@ -1,14 +1,15 @@
 // $(".productTitle").text("Hello");
 
-$(".amount").val(0);
-
 $(".plus").on("click", function() {
-	let val = parseInt($(".amount").val());
-	$(".amount").val(val+1);
+	let val = parseInt($(".qty").val());
+	$(".qty").val(val + 1);
 });
 
 $(".minus").on("click", function() {
-	let val = parseInt($(".amount").val());
-	if(val>0)
-		$(".amount").val(val-1);
+	console.log("GASDSA")
+	let val = parseInt($(".qty").val());
+
+	if (val > 1) {
+		$(".qty").val(val - 1);
+	}
 });
