@@ -1,33 +1,24 @@
 {% extends "base1.html" %}
-
 {% load static %}
 
 {% block content %}
-    <!-- Background -->
-    <img class="bg" src="{% static 'resources/bg.png' %}">
     
-    <!-- Article -->
     <article class="container-fluid m-0 px-5">
-        <section class="row ">
+        <section class="row px-3 py-5">
 
             <!-- Product Image -->
-            <div class="col-5 p-1">
-                <figure>
-                    <img class="productImage img-fluid float-image mt-4" src="{% static 'resources/products/5.png' %}" />
-                </figure>
+            <div class="col-4">
+                <img class="img-fluid" src="{% static 'resources/products/5.png' %}" />
             </div>
 
-            <!-- Product Details -->
-            <div class="productDetails p-1 col-7">
-                <!-- Product Title -->
-                <div class="productTitle h3"><b>Title</b></div>
+            <div class="col-8">
+                <div class="display-5">Title</div>
 
-                <!-- Details -->
-                <div class="details h5 container">
+                <div class="h5 container h-100"  style="background-color: rgb(141 104 76 / 30%);"> 
 
                     <!-- Ratings and Sold -->
-                    <div class="rating d-flex p-2">
-                        <div class="stars m-0 p-0 yellow">
+                    <div class="d-flex p-2">
+                        <div class="stars m-0 p-0 text-warning">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -40,27 +31,38 @@
 
                     <!-- Text Details -->
                     <div class="row">
-                        <div class="textDetails col-6 h6 pt-2">
+                        <div class="col-7 h5 pt-2">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </div>
 
                         <!-- Add to Cart and Buy Now -->
-                        <div class="textDetails col-6 h6 pt-2">
-                            <form action="" method="post" class="container-fluid p-0">
+                        <div class="col-5 h6 pt-2">
+                            <form action="" method="post" class="container-fluid row p-0">
                                 {% csrf_token %}
-                                <div class="row mb-3">
-                                    <div class="col-12 col-lg-3">Amount</div>
-                                    <div class="minus col-1 border-0 bg-transparent" ><b>-</b></div>
-                                        {{form.amount}}
-                                    <div class="plus col-1 border-0 bg-transparent"><b>+</b></div>
-                                    <div class="remaining col-12 col-lg-6">30 remaining</div>
+
+                                <span class="h5"> Quantity: </span>
+                                <div class="col-12 text-center">
+                                    <input type='button' value='-' class='minus col-1 yellow-color' field='quantity'/>
+                                    <input type='text' name='quantity' value='1' class='qty col-4 w-25'/>
+                                    <input type='button' value='+' class='plus col-1 yellow-color' field='quantity'/>
                                 </div>
-                                <div class="row">
-                                    <div class="col-1"></div>
-                                    <button type="submit" value="addToCart" class="addToCart col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #b38f3f; border-color: #b38f3f ;"><h6 style="font-size:smaller">ADD TO CART</h6> </button>
-                                    <div class="col-2"></div>
-                                    <button type="submit" value="buyNow" class="buyNow col-4 btn btn-primary p-sm-1 shadow-sm mb-2 rounded" style="background-color: #4b2108; border-color: #4b2108 ;"><h6 style="font-size:smaller">BUY NOW</h6></button>
-                                    <div class="col-1"></div>
+                                <span class="h5"> 0 remaining </span>
+                                <div class="col-6">
+                                    <div class="submit-btn animation-btn-container mt-5">
+                                        <span class="su_button_circle"></span>
+                                        <div class="col-6-md-1 h5 animation-btn">
+                                            <input class="button_text_container" type="submit" value="ADD TO CART">        
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="submit-btn animation-btn-container mt-5 yellow-color">
+                                        <span class="su_button_circle"></span>
+                                        <div class="col-6-md-1 h5 animation-btn">
+                                            <input class="button_text_container" type="submit" value="BUY NOW">        
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
