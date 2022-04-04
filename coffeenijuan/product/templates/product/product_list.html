@@ -63,22 +63,13 @@
 		<section class="col-12 col-lg-9">
 			<span class="display-5">Product List</span>
 			<div class="row mt-3" style="overflow-y: scroll; height: 70vh;">
-				<a class="d-block col-6 col-lg-3">
-					<img class="img-fluid" src="{% static 'resources/product/1.png' %}" />
-					<span class="h6 fw-bolder">PHP 300</span>
-				</a>
-				<a class="d-block col-6 col-lg-3">
-					<img class="img-fluid" src="{% static 'resources/product/3.png' %}" />
-					<span class="h6 fw-bolder">PHP 300</span>
-				</a>
-				<a class="d-block col-6 col-lg-3">
-					<img class="img-fluid" src="{% static 'resources/product/1.png' %}" />
-					<span class="h6 fw-bolder">PHP 300</span>
-				</a>
-				<a class="d-block col-6 col-lg-3">
-					<img class="img-fluid" src="{% static 'resources/product/3.png' %}" />
-					<span class="h6 fw-bolder">PHP 300</span>
-				</a>
+				<!-- Loops the products data -->
+				{% for product in products %}
+					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3">
+						<img class="img-fluid" src="{{ product.image_url }}" />
+						<span class="h6 fw-bolder">Php {{ product.price }}</span>
+					</a>
+				{% endfor %}
 			</div>
 		</section>
 	</article>	

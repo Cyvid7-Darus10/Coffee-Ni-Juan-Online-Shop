@@ -6,7 +6,7 @@ from .models import Product
 js = []
 css = []
 
-# helper functions
+# helper function
 def get_if_exists(model, **kwargs):
     try:
         obj = model.objects.get(**kwargs)
@@ -16,9 +16,12 @@ def get_if_exists(model, **kwargs):
 
 
 def product_list(request):
+    # get all products
+    products = Product.objects.all()
     return render(request, "product/product_list.html", {
         "csss" : css,
-        "jss"  : js
+        "jss"  : js,
+        "products" : products
     })
 
 def product_item(request, id):
