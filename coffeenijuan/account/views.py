@@ -119,6 +119,8 @@ def register(request):
         form = RegistrationForm()
         registration_form = form
 
+    js = ['js/registration_form.js']
+
     return render(request, "account/register.html", {
         "csss" : css,
         "jss"  : js,

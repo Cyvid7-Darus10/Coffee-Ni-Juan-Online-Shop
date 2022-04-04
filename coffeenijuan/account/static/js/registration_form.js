@@ -13,8 +13,6 @@ if($("#id_first_name").val()){
 if($("#id_last_name").val()){
     $("#id_last_name").removeClass("d-none");
     $(".container").removeClass("py-5");
-    $(".container div.row").removeClass("py-5");
-    $(".container div.row").addClass("py-2");
 }
 
 $("#id_email").blur(function() {
@@ -28,6 +26,8 @@ $("#id_email").blur(function() {
 $("#id_username").blur(function() {
     if($(this).val()){
         $("#id_first_name").removeClass("d-none");
+        $(".container div.row").removeClass("py-5");
+        $(".container div.row").addClass("py-2");
     } else {
         $("#id_first_name").addClass("d-none");
     }
