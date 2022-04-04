@@ -1,6 +1,10 @@
 **/.vscode
 **/.vscode/**
-**/__pycache__/
-**/__pycache__/**
-**/coffenijuan/__pycache__/**
 **.env**
+*.log
+*.pot
+*.pyc
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/
+/env/

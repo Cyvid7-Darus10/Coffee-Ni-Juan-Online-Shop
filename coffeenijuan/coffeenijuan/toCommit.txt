@@ -1,0 +1,3 @@
+git add kape\coffeenijuan\coffeenijuan\urls.py
+git add kape\coffeenijuan\coffeenijuan\settings.py
+git add kape\coffeenijuan\product

@@ -1,13 +1,26 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
+  
+<div class="container p-4 text-center">
     {% if type == "email_password_reset" %}
-        <h1>Email password Reset</h1>
+        <h2 class="font-weight-bold mt-3">A Reset Link has been sent to your Email.</h2>
+        <hr>
+        <p>Please check your email.</p>     
     {% endif %}
 
     {% if type == "invalid_token" %}
-        <h1>Invalid Token</h1>
+        <h2 class="font-weight-bold mt-3">You used an invalid url</h2>   
     {% endif %}
-
+               
+    <div class="animation-btn-container">
+        <span class="su_button_circle"></span>
+        <a type="button" class="custom-btn animation-btn" href="{% url 'account:home' %}">
+            <span class="button_text_container">
+                HOME
+            </span>
+       </a>
+    </div>
+</div>
+  
 {% endblock %}

@@ -29,7 +29,6 @@ def prompt_message(request, type):
         'page' : page
     })
 
-
 def home(request):
     page = "home"
 
@@ -39,6 +38,14 @@ def home(request):
         "page" : page
     })
 
+def about(request):
+    page = "about"
+
+    return render(request, "about.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page
+    })
 
 def login_view(request):
     page = "login"
@@ -146,6 +153,8 @@ def verify(request, token):
 
 
 def forgot_password(request):
+    page = "forgot_password"
+    
     if request.POST:
         form = ForgotPassword(request.POST)
         if form.is_valid():
@@ -155,7 +164,7 @@ def forgot_password(request):
 
             if user:
                 subject = "PASSWORD RECOVERY"
-                email_template_name = "account/password/password_reset_email.txt"
+                email_template_name = "password/password_reset_email.txt"
                 c = {
 					"email": user.email,
 					'domain':'127.0.0.1:8000',
