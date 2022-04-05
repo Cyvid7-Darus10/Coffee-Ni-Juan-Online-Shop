@@ -132,3 +132,10 @@ input[type=email], input[type=text], input[type=password]  {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.glass-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-color: rgba(141, 104, 76, 0.13);
+  border-radius: 10px;
+}

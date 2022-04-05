@@ -3,7 +3,7 @@
 
 {% block content %}
     <article class="container-fluid m-0 px-5 row">
-		<section class="col-12 col-lg-3 mt-5">
+		<section class="col-12 col-lg-3 mt-5 glass-backdrop">
 			<div class="col-12 row h3 d-none d-lg-block">
 				<img class="img-fluid col-3" src = "{% static 'resources/filter.png' %}" />
 				<span class="col-9"> Search Filter</span>
@@ -65,9 +65,21 @@
 			<div class="row mt-3" style="overflow-y: scroll; height: 70vh;">
 				<!-- Loops the products data -->
 				{% for product in products %}
-					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3">
+					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2">
 						<img class="img-fluid" src="{{ product.image_url }}" />
-						<span class="h6 fw-bolder">Php {{ product.price }}</span>
+						<span class="h6 fw-bolder">Php {{ product.price }} | {{ product.rating }} Stars</span>
+					</a>
+				{% endfor %}
+				{% for product in products %}
+					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2">
+						<img class="img-fluid" src="{{ product.image_url }}" />
+						<span class="h6 fw-bolder">Php {{ product.price }} | {{ product.rating }} Stars</span>
+					</a>
+				{% endfor %}
+				{% for product in products %}
+					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2">
+						<img class="img-fluid" src="{{ product.image_url }}" />
+						<span class="h6 fw-bolder">Php {{ product.price }} | {{ product.rating }} Stars</span>
 					</a>
 				{% endfor %}
 			</div>
