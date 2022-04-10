@@ -15,7 +15,7 @@
 
         
         {% for css in csss %}
-            <link rel="stylesheet" type="text/css" href="{{ css }}" />
+            <link rel="stylesheet" href="{% static css %}" />
         {% endfor %}
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  </script> 
@@ -29,7 +29,7 @@
 
     <body>
         <main>
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark col-2 col-lg-2">
+            <div class="d-flex flex-column flex-shrink-0 p-1 p-lg-3 text-white bg-dark col-2 col-lg-2">
                 <a href="/" class="d-flex align-items-center text-white text-decoration-none mx-auto">
                     <img class="bg-white rounded-circle" style="width:50px" src="{% static 'resources/logo.png' %}">
                     <span class="h4 ms-2 d-none d-lg-inline">Kape Giting</span>
@@ -99,7 +99,7 @@
                 </ul>
                 <hr>
                 <div class="dropdown">
-                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a href="#" class="d-flex p-3 p-lg-0 align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-gear"></i>
                     <span class="d-none d-lg-inline"><strong> &nbsp Settings</strong></span>
                   </a>
@@ -108,15 +108,31 @@
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a></li>
                   </ul>
                 </div>
-              </div>
+            </div>
+            
+            <div class="b-divider"></div>
+            
+            <article class="bg-light w-100">
+                <header>
+                    <div class="container">
+                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <div class="container-fluid">
+                                <span class="text-capitalize display-6"> {{ page }} </span>
+                                <div class="d-flex flex-column">
+                                    <div id="name" class="fw-bolder text-capitalize">{{ user.username }}</div>
+                                    <div id="username">Business Owner</div>
+                                </div>   
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+                {% block content %} 
+                {% endblock %}
+            </article>
 
-            <div class="b-example-divider"></div>
-    
-            {% block content %} 
-            {% endblock %}
         </div>
         </main>
         
