@@ -36,6 +36,17 @@ def login(request):
 
 def overview(request):
     page = "overview"
+
+    js = [
+        "js/management/raphael-min.js",
+        "js/management/morris.min.js",
+        "js/management/overview.js",
+    ]
+
+    css = [
+        "css/management/overview.css",
+        "css/management/morris.css"
+    ]
     return render(request, "management/overview.html", {
         "csss" : css,
         "jss"  : js,
