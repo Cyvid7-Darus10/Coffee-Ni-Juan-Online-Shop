@@ -2,5 +2,110 @@
 {% load static %}
 
 {% block content %}
-<h1> Overview </h1>
+    <article class="container">
+        <section>
+            <div class="container p-3 mt-4 text-end">
+                <a href="#" class="btn btn-secondary p-2">Export as Excel</a>
+                <a href="#" class="btn btn-primary p-2"><i class="bi bi-plus-lg"></i> New Product</a>
+            </div>
+        </section>
+        <section>
+            <div class="d-flex bg-white rounded p-2 border">
+                <form class="input-group flex-nowrap w-50">
+                    <input style="height:40px" type="text" class="form-control" name="label" placeholder="Search" aria-label="Search" aria-describedby="addon-wrapping">
+                    <button style="height:40px" class="input-group-text btn btn-light btn-outline-dark" type="submit" id="addon-wrapping"><i class="bi bi-search"></i></button>
+                </form>
+                <nav class="navbar ms-auto navbar-expand-lg navbar-light bg-white p-0">
+                    <div class="container-fluid justify-content-end">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSort" aria-controls="navbarSort" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSort">
+                        <ul class="navbar-nav align-items-end mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <div class="dropdown mx-2 dropstart">
+                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort Name
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-1">
+                                <li><a class="dropdown-item" href="?sort=desc-label{{ extra_query }}"><i class="bi bi-sort-alpha-down-alt"></i>Descending</a></li>
+                                <li><a class="dropdown-item" href="?sort=asc-label{{ extra_query }}"><i class="bi bi-sort-alpha-down"></i>Ascending</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown mx-2 dropstart">
+                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort Price
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-1">
+                                <li><a class="dropdown-item" href="?sort=desc-price{{ extra_query }}"><i class="bi bi-sort-numeric-down-alt"></i>Descending</a></li>
+                                <li><a class="dropdown-item" href="?sort=asc-price{{ extra_query }}"><i class="bi bi-sort-numeric-down"></i>Ascending</a></li>
+                            </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown mx-2 dropstart">
+                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort Stock
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-1">
+                                <li><a class="dropdown-item" href="?sort=desc-stock{{ extra_query }}"><i class="bi bi-sort-numeric-down-alt"></i>Descending</a></li>
+                                <li><a class="dropdown-item" href="?sort=asc-stock{{ extra_query }}"><i class="bi bi-sort-numeric-down"></i>Ascending</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        </ul>
+                    </div>
+                    </div>
+                </nav>
+            </div>
+            <table class="table table-white">
+                <thead class="table-active">
+                    <tr>
+                        <th class="p-3 h6 fw-bolder">Name</th>
+                        <th class="p-3 h6 fw-bolder">Price</th>
+                        <th class="p-3 h6 fw-bolder">Stock</th>
+                        <th class="p-3 h6 fw-bolder">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                        <td class="p-3 h6">{{ product.label }}</td>
+                        <td class="p-3 h6">{{ product.price }}</td>
+                        <td class="p-3 h6">{{ product.stock }}</td>
+                        <td class="p-3 h6"></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if products.has_other_pages %}
+                <nav aria-label="Page navigation d-flex">
+                    <ul class="pagination justify-content-center">
+                        {% if products.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}{{extra_query}}">&laquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                        {% endif %}
+
+                        {% for i in products.paginator.page_range %}
+                            {% if products.number == i %}
+                                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}{{extra_query}}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}{{extra_query}}">&raquo;</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </section>
+    </article>
 {% endblock %}
