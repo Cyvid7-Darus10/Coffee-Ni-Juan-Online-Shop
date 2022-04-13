@@ -1,9 +1,6 @@
-from cProfile import label
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login, authenticate
-from account.forms import AccountAuthenticationForm
-from .models import sort_products
+from .models import sort_products, login_user
 
 
 # global variables for js and css
@@ -16,20 +13,9 @@ def login(request):
     if request.user.is_authenticated: 
         return redirect("management:overview")
 
-    if request.POST:
-        form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email, password=password)
-
-            if user:
-                auth_login(request, user)
-                return redirect("management:overview")
-    else:
-        form = AccountAuthenticationForm()
-
-    login_form = form
+    login_form = login_user(request)
+    if login_form == "redirect":
+        return redirect("management:overview")
 
     return render(request, "management/login.html", {
         "csss" : css,

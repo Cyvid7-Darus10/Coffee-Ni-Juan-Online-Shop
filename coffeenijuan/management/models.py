@@ -1,6 +1,8 @@
 from django.db import models
 from product.models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth import login as auth_login, authenticate
+from account.forms import AccountAuthenticationForm
 
 # Create your models here.
 
@@ -10,15 +12,19 @@ def sort_products(request):
     sort = request.GET.get('sort')
 
     # split the sort by '-'
+    # [0] = the order of sorting, "desc" or "asc"
+    # [1] = the field to sort by
     if sort:
         sort = sort.split('-')
         sort_order = sort[0]
         sort_type = sort[1]
 
+    # used for double queries
     extra_query = ""
 
-    # get all products from the database
+    # check if the label is not empty
     if label:
+        # get the products that match the label
         product_list = Product.objects.filter(label__icontains=label)
         extra_query = "&label=" + label
     
@@ -51,3 +57,19 @@ def sort_products(request):
         products = paginator.page(paginator.num_pages)
 
     return product_list, extra_query
+
+def login_user(request):
+    if request.POST:
+        form = AccountAuthenticationForm(request.POST)
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
+
+            if user:
+                auth_login(request, user)
+                return "redirect"
+    else:
+        form = AccountAuthenticationForm()
+    
+    return form
