@@ -47,6 +47,7 @@ def overview(request):
 def inventory(request):
     page = "inventory"
 
+    # return HttpResponse(sort_products(request))
     products, extra_query = sort_products(request)
         
     return render(request, "management/inventory.html", {

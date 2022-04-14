@@ -8,9 +8,8 @@ from account.forms import AccountAuthenticationForm
 
 def sort_products(request):
     label = request.GET.get('label')
-
-    sort = request.GET.get('sort')
-
+    
+    sort = request.GET.get('sort')  
     # split the sort by '-'
     # [0] = the order of sorting, "desc" or "asc"
     # [1] = the field to sort by
@@ -20,35 +19,34 @@ def sort_products(request):
         sort_type = sort[1]
 
     # used for double queries
-    extra_query = ""
+    extra_query = "?"
 
     # check if the label is not empty
     if label:
         # get the products that match the label
         product_list = Product.objects.filter(label__icontains=label)
-        extra_query = "&label=" + label
+        extra_query = "?label=" + label
     
     if sort:
         if label:
             product_object = product_list
+            extra_query += "&sort="+ sort_order +"-" + sort_type
         else:
+            extra_query = "?sort="+ sort_order +"-" + sort_type
             product_object = Product.objects.all()
 
         if sort_order == "asc":
             product_list = product_object.order_by(sort_type)
-            if not label:
-                extra_query = "&sort=asc-" + sort_type
         else:
             product_list = product_object.order_by('-' + sort_type)
-            if not label:
-                extra_query = "&sort=desc-" + sort_type
 
     if not sort and not label:
         product_list = Product.objects.all()
 
     # paginate the products
-    paginator = Paginator(product_list, 5)
+    paginator = Paginator(product_list, 3)
     page_number = request.GET.get('page')
+    
     try:
         products = paginator.page(page_number)
     except PageNotAnInteger:
@@ -56,7 +54,9 @@ def sort_products(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
-    return product_list, extra_query
+    return products, extra_query
+
+
 
 def login_user(request):
     if request.POST:
