@@ -23,7 +23,7 @@ def shopping_cart(request):
         "jss"  : js
     })
 
-def check_out(request):
+def check_out(request, id):
     order = get_if_exists(Product, **{'id':id})
     return render(request, "payment/check_out.html", {
         "csss" : css,

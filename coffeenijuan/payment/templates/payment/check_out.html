@@ -1,1 +1,174 @@
-<h1> CHECK OUT </h1>
+
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+<article class="container-fluid m-0 px-5 row">
+    <section class="col-12 col-lg-12 mt-3">
+        <span class="display-6"><b>Check Out</b></span>
+
+        
+        <section class="row mt-3 glass-backdrop px-5 py-3"> 
+            <div>
+                <i class="bi bi-geo-alt-fill h5 me-2"></i>
+                <span class="checkout_font"> Address and Contact Info</span>
+
+                <label for="address"></label>
+                <input class="mt-2" type="address" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address">
+                
+                <label for="mobile-no"></label>
+                <input type="mobile-no" name="mobile-no" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no">
+            
+            </div>
+        </section>
+
+        <section class="row mt-3 glass-backdrop px-5 py-3" >  
+            <div class="container checkout_font text-center">
+                <section class="row mt-1">
+                    <div class="col-3 fw-bolder">
+                        Product Selected
+                    </div>
+                    <div class="col-3 fw-bolder">
+                        Unit Price
+                    </div>
+                    <div class="col-3 fw-bolder">
+                        Quantity
+                    </div>
+                    <div class="col-3 fw-bolder">
+                        Subtotal
+                    </div>
+                </section> 
+
+                <section class="row mt-3" style="overflow-y: scroll">
+                    <!-- Loops the products data -->
+
+                    <!-- {% for product in products %} --> <!-- {% endfor %} -->
+                    <div class="row">
+                        <div class="col-3 my-auto">
+                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
+                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/1.png' %}" />                        
+                        </div>
+                        <div class="col-3 my-auto" >
+                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                            <span class="h6"> ₱ 500 </span>
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
+                             <span class="h6"> 12 </span> 
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                             <span class="h6 "> ₱ 6000 </span> 
+                        </div>
+                    </div>   
+                    
+                    <div class="row">
+                        <div class="col-3 my-auto">
+                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
+                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/2.png' %}" />                        
+                        </div>
+                        <div class="col-3 my-auto" >
+                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                            <span class="h6"> ₱ 1000 </span>
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
+                             <span class="h6"> 5 </span> 
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                             <span class="h6 "> ₱ 5000 </span> 
+                        </div>
+                    </div> 
+
+                    <div class="row">
+                        <div class="col-3 my-auto">
+                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
+                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/5.png' %}" />                        
+                        </div>
+                        <div class="col-3 my-auto" >
+                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                            <span class="h6"> ₱ 500 </span>
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
+                             <span class="h6"> 12 </span> 
+                        </div>
+                        <div class="col-3  my-auto">
+                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
+                             <span class="h6 "> ₱ 6000 </span> 
+                        </div>
+                    </div> 
+                </section>
+
+                <hr style="height: 3px; border-radius: 5px">
+
+                <section>
+                    <div class="row">
+                        <div class="col-6">
+                            <img class="img-fluid p-1" src="{% static 'resources/favicon/pay_icon.png' %}" />                        
+                            <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
+
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle checkout_font" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Payment Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                  <button class="dropdown-item" type="button">Cash on Delivery</button>
+                                  <button class="dropdown-item" type="button">Pick-up</button>
+                                  <button class="dropdown-item" type="button">Bank Transfer</button>
+                                  <button class="dropdown-item" type="button">Online Payment</button>
+                                </div>
+                            </div>
+
+                            
+                                <!-- <link href="https://fonts.googleapis.com/css?family=Arvo&display=swap" rel="stylesheet">
+
+                                <nav role="navigation" class="primary-navigation">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-secondary dropdown-toggle checkout_font" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Payment Option 
+                                        </button>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Cash on Delivery</a></li>
+                                            <li><a href="#">Pick-up</a></li>
+                                            <li><a href="#">Bank Transfer</a></li>
+                                            <li><a href="#">Online Payment</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                </nav> -->
+
+
+
+
+                        </div>
+
+                        <div class="col-6 my-auto">
+                            <span class="checkout_font fw-bolder"> GRAND TOTAL: ₱ 17000</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+          
+
+            <!-- <section>
+                Payment Option
+                
+            </section> -->
+
+        </section>
+    </section>
+
+    <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">
+        <a type="button" class="custom-btn animation-btn" href="{% url 'payment:shopping_cart' %}">
+            <span class="button_text_container">
+                PLACE ORDER
+            </span>
+        </a>       
+    </section>
+</article>
+
+{% endblock %}
