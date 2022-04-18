@@ -38,8 +38,8 @@
         </div>
         <header>
             <nav class="navbar navbar-expand-lg navbar-light p-0 bg-white">
-                <div class="container-fluid p-2">
-                    <div class="container row">
+                <div class="container p-2">
+                    <div class="container row p-0">
                         <a class="col-3 col-lg-2" href="{% url 'product:product_list' %}">
                             <img src="{% static 'resources/logo.png' %}" class="col-8" alt="Kape Giting Logo" />
                         </a>
@@ -65,7 +65,10 @@
 
                         <ul class="nav px-lg-5 mt-3 mt-lg-0 mx-2 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
                             <li class="nav-item">
-                                <a href="" class="h3"><i class="bi-cart"></i></a>
+                                <a href="" class="h3">
+                                    <i class="bi-cart"></i>
+                                    <span class="cart-number">30</span>
+                                </a>
                             </li>
                             <li class="nav-item row justify-content-end">
                                 <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />

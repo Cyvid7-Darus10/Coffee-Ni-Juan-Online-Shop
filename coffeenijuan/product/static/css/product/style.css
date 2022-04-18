@@ -2,16 +2,16 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
 .search-input {
-  border: 3px solid black;
-  border-right: 1px solid black;
+  border: 3px solid rgb(46, 40, 32);
+  border-right: 1px solid rgb(46, 40, 32);
   outline: none;
   border-radius: 5px 0 0 5px;
   width: 80%;
 }
 
 .search-btn {
-  border: 3px solid black;
-  border-left: 2px solid black;
+  border: 3px solid rgb(46, 40, 32);
+  border-left: 2px solid rgb(46, 40, 32);
   border-radius: 0 5px 5px 0;
   background-color: white;
   width: 20%;
@@ -22,7 +22,7 @@
 }
 
 .navbar-btn {
-  border: 3px solid black !important;
+  border: 3px solid rgb(46, 40, 32) !important;
   border-radius: 5px;
   background-color: white;;
 }
@@ -30,7 +30,7 @@
 /* For rating */
 
 .rating { 
-  border: 3px solid black;
+  border: 3px solid rgb(46, 40, 32);
   border-radius: 5px;
   background-color: white;
   display: flex;
@@ -75,3 +75,14 @@ hr.similarProduct-line{
   border-radius: 5px;
 }
 
+.cart-number {
+  position: relative;
+  top: 10px;
+  left: -10px;
+  padding: 5px;
+  background-color: rgb(46, 40, 32);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+}
