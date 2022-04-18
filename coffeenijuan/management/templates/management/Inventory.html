@@ -6,7 +6,7 @@
         <section>
             <div class="container p-3 mt-4 text-end">
                 <a href="#" class="btn btn-secondary p-2">Export as Excel</a>
-                <a href="#" class="btn btn-primary p-2"><i class="bi bi-plus-lg"></i> New Product</a>
+                <a href="{% url 'management:add_inventory' %}" class="btn btn-primary p-2"><i class="bi bi-plus-lg"></i> New Product</a>
             </div>
         </section>
         <section>
@@ -35,10 +35,10 @@
                         </li>
                         <li class="nav-item">
                             <div class="dropdown mx-2 dropstart">
-                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-2" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort Price
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-1">
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-2">
                                 <li><a class="dropdown-item" href="{{ extra_query }}&sort=desc-price"><i class="bi bi-sort-numeric-down-alt"></i>Descending</a></li>
                                 <li><a class="dropdown-item" href="{{ extra_query }}&sort=asc-price"><i class="bi bi-sort-numeric-down"></i>Ascending</a></li>
                             </ul>
@@ -46,10 +46,10 @@
                         </li>
                         <li class="nav-item">
                             <div class="dropdown mx-2 dropstart">
-                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light btn-outline-dark dropdown-toggle" type="button" id="dropdown-btn-3" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort Stock
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-1">
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-btn-3">
                                 <li><a class="dropdown-item" href="{{ extra_query }}&sort=desc-stock"><i class="bi bi-sort-numeric-down-alt"></i>Descending</a></li>
                                 <li><a class="dropdown-item" href="{{ extra_query }}&sort=asc-stock"><i class="bi bi-sort-numeric-down"></i>Ascending</a></li>
                                 </ul>
@@ -75,7 +75,32 @@
                         <td class="p-3 h6">{{ product.label }}</td>
                         <td class="p-3 h6">{{ product.price }}</td>
                         <td class="p-3 h6">{{ product.stock }}</td>
-                        <td class="p-3 h6"></td>
+                        <td class="p-3 col-3">
+                            <nav class="navbar m-0 navbar-expand-lg navbar-light p-0">
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-{{forloop.counter}}" aria-controls="actions-{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="actions-{{forloop.counter}}">
+                                    <ul class="navbar-nav align-items-end mb-2 mb-lg-0">
+                                    <li class="nav-item mx-2">
+                                        <button data-label="{{ product.label }}" data-url="{% url 'management:delete_inventory' id=product.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
+                                            Delete
+                                        </button>
+                                    </li>
+                                    <li class="nav-item mx-2">
+                                        <button class="btn btn-success" type="button" aria-expanded="false">
+                                            Edit
+                                        </button>
+                                    </li>
+                                    <li class="nav-item mx-2">
+                                        <button class="btn btn-primary" type="button" aria-expanded="false">
+                                            View
+                                        </button>
+                                    </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </td>
                         </tr>
                     {% endfor %}
                 </tbody>

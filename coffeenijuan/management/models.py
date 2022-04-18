@@ -3,6 +3,7 @@ from product.models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, authenticate
 from account.forms import AccountAuthenticationForm
+from .forms import inventory_form
 
 # Create your models here.
 
@@ -73,3 +74,30 @@ def login_user(request):
         form = AccountAuthenticationForm()
     
     return form
+
+
+def add_inventory_form(request):
+    if request.POST:
+        form = inventory_form(request.POST)
+        if form.is_valid():
+            label       = request.POST['label']
+            image_url   = request.POST['image_url']
+            price       = request.POST['price']
+            stock       = request.POST['stock']
+            description = request.POST['description']
+
+            product = Product(label=label, image_url=image_url, price=price, stock=stock, description=description)
+            product.save()
+
+            return "redirect"
+    else:
+        form = inventory_form()
+    
+    return form
+
+def delete_inventory_item(request, id):
+    try:
+        Product.objects.get(id=id).delete()
+    except:
+        return "error"
+    return "success"
