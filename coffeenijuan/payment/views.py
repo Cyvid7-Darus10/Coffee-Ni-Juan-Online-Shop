@@ -1,7 +1,6 @@
 from math import ceil
 from django.shortcuts import render
-from product.models import Product
-from .models import Order
+from payment.models import Order
 from django.http import HttpResponse
 
 # global variables for js and css
@@ -24,7 +23,7 @@ def shopping_cart(request):
     })
 
 def check_out(request, id):
-    order = get_if_exists(Product, **{'id':id})
+    order = get_if_exists(Order, **{'order_id':id})
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
