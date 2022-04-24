@@ -46,7 +46,7 @@ def sort_products(request):
         product_list = Product.objects.all()
 
     # paginate the products
-    paginator = Paginator(product_list, 3)
+    paginator = Paginator(product_list, 5)
     page_number = request.GET.get('page')
     
     try:
@@ -94,3 +94,7 @@ def delete_inventory_item(request, id):
     except:
         return "error"
     return "success"
+
+def get_inventory_item(request, id):
+    product = Product.objects.get(id=id)
+    return product

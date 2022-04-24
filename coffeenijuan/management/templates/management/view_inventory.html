@@ -1,0 +1,20 @@
+{% extends "management/base_overview.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card align-items-center">
+        <img src="/media/{{ product_item.image }}" class="card-img-top w-25" alt="...">
+        <div class="card-body">
+            <p class="card-title h6"><strong>Label:</strong> {{ product_item.label }}</p>
+            <p class="card-text h6"><strong>Description:</strong> {{ product_item.description }}</p>
+            <p class="card-text h6"><strong>Price (Php):</strong> {{ product_item.price }}</p>
+            <p class="card-text h6"><strong>Rating:</strong> {{ product_item.rating }}</p>
+            <p class="card-text h6"><strong>Stock:</strong> {{ product_item.stock }}</p>
+            <button data-label="{{ product_item.label }}" data-url="{% url 'management:delete_inventory' id=product_item.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

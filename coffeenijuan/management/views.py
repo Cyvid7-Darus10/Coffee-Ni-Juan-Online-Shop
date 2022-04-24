@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import sort_products, login_user, add_inventory_form, delete_inventory_item
-from .forms import inventory_form
+from .models import *
 from django.contrib import messages
 
 
@@ -84,6 +83,17 @@ def delete_inventory(request, id):
 
     return redirect("management:inventory")
 
+def view_inventory(request, id):
+    page = "Inventory | View Product"
+
+    product_item = get_inventory_item(request, id)
+
+    return render(request, "management/view_inventory.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page,
+        "product_item" : product_item
+    })
 
 def supplies(request):
     page = "supplies"
