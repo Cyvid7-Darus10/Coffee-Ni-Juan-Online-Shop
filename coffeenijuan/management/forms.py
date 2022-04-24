@@ -1,12 +1,13 @@
 from django import forms
+from product.models import Product
 
-class inventory_form(forms.Form):
+class inventory_form(forms.ModelForm):
     label       = forms.CharField(label="Label", max_length=250, required=True, widget=forms.TextInput(
                     attrs={
                     'class':'form-control',
                     'placeholder':'Label'
                     }))
-    image_url   = forms.CharField(label="Image URL", max_length=150, required=True, widget=forms.TextInput(
+    image       = forms.ImageField(label="Image", required=True, widget=forms.FileInput(
                     attrs={
                     'class':'form-control',
                     'placeholder':'Image URL'
@@ -27,3 +28,7 @@ class inventory_form(forms.Form):
                     'placeholder':'Description',
                     'rows':'3'
                     }))
+
+    class Meta:
+        model = Product
+        fields = ['label', 'image', 'price', 'stock', 'description']

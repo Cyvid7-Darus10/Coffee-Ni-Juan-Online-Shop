@@ -4,9 +4,7 @@
 {% block content %}
     <div class="card text-center col-10 col-lg-10 mx-auto mt-5">
         <div class="card-body p-xl-5">
-            <form action="{% url 'management:add_inventory' %}" method="post">
-                <div class="row text-center ">
-                </div>
+            <form action="{% url 'management:add_inventory' %}" method="post" enctype="multipart/form-data">
                 
                 {% csrf_token %}
 

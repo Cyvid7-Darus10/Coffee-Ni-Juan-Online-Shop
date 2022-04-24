@@ -1,3 +1,4 @@
+from tkinter import image_names
 from django.db import models
 from product.models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -78,17 +79,9 @@ def login_user(request):
 
 def add_inventory_form(request):
     if request.POST:
-        form = inventory_form(request.POST)
+        form = inventory_form(request.POST, request.FILES)
         if form.is_valid():
-            label       = request.POST['label']
-            image_url   = request.POST['image_url']
-            price       = request.POST['price']
-            stock       = request.POST['stock']
-            description = request.POST['description']
-
-            product = Product(label=label, image_url=image_url, price=price, stock=stock, description=description)
-            product.save()
-
+            form.save()
             return "redirect"
     else:
         form = inventory_form()

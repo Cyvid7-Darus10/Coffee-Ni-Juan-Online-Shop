@@ -13,7 +13,7 @@ class Base(models.Model):
 
 class Product(Base):
     label       = models.CharField(max_length=250, blank=True, null=True)
-    image_url   = models.CharField(max_length=150, null=True)
+    image       = models.ImageField(upload_to='images/', blank=True, null=True)
     price       = models.FloatField(blank=True, null=True)
     stock       = models.PositiveIntegerField(default=0)
     rating      = models.FloatField(blank=True, null=True)
