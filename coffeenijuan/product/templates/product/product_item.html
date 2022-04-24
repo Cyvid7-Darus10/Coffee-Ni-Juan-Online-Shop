@@ -19,13 +19,13 @@
                     <!-- Ratings and Sold -->
                     <div class="d-flex p-2">
                         <div class="stars m-0 p-0 text-warning">
-                            {% for i in n %}
+                            {% for i in stars %}
                                 <i class="bi bi-star-fill"></i>
                             {% endfor %}     
                             {% if not_whole %}
                                 <i class="bi bi-star-half"></i>
                             {% endif %}
-                            {% for i in n2 %}
+                            {% for i in empty_stars %}
                                 <i class="bi bi-star"></i>
                             {% endfor %}                       
                         </div>

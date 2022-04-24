@@ -52,6 +52,13 @@ button, input[type="submit"], input[type="reset"] {
   padding: 8px 10px;
 }
 
+/* media query for custom-btn */
+@media screen and (max-width: 320px) {
+  .custom-btn {
+    font-size: 0.7rem;
+  }
+}
+
 .button_text_container {
   position: relative;
   z-index: 999;
