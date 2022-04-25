@@ -4,6 +4,7 @@ from django.db.models.fields import DateTimeField
 from django.contrib.postgres.fields import ArrayField
 from product.models import Product
 from account.models import Account
+from django.db.models import Sum
 
 class Base(models.Model):
     created = DateTimeField(default=datetime.now)
@@ -26,10 +27,20 @@ class Order(Base):
     class Meta:
         ordering = ['-created']
 
-class ShoppingCart(Base):
+class ShoppingCart(Base):   
     label = models.CharField(max_length=250, blank=True, null=True)
     customer = models.ForeignKey(Account, on_delete=models.CASCADE)
-    total_price = models.FloatField(blank=True, null=True)
+
+    @property
+    def totalPrice(self):
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        price = 0
+        for product in products:
+            price += product.totalPrice
+        return price
+
+    def products(self):
+        return ShoppingCartItem.objects.filter(shopping_cart=self.id)
 
     def __str__(self):
         return f"{self.label} created on {self.created}"
@@ -44,6 +55,13 @@ class ShoppingCartItem(Base):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=30, null=True)
+
+    @property
+    def totalPrice(self):
+        price = self.product.price
+        quantity = self.quantity
+        total = price*quantity
+        return total
 
     def __str__(self):
         return f"{self.label} created on {self.created}"

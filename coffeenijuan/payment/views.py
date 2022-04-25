@@ -1,6 +1,6 @@
 from math import ceil
 from django.shortcuts import render
-from payment.models import Order
+from payment.models import Order, ShoppingCart, ShoppingCartItem
 from django.http import HttpResponse
 
 # global variables for js and css
@@ -15,11 +15,12 @@ def get_if_exists(model, **kwargs):
         obj = None
     return obj
 
-def shopping_cart(request):
-
+def shopping_cart(request, id):
+    cart = get_if_exists(ShoppingCart, **{'id':id})
     return render(request, "payment/shopping_cart.html", {
         "csss" : css,
-        "jss"  : js
+        "jss"  : js,
+        "cart": cart
     })
 
 def check_out(request, id):
