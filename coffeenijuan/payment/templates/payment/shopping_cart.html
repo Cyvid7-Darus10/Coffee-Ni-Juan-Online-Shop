@@ -1,1 +1,13 @@
-<h1> SHOPPING CART </h1>
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+	<h1> {{ cart.label }} </h1>
+    {% for p in cart.products %}
+        <h3> Name {{ p.product.label }} </h3>
+        <h3> Price {{ p.product.price }} </h3>
+        <h3> Quantity {{ p.quantity }} </h3>
+        <h3> Total Price {{ p.totalPrice }} </h3>
+    {% endfor %}
+	<h2> Total Price of Cart {{ cart.totalPrice }} </h2>
+{% endblock %}
