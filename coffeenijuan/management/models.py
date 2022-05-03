@@ -59,7 +59,6 @@ def sort_products(request):
     return products, extra_query
 
 
-
 def login_user(request):
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
@@ -88,6 +87,7 @@ def add_inventory_form(request):
     
     return form
 
+
 def delete_inventory_item(request, id):
     try:
         Product.objects.get(id=id).delete()
@@ -95,6 +95,12 @@ def delete_inventory_item(request, id):
         return "error"
     return "success"
 
+
 def get_inventory_item(request, id):
     product = Product.objects.get(id=id)
     return product
+
+
+def get_inventory_items(request):
+    products = Product.objects.all()
+    return products

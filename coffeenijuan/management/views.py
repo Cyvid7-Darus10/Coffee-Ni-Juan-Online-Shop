@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
-
+from .helpers import *
 
 # global variables for js and css
 js = []
@@ -47,6 +47,12 @@ def overview(request):
 
 def inventory(request):
     page = "inventory"
+
+    # Check if the user wants to export the inventory
+    if request.GET.get("export"):
+        products = get_inventory_items(request)
+        return excelreport(request, products, "inventory")
+
     products, extra_query = sort_products(request)
         
     return render(request, "management/inventory.html", {
