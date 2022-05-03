@@ -1,5 +1,5 @@
 from math import ceil
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product
 from django.http import HttpResponse
 
@@ -40,16 +40,19 @@ def product_list(request):
 
 def product_item(request, id):
     product = get_if_exists(Product, **{'id':id})
+
+    if not product:
+        return redirect('product:product_list')
     
     rating = product.rating
     not_whole = rating % 1
     rating = int(rating)
 
     return render(request, "product/product_item.html", {
-        "csss"     : css,
-        "jss"      : js,
-        "product"  : product,
-        "n"        : range(rating),
-        "n2"       : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole': not_whole
+        "csss"        : css,
+        "jss"         : js,
+        "product"     : product,
+        "stars"       : range(rating),
+        "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
+        'not_whole'   : not_whole
     })

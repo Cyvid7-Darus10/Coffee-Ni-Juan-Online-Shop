@@ -7,7 +7,7 @@
         <span class="display-6"><b>Check Out</b></span>
 
         
-        <section class="row mt-3 glass-backdrop px-5 py-3"> 
+        <section class="row mt-3 glass-backdrop2 px-5 py-3"> 
             <div>
                 <i class="bi bi-geo-alt-fill h5 me-2"></i>
                 <span class="checkout_font"> Address and Contact Info</span>
@@ -24,17 +24,17 @@
         <section class="row mt-3 glass-backdrop px-5 py-3" >  
             <div class="container checkout_font text-center">
                 <section class="row mt-1">
-                    <div class="col-3 fw-bolder">
-                        Product Selected
+                    <div class="col-12 col-md-3 fw-bolder">
+                        PRODUCT SELECTED
                     </div>
-                    <div class="col-3 fw-bolder">
-                        Unit Price
+                    <div class="col-md-3 d-none d-md-block fw-bolder">
+                        UNIT PRICE
                     </div>
-                    <div class="col-3 fw-bolder">
-                        Quantity
+                    <div class="col-md-3 d-none d-md-block fw-bolder">
+                        QUANTITY
                     </div>
-                    <div class="col-3 fw-bolder">
-                        Subtotal
+                    <div class="col-md-3 d-none d-md-block fw-bolder">
+                        SUBTOTAL
                     </div>
                 </section> 
 
@@ -43,109 +43,89 @@
 
                     <!-- {% for product in products %} --> <!-- {% endfor %} -->
                     <div class="row">
-                        <div class="col-3 my-auto">
+                        <div class="col-12 col-md-3 my-auto">
                             <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/1.png' %}" />                        
+                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/1.png' %}" />                        
                         </div>
-                        <div class="col-3 my-auto" >
+                        <div class="col-6 col-md-3 my-auto" >
                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span class="h6"> ₱ 500 </span>
+                            <span id="price" class="h6"> ₱ 500 </span>
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-6 col-md-3 my-auto">
                              <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span class="h6"> 12 </span> 
+                             <span id="qty" class="h6"> 12pc </span> 
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-12 col-md-3  my-auto">
                              <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span class="h6 "> ₱ 6000 </span> 
+                             <span class="h6 "> ₱ 6000 <span id="subtotal"> </span> </span> 
                         </div>
                     </div>   
                     
                     <div class="row">
-                        <div class="col-3 my-auto">
+                        <div class="col-12 col-md-3 my-auto">
                             <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/2.png' %}" />                        
+                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/2.png' %}" />                        
                         </div>
-                        <div class="col-3 my-auto" >
+                        <div class="col-6 col-md-3 my-auto" >
                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span class="h6"> ₱ 1000 </span>
+                            <span id="price" class="h6"> ₱ 1000 </span>
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-6 col-md-3 my-auto">
                              <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span class="h6"> 5 </span> 
+                             <span id="qty" class="h6"> 5pc </span> 
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-12 col-md-3  my-auto">
                              <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span class="h6 "> ₱ 5000 </span> 
+                             <span  class="h6 "> ₱ 5000 <span id="subtotal"> </span> </span> 
                         </div>
                     </div> 
 
                     <div class="row">
-                        <div class="col-3 my-auto">
+                        <div class="col-12 col-md-3 my-auto">
                             <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1" style="max-width: 50%;" src="{% static 'resources/products/5.png' %}" />                        
+                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/5.png' %}" />                        
                         </div>
-                        <div class="col-3 my-auto" >
+                        <div class="col-6 col-md-3 my-auto" >
                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span class="h6"> ₱ 500 </span>
+                            <span id="price" class="h6"> ₱ 300 </span>
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-6 col-md-3 my-auto">
                              <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span class="h6"> 12 </span> 
+                             <span  id="qty" class="h6"> 8pc </span> 
                         </div>
-                        <div class="col-3  my-auto">
+                        <div class="col-12 col-md-3  my-auto">
                              <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span class="h6 "> ₱ 6000 </span> 
+                             <span class="h6 "> ₱ 2400 <span id="subtotal"> </span> </span> 
                         </div>
                     </div> 
+
+                    
+
+                    
                 </section>
 
                 <hr style="height: 3px; border-radius: 5px">
 
                 <section>
                     <div class="row">
-                        <div class="col-6">
-                            <img class="img-fluid p-1" src="{% static 'resources/favicon/pay_icon.png' %}" />                        
+                        <div class="col-12 col-md-6 ">
+                            <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
                             <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
 
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle checkout_font" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle checkout_font dropbtn custom-btn animation-btn" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true">
                                     Payment Option
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <div class="dropdown-menu dropdown-content" >
                                   <button class="dropdown-item" type="button">Cash on Delivery</button>
                                   <button class="dropdown-item" type="button">Pick-up</button>
-                                  <button class="dropdown-item" type="button">Bank Transfer</button>
                                   <button class="dropdown-item" type="button">Online Payment</button>
                                 </div>
                             </div>
-
-                            
-                                <!-- <link href="https://fonts.googleapis.com/css?family=Arvo&display=swap" rel="stylesheet">
-
-                                <nav role="navigation" class="primary-navigation">
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-secondary dropdown-toggle checkout_font" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Payment Option 
-                                        </button>
-                                        <ul class="dropdown">
-                                            <li><a href="#">Cash on Delivery</a></li>
-                                            <li><a href="#">Pick-up</a></li>
-                                            <li><a href="#">Bank Transfer</a></li>
-                                            <li><a href="#">Online Payment</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                </nav> -->
-
-
-
-
                         </div>
 
-                        <div class="col-6 my-auto">
-                            <span class="checkout_font fw-bolder"> GRAND TOTAL: ₱ 17000</span>
+                        <div class="col-12 col-md-6 my-auto">
+                            <span class="checkout_font fw-bolder"> GRAND TOTAL: ₱ 13 400<span id="grand-total"> </span> </span>
                         </div>
                     </div>
                 </section>

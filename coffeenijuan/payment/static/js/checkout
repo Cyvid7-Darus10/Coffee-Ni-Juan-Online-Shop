@@ -1,0 +1,30 @@
+// var price = document.getElementById('price').value;
+// var qty = document.getElementById('qty').value;
+
+// var subtotal = price*qty;
+
+// document.getElementById('subtotal').innerHTML = subtotal;
+// console.log( subtotal );
+
+// function get() {
+//     var singleValues = $( "#single" ).val();
+//     var multipleValues = $( "#multiple" ).val() || [];
+//     // When using jQuery 3:
+//     // var multipleValues = $( "#multiple" ).val();
+//     $( "p" ).html( "<b>Single:</b> " + singleValues +
+//       " <b>Multiple:</b> " + multipleValues.join( ", " ) );
+//   }
+   
+//   $( "select" ).change( displayVals );
+//   displayVals();
+
+function displayVals() {
+    var singleValues = $( "#single" ).val();
+    // When using jQuery 3:
+    // var multipleValues = $( "#multiple" ).val();
+    $( "p" ).html( "<b>Single:</b> " + singleValues +
+      " <b>Multiple:</b> " + multipleValues.join( ", " ) );
+  }
+   
+  $( "select" ).change( displayVals );
+  displayVals();
