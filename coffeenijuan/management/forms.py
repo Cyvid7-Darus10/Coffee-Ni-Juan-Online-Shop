@@ -1,7 +1,7 @@
 from django import forms
 from product.models import Product
 
-class inventory_form(forms.ModelForm):
+class InventoryForm(forms.ModelForm):
     label       = forms.CharField(label="Label", max_length=250, required=True, widget=forms.TextInput(
                     attrs={
                     'class':'form-control',
@@ -32,3 +32,18 @@ class inventory_form(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['label', 'image', 'price', 'stock', 'description']
+
+
+class InventoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['label', 'image', 'price', 'stock', 'description']
+        
+        # add class name for bootstrap
+        widgets = {
+            'label': forms.TextInput(attrs={'class':'form-control'}),
+            'image': forms.FileInput(attrs={'class':'form-control'}),
+            'price': forms.NumberInput(attrs={'class':'form-control'}),
+            'stock': forms.NumberInput(attrs={'class':'form-control'}),
+            'description': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
+        }

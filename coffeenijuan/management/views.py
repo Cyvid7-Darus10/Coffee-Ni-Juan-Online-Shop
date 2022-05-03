@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
-from .helpers import *
+from .extra_inventory import *
 
 # global variables for js and css
 js = []
@@ -61,44 +61,6 @@ def inventory(request):
         "page" : page,
         "products" : products,
         "extra_query" : extra_query
-    })
-
-def add_inventory(request):
-    page = "Inventory | Add Product"
-    
-    inventory_form = add_inventory_form(request)
-    if inventory_form == "redirect":
-        messages.add_message(request, messages.SUCCESS, "Successfully added product")
-        return redirect("management:inventory")
-
-    return render(request, "management/add_inventory.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page,
-        "inventory_form" : inventory_form
-    })
-
-def delete_inventory(request, id):
-
-    result = delete_inventory_item(request, id)
-
-    if result == "error":
-        messages.add_message(request, messages.ERROR, "Error deleting product")
-    elif result == "success":
-        messages.add_message(request, messages.SUCCESS, "Successfully deleted product")
-
-    return redirect("management:inventory")
-
-def view_inventory(request, id):
-    page = "Inventory | View Product"
-
-    product_item = get_inventory_item(request, id)
-
-    return render(request, "management/view_inventory.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page,
-        "product_item" : product_item
     })
 
 def supplies(request):

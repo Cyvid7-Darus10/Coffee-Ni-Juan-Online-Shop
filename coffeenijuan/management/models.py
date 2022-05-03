@@ -1,12 +1,10 @@
-from tkinter import image_names
-from django.db import models
 from product.models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, authenticate
 from account.forms import AccountAuthenticationForm
-from .forms import inventory_form
+from .forms import InventoryForm, InventoryUpdateForm
 
-# Create your models here.
+# Help Functions
 
 def sort_products(request):
     label = request.GET.get('label')
@@ -78,12 +76,12 @@ def login_user(request):
 
 def add_inventory_form(request):
     if request.POST:
-        form = inventory_form(request.POST, request.FILES)
+        form = InventoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return "redirect"
     else:
-        form = inventory_form()
+        form = InventoryForm()
     
     return form
 
@@ -94,6 +92,19 @@ def delete_inventory_item(request, id):
     except:
         return "error"
     return "success"
+
+
+def edit_inventory_form(request, id):
+    product = get_inventory_item(request, id)
+    if request.POST:
+        form = InventoryUpdateForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return "redirect"
+    else:
+        form = InventoryUpdateForm(instance=product)
+    
+    return form
 
 
 def get_inventory_item(request, id):

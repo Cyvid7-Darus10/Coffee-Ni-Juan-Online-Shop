@@ -88,9 +88,9 @@
                                         </button>
                                     </li>
                                     <li class="nav-item mx-2">
-                                        <button class="btn btn-success" type="button" aria-expanded="false">
+                                        <a href="{% url 'management:edit_inventory' id=product.id %}" class="btn btn-success" type="button" aria-expanded="false">
                                             Edit
-                                        </button>
+                                        </a>
                                     </li>
                                     <li class="nav-item mx-2">
                                         <a href="{% url 'management:view_inventory' id=product.id %}" class="btn btn-primary" type="button" aria-expanded="false">
