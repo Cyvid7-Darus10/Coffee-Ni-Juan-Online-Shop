@@ -2,152 +2,262 @@
 {% load static %}
 
 {% block content %}
-<article class="container-fluid m-0 px-5 row">
-    <section class="col-12 col-lg-12 mt-3">
+<article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
         <span class="display-6"><b>Check Out</b></span>
 
         
-        <section class="row mt-3 glass-backdrop2 px-5 py-3"> 
+        <section class="row mt-3 glass-backdrop px-5 py-3"> 
             <div>
                 <i class="bi bi-geo-alt-fill h5 me-2"></i>
-                <span class="checkout_font"> Address and Contact Info</span>
+                <span class="h5"> Address and Contact Info</span>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 ">
+                    <label for="address"></label>
+                    <input type="address" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address">
+                </div>
 
-                <label for="address"></label>
-                <input class="mt-2" type="address" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address">
-                
-                <label for="mobile-no"></label>
-                <input type="mobile-no" name="mobile-no" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no">
+                <div class="col-12 col-md-6">
+                    <label for="mobile-no"></label>
+                    <input type="mobile-no" name="mobile-no" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no">    
             
+                </div>
             </div>
-        </section>
-
-        <section class="row mt-3 glass-backdrop px-5 py-3" >  
-            <div class="container checkout_font text-center">
-                <section class="row mt-1">
-                    <div class="col-12 col-md-3 fw-bolder">
-                        PRODUCT SELECTED
-                    </div>
-                    <div class="col-md-3 d-none d-md-block fw-bolder">
-                        UNIT PRICE
-                    </div>
-                    <div class="col-md-3 d-none d-md-block fw-bolder">
-                        QUANTITY
-                    </div>
-                    <div class="col-md-3 d-none d-md-block fw-bolder">
-                        SUBTOTAL
-                    </div>
-                </section> 
-
-                <section class="row mt-3" style="overflow-y: scroll">
-                    <!-- Loops the products data -->
-
-                    <!-- {% for product in products %} --> <!-- {% endfor %} -->
+            
+            <div class="row mt-3 px-3 py-1 container h5 text-center" >  
+               
+                <div class="container d-md-none p-0">
+                    <span>PRODUCT SELECTED</span>
+                    <hr style="height: 3px; border-radius: 5px">
                     <div class="row">
-                        <div class="col-12 col-md-3 my-auto">
-                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/1.png' %}" />                        
+                        <div class="col-4">
+                            <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{% static 'resources/products/1.png' %}" />
                         </div>
-                        <div class="col-6 col-md-3 my-auto" >
-                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span id="price" class="h6"> ₱ 500 </span>
+                        <div class="col-6">
+                            <span><b>Coffee</b></span>
+                            <span id="price" class="h6"> ₱ 500 </span><span id="qty" class="h6"> 12pc </span>
+                            <span></span>
                         </div>
-                        <div class="col-6 col-md-3 my-auto">
-                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span id="qty" class="h6"> 12pc </span> 
-                        </div>
-                        <div class="col-12 col-md-3  my-auto">
-                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span class="h6 "> ₱ 6000 <span id="subtotal"> </span> </span> 
-                        </div>
-                    </div>   
-                    
-                    <div class="row">
-                        <div class="col-12 col-md-3 my-auto">
-                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/2.png' %}" />                        
-                        </div>
-                        <div class="col-6 col-md-3 my-auto" >
-                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span id="price" class="h6"> ₱ 1000 </span>
-                        </div>
-                        <div class="col-6 col-md-3 my-auto">
-                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span id="qty" class="h6"> 5pc </span> 
-                        </div>
-                        <div class="col-12 col-md-3  my-auto">
-                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span  class="h6 "> ₱ 5000 <span id="subtotal"> </span> </span> 
-                        </div>
-                    </div> 
-
-                    <div class="row">
-                        <div class="col-12 col-md-3 my-auto">
-                            <!-- <img class="img-fluid" src="{{ product.image_url }}" /> -->
-                            <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/5.png' %}" />                        
-                        </div>
-                        <div class="col-6 col-md-3 my-auto" >
-                            <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                            <span id="price" class="h6"> ₱ 300 </span>
-                        </div>
-                        <div class="col-6 col-md-3 my-auto">
-                             <!-- <span class="h6"> {{ product.quantity  }}</span> -->
-                             <span  id="qty" class="h6"> 8pc </span> 
-                        </div>
-                        <div class="col-12 col-md-3  my-auto">
-                             <!-- <span class="h6"> ₱ {{ product.price }}</span> -->
-                             <span class="h6 "> ₱ 2400 <span id="subtotal"> </span> </span> 
-                        </div>
-                    </div> 
-
-                    
-
-                    
-                </section>
-
-                <hr style="height: 3px; border-radius: 5px">
-
-                <section>
-                    <div class="row">
-                        <div class="col-12 col-md-6 ">
-                            <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
-                            <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
-
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle checkout_font dropbtn custom-btn animation-btn" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true">
-                                    Payment Option
-                                </button>
-                                <div class="dropdown-menu dropdown-content" >
-                                  <button class="dropdown-item" type="button">Cash on Delivery</button>
-                                  <button class="dropdown-item" type="button">Pick-up</button>
-                                  <button class="dropdown-item" type="button">Online Payment</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 my-auto">
-                            <span class="checkout_font fw-bolder"> GRAND TOTAL: ₱ 13 400<span id="grand-total"> </span> </span>
+                        <div class="col-2">
+                            <span class="h6 "> ₱ 6000 <span id="subtotal"></span>
                         </div>
                     </div>
-                </section>
-
-            </div>
-          
-
-            <!-- <section>
-                Payment Option
+                </div>
                 
-            </section> -->
+                
+                
+                
+                <table class="d-none d-md-table table table-hover table-responsive-sm ">
+                    <thead>
+                      <tr>
+                        <th scope="col">PRODUCT SELECTED</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Item Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody style="overflow-y: scroll">
+                      <tr>
+                        <th scope="row"><img class="img-fluid p-1 rounded float-left" style="max-width: 5vw" src="{% static 'resources/products/1.png' %}" />Coffee</th>
+                        <td ><span id="price" class="h6"> ₱ 500 </span></td>
+                        <td ><span id="qty" class="h6"> 12pc </span></td>
+                        <td ><span class="h6 "> ₱ 6000 <span id="subtotal"> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><img class="img-fluid p-1 rounded float-left" style="max-width: 5vw" src="{% static 'resources/products/1.png' %}" />Coffee</th>
+                        <td ><span id="price" class="h6"> ₱ 500 </span></td>
+                        <td ><span id="qty" class="h6"> 12pc </span></td>
+                        <td ><span class="h6 "> ₱ 6000 <span id="subtotal"> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+
+
+                    <!-- <section class="row mt-1">
+                        <div class="col-12 col-md-3 fw-bolder">
+                            PRODUCT SELECTED
+                        </div>
+                        <div class="col-md-3 d-none d-md-block fw-bolder">
+                            UNIT PRICE
+                        </div>
+                        <div class="col-md-3 d-none d-md-block fw-bolder">
+                            QUANTITY
+                        </div>
+                        <div class="col-md-3 d-none d-md-block fw-bolder">
+                            SUBTOTAL
+                        </div>
+                    </section> 
+    
+                    <section class="row mt-3" style="overflow-y: scroll"> -->
+                        <!-- Loops the products data -->
+    
+                        <!-- {% for product in products %} --> <!-- {% endfor %} -->
+                        <!-- <div class="row">
+                            <div class="col-12 col-md-3 my-auto">
+                                <!-- <img class="img-fluid" src="{{ product.image_url }}" />
+                                <img class="img-fluid p-1 product-image"  src="{% static 'resources/products/1.png' %}" />                        
+                            </div>
+                            <div class="col-6 col-md-3 my-auto" >
+                                <!-- <span class="h6"> ₱ {{ product.price }}</span> 
+                                <span id="price" class="h6"> ₱ 500 </span>
+                            </div>
+                            <div class="col-6 col-md-3 my-auto">
+                                 <!-- <span class="h6"> {{ product.quantity  }}</span> 
+                                 <span id="qty" class="h6"> 12pc </span> 
+                            </div>
+                            <div class="col-12 col-md-3  my-auto">
+                                 <!-- <span class="h6"> ₱ {{ product.price }}</span> 
+                                 <span class="h6 "> ₱ 6000 <span id="subtotal"> </span> </span> 
+                            </div>
+                        </div>   
+                           
+                    </section> -->
+    
+                <hr style="height: 3px; border-radius: 5px">
+    
+                <div class="row">
+                    <div class="col-12 col-md-6 ">
+                        <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
+                        <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
+
+
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn custom-btn button_text_container animation-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Payment Method</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Cash on Delivery</a></li>
+                                <li><a class="dropdown-item" href="#">Pick-up</a></li>
+                                   <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#onlinePayment" data-bs-toggle="modal">Online Payment</a></li>
+                                <li><a class="dropdown-item" href="#bankTransfer" data-bs-toggle="modal">Bank Transfer</a></li>
+
+                            </ul>
+                          </div>
+                    
+                        <!-- <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle h5 dropbtn custom-btn animation-btn" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true">
+                                Payment Option
+                            </button>
+                            <div class="dropdown-menu dropdown-content" >
+                                <button class="dropdown-item" type="button">Cash on Delivery</button>
+                                <button class="dropdown-item" type="button">Pick-up</button>
+                                <button class="dropdown-item" type="button">Online Payment</button>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="col-12 col-md-6 my-auto">
+                        <span class="h5 fw-bolder"> GRAND TOTAL: ₱ 13 400<span id="grand-total"> </span> </span>
+                    </div>
+                </div>
+    
+            </div>
 
         </section>
-    </section>
 
-    <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">
-        <a type="button" class="custom-btn animation-btn" href="{% url 'payment:shopping_cart' %}">
-            <span class="button_text_container">
-                PLACE ORDER
-            </span>
-        </a>       
+        
+
+    <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">               
+        <button type="button" class="button_text_container custom-btn animation-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            PLACE ORDER
+        </button>
     </section>
 </article>
+
+<!-- Modal -->
+<article class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: #fdf6f6;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"><b>Place Order</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Are you sure you want to place order?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+            <a type="button" class="button_text_container custom-btn animation-btn" href="{}"> <!--% url 'payment:check_out' %-->
+                <span >
+                    Yes
+                </span>
+            </a>  
+
+        </div>
+      </div>
+    </div>
+</article>
+
+
+<article class="modal fade" id="onlinePayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Online Payment</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="type-online-payment" class="col-form-label">Type:</label>
+              <input type="text" class="form-control" id="type-online-payment">
+            </div>
+            <div class="mb-3">
+                <label for="amount" class="col-form-label">Amount:</label>
+                <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="mb-3">
+                <label for="POP" class="form-label">Proof of Payment:</label>
+                <input type="file" class="form-control" id="POP">
+              </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="button_text_container custom-btn animation-btn">Save</button>
+        </div>
+      </div>
+    </div>
+</article>
+
+<article class="modal fade" id="bankTransfer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Bank Transfer</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+                <label for="amount" class="col-form-label">Amount:</label>
+                <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="mb-3">
+                <label for="POP" class="form-label">Proof of Payment:</label>
+                <input type="file" class="form-control" id="POP">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="button_text_container custom-btn animation-btn">Save</button>
+        </div>
+      </div>
+    </div>
+</article>
+
 
 {% endblock %}
