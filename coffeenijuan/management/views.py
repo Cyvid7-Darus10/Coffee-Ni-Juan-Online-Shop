@@ -11,10 +11,10 @@ css = []
 def login(request):
     page = "login"
 
+    login_form = login_user(request)
+
     if request.user.is_authenticated and request.user.is_admin: 
         return redirect("management:overview")
-
-    login_form = login_user(request)
 
     return render(request, "management/login.html", {
         "csss" : css,
