@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .extra_inventory import *
+from .inventory_pages import *
 from .helpers import excelreport
 from .decorators import admin_only
 
@@ -55,7 +55,7 @@ def inventory(request):
 
     products, extra_query = sort_products(request)
         
-    return render(request, "management/inventory.html", {
+    return render(request, "management/inventory/inventory.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,

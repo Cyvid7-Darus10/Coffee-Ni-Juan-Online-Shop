@@ -16,7 +16,7 @@ def add_inventory(request):
         messages.add_message(request, messages.SUCCESS, "Successfully added product")
         return redirect("management:inventory")
 
-    return render(request, "management/add_inventory.html", {
+    return render(request, "management/inventory/add_inventory.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
@@ -41,7 +41,7 @@ def view_inventory(request, id):
 
     product_item = get_inventory_item(request, id)
 
-    return render(request, "management/view_inventory.html", {
+    return render(request, "management/inventory/view_inventory.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
@@ -57,7 +57,7 @@ def edit_inventory(request, id):
         messages.add_message(request, messages.SUCCESS, "Successfully edited product")
         return redirect("management:inventory")
 
-    return render(request, "management/edit_inventory.html", {
+    return render(request, "management/inventory/edit_inventory.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
