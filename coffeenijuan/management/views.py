@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import *
-from .inventory_pages import *
+from .models import login_user
+from .pages_inventory import *
+from .pages_supply import *
 from .helpers import excelreport
 from .decorators import admin_only
 
@@ -64,12 +65,22 @@ def inventory(request):
     })
 
 @admin_only
-def supplies(request):
-    page = "supplies"
-    return render(request, "management/supplies.html", {
+def supply(request):
+    page = "supply"
+
+    # Check if the user wants to export the inventory
+    if request.GET.get("export"):
+        products = get_supply_items(request)
+        return excelreport(request, products, "supply")
+
+    supplies, extra_query = sort_supplies(request)
+
+    return render(request, "management/supply/supply.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        "supplies" : supplies,
+        "extra_query" : extra_query
     })
 
 @admin_only

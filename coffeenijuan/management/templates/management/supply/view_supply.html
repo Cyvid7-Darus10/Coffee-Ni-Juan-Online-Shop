@@ -1,0 +1,25 @@
+{% extends "management/base_overview.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ supply_item.label }}</h5>
+            <p class="card-text">{{ supply_item.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Price (Php):</strong> {{ supply_item.price }}</li>
+            <li class="list-group-item"><strong>Stock:</strong> {{ supply_item.stock }}</li>
+        </ul>
+        <div class="card-body">
+            <button data-label="{{ supply_item.label }}" data-url="{% url 'management:delete_supply' id=supply_item.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
+                Delete
+            </button>
+            <a href="{% url 'management:edit_supply' id=supply_item.id %}" class="btn btn-success" type="button" aria-expanded="false">
+                Edit
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,11 +11,9 @@ def excelreport(request, items, item_type):
   # Start from the first cell. Rows and columns are zero indexed.
   row = 0
   col = 0
-  
-
 
   # Check the item type
-  if item_type == "inventory":
+  if item_type == "inventory" or item_type == "supply":
     # Add the header with bold format
     header_format = workbook.add_format({
       'bold': True,
@@ -25,10 +23,15 @@ def excelreport(request, items, item_type):
       'border': 1,
       'text_wrap': True
     })
-    worksheet.write(row, col, "Product Name", header_format)
+    if item_type == "supply":
+      worksheet.write(row, col, "Supply Name", header_format)
+    else:
+      worksheet.write(row, col, "Product Name", header_format)
     worksheet.write(row, col + 1, "Price", header_format)
     worksheet.write(row, col + 2, "Stock", header_format)
-    worksheet.write(row, col + 3, "Rating", header_format)
+
+    if item_type == "inventory":
+      worksheet.write(row, col + 3, "Rating", header_format)
 
     # Set the column's width to header size
     worksheet.set_column(col, col + 3, 20)
@@ -46,7 +49,8 @@ def excelreport(request, items, item_type):
       worksheet.write(row, col, item.label, wrap_format)
       worksheet.write(row, col + 1, item.price, wrap_format)
       worksheet.write(row, col + 2, item.stock, wrap_format)
-      worksheet.write(row, col + 3, item.rating, wrap_format)
+      if item_type == "inventory":
+        worksheet.write(row, col + 3, item.rating, wrap_format)
 
   # Close the workbook
   workbook.close()

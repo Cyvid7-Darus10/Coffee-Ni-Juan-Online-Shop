@@ -1,5 +1,5 @@
 from django.contrib import messages
-from .models import *
+from .model_inventory import *
 from django.shortcuts import render, redirect
 from .decorators import admin_only
 
