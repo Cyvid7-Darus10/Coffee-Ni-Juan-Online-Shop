@@ -6,14 +6,21 @@
     <div class="card align-items-center">
         <img src="/media/{{ product_item.image }}" class="card-img-top w-25" alt="...">
         <div class="card-body">
-            <p class="card-title h6"><strong>Label:</strong> {{ product_item.label }}</p>
-            <p class="card-text h6"><strong>Description:</strong> {{ product_item.description }}</p>
-            <p class="card-text h6"><strong>Price (Php):</strong> {{ product_item.price }}</p>
-            <p class="card-text h6"><strong>Rating:</strong> {{ product_item.rating }}</p>
-            <p class="card-text h6"><strong>Stock:</strong> {{ product_item.stock }}</p>
+            <h5 class="card-title">{{ product_item.label }}</h5>
+            <p class="card-text">{{ product_item.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Price (Php):</strong> {{ product_item.price }}</li>
+            <li class="list-group-item"><strong>Stock:</strong> {{ product_item.stock }}</li>
+            <li class="list-group-item"><strong>Rating:</strong> {{ product_item.rating }}</li>
+        </ul>
+        <div class="card-body">
             <button data-label="{{ product_item.label }}" data-url="{% url 'management:delete_inventory' id=product_item.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
                 Delete
             </button>
+            <a href="{% url 'management:edit_inventory' id=product_item.id %}" class="btn btn-success" type="button" aria-expanded="false">
+                Edit
+            </a>
         </div>
     </div>
 </div>
