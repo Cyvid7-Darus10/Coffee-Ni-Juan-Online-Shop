@@ -1,8 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
-from django.contrib import messages
 from .extra_inventory import *
+from .helpers import excelreport
+from .decorators import admin_only
 
 # global variables for js and css
 js = []
@@ -11,12 +11,10 @@ css = []
 def login(request):
     page = "login"
 
-    if request.user.is_authenticated: 
+    if request.user.is_authenticated and request.user.is_admin: 
         return redirect("management:overview")
 
     login_form = login_user(request)
-    if login_form == "redirect":
-        return redirect("management:overview")
 
     return render(request, "management/login.html", {
         "csss" : css,
@@ -25,6 +23,7 @@ def login(request):
         "page" : page
     })
 
+@admin_only
 def overview(request):
     page = "overview"
 
@@ -45,6 +44,7 @@ def overview(request):
         "page" : page
     })
 
+@admin_only
 def inventory(request):
     page = "inventory"
 
@@ -63,6 +63,7 @@ def inventory(request):
         "extra_query" : extra_query
     })
 
+@admin_only
 def supplies(request):
     page = "supplies"
     return render(request, "management/supplies.html", {
@@ -71,7 +72,7 @@ def supplies(request):
         "page" : page
     })
 
-
+@admin_only
 def transactions(request):
     page = "transactions"
     return render(request, "management/transactions.html", {
@@ -80,7 +81,7 @@ def transactions(request):
         "page" : page
     })
 
-
+@admin_only
 def account(request):
     page = "account"
     return render(request, "management/account.html", {
@@ -89,6 +90,7 @@ def account(request):
         "page" : page
     })
 
+@admin_only
 def orders(request):
     page = "orders"
     return render(request, "management/orders.html", {
@@ -97,7 +99,7 @@ def orders(request):
         "page" : page
     })
 
-
+@admin_only
 def settings(request):
     page = "settings"
     return render(request, "management/settings.html", {

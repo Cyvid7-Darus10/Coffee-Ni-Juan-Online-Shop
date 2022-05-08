@@ -1,12 +1,13 @@
 from django.contrib import messages
 from .models import *
-from .helpers import *
 from django.shortcuts import render, redirect
+from .decorators import admin_only
 
 # global variables for js and css
 js = []
 css = []
 
+@admin_only
 def add_inventory(request):
     page = "Inventory | Add Product"
     
@@ -22,6 +23,7 @@ def add_inventory(request):
         "inventory_form" : inventory_form
     })
 
+@admin_only
 def delete_inventory(request, id):
 
     result = delete_inventory_item(request, id)
@@ -33,6 +35,7 @@ def delete_inventory(request, id):
 
     return redirect("management:inventory")
 
+@admin_only
 def view_inventory(request, id):
     page = "Inventory | View Product"
 
@@ -45,6 +48,7 @@ def view_inventory(request, id):
         "product_item" : product_item
     })
 
+@admin_only
 def edit_inventory(request, id):
     page = "Inventory | Edit Product"
 

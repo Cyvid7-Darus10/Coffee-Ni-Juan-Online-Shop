@@ -55,4 +55,3 @@ def excelreport(request, items, item_type):
   # present the option to save the file.
   buffer.seek(0)
   return FileResponse(buffer, as_attachment=True, filename='{}.xlsx'.format(item_type))
-
