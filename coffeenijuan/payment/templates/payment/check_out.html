@@ -1,1 +1,208 @@
-<h1> CHECK OUT </h1>
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+<article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
+        <span class="display-6"><b>Check Out</b></span>
+
+        
+        <section class="row mt-3 glass-backdrop px-5 py-3"> 
+            <div>
+                <i class="bi bi-geo-alt-fill h5 me-2"></i>
+                <span class="h5"> Address and Contact Info</span>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 ">
+                    <label for="address"></label>
+                    <input type="address" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address">
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label for="mobile-no"></label>
+                    <input type="mobile-no" name="mobile-no" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no">    
+            
+                </div>
+            </div>
+            
+            <div class="row mt-3 px-3 py-1 container h5 text-center" >  
+               
+               <!-- Less than Medium  Screen  -->
+              <div class="container d-md-none p-0">
+                  <span>PRODUCT SELECTED</span>
+                  <hr style="height: 3px; border-radius: 5px">
+                  <div class="row">
+                      <div class="col-4">
+                          <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{% static 'resources/products/1.png' %}" />
+                      </div>
+                      <div class="col-6">
+                          <span><b>Coffee</b></span>
+                          <span id="price" class="h6"> ₱ 500 </span><span id="qty" class="h6"> 12pc </span>
+                          <span></span>
+                      </div>
+                      <div class="col-2">
+                          <span class="h6 "> ₱ 6000 <span id="subtotal"></span>
+                      </div>
+                  </div>
+                  
+              </div>
+                
+                 <!-- Medium Up Screen  -->
+              <table class="d-none d-md-table table table-hover table-responsive-sm ">
+                  <thead>
+                    <tr>
+                      <th scope="col">PRODUCT SELECTED</th>
+                      <th scope="col">Unit Price</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Item Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody style="overflow-y: scroll">
+                    <tr>
+                      <th scope="row"><img class="img-fluid p-1 rounded float-left" style="max-width: 5vw" src="{% static 'resources/products/1.png' %}" />Coffee</th>
+                      <td ><span id="price" class="h6"> ₱ 500 </span></td>
+                      <td ><span id="qty" class="h6"> 12pc </span></td>
+                      <td ><span class="h6 "> ₱ 6000 <span id="subtotal"> </td>
+                    </tr>
+                    <!-- <tr>
+                      <th scope="row"><img class="img-fluid p-1 rounded float-left" style="max-width: 5vw" src="{% static 'resources/products/1.png' %}" />Coffee</th>
+                      <td ><span id="price" class="h6"> ₱ 500 </span></td>
+                      <td ><span id="qty" class="h6"> 12pc </span></td>
+                      <td ><span class="h6 "> ₱ 6000 <span id="subtotal"> </td>
+                    </tr> -->
+                  </tbody>
+              </table>
+    
+              <hr style="height: 3px; border-radius: 5px">
+    
+              <div class="row">
+                <div class="col-12 col-md-6 ">
+                  <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
+                  <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
+
+                  <label for="payment_option">Payment Option:</label>
+                  <select name="payment_option" id="payment_method" class="select-syle form-select-md" aria-label=".form-select-sm example">
+                    <option selected>Select</option>
+                    <option value="cod">Cash on Delivery</option>
+                    <option value="pickup">Pick-up</option>
+                    <option value="online">Online Payment</option>
+                    <option value="bank">Bank Transfer</option>
+                  </select>
+
+                </div>
+
+                <div class="col-12 col-md-6 my-auto">
+                    <span class="h5"> GRAND TOTAL: ₱ 13 400<span id="grand-total"> </span> </span>
+                </div>
+              </div>
+
+            </div>
+
+        </section>
+
+    <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">               
+        <button type="button" class="button_text_container custom-btn " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            PLACE ORDER
+        </button>
+    </section>
+</article>
+
+
+
+<!-- MODALS -->
+<!-- Place Order Prompt -->
+<article class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: #fdf6f6;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"><b>Place Order</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Are you sure you want to place order?
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+            <a type="button" class="button_text_container custom-btn animation-btn" href="{}"> <!--% url 'payment:check_out' %-->
+                <span >
+                    Yes
+                </span>
+            </a>  
+
+        </div>
+      </div>
+    </div>
+</article>
+
+<!-- Online Payment Modals -->
+<article class="modal fade" id="onlinePayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Online Payment</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="type-online-payment" class="col-form-label">Type:</label>
+              <input type="text" class="form-control" id="type-online-payment">
+            </div>
+            <div class="mb-3">
+                <label for="amount" class="col-form-label">Amount:</label>
+                <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="mb-3">
+                <label for="POP" class="form-label">Proof of Payment:</label>
+                <input type="file" class="form-control" id="POP">
+              </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="button_text_container custom-btn animation-btn">Save</button>
+        </div>
+      </div>
+    </div>
+</article>
+
+<!-- Bank Transfer Modals -->
+<article class="modal fade" id="bankTransfer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Bank Transfer</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+                <label for="amount" class="col-form-label">Amount:</label>
+                <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="mb-3">
+                <label for="POP" class="form-label">Proof of Payment:</label>
+                <input type="file" class="form-control" id="POP">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="button_text_container custom-btn animation-btn">Save</button>
+        </div>
+      </div>
+    </div>
+</article>
+
+
+{% endblock %}
