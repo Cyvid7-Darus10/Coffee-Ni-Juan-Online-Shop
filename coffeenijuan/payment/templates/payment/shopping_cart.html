@@ -2,12 +2,82 @@
 {% load static %}
 
 {% block content %}
-	<h1> {{ cart.label }} </h1>
-    {% for p in cart.products %}
-        <h3> Name {{ p.product.label }} </h3>
-        <h3> Price {{ p.product.price }} </h3>
-        <h3> Quantity {{ p.quantity }} </h3>
-        <h3> Total Price {{ p.totalPrice }} </h3>
-    {% endfor %}
-	<h2> Total Price of Cart {{ cart.totalPrice }} </h2>
+<article class="container-fluid m-0 px-5 row">
+  <section class="col-12 col-lg-12 mt-3">
+      <span class="display-6"><b>Shopping Cart</b></span>
+
+    <section class="page">
+        <div class="container">
+          <div class="row">
+            <!-- Left part of the page -->
+            <div class="col-md-7">
+              <div class="cart-container">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <!-- bootstrap checkbox, you can customize css -->
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="selectAll"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Select All
+                      </label>
+                    </div>
+                    <!-- end of checkbox -->
+                    <div class="clearfix"></div>
+                    <button type="button" class="btn btn-warning btn-sm">
+                      Cancel
+                    </button>
+                  </div>
+                  <div class="col-sm-10">
+                    <ul class="products">
+                      <!-- iterate here -->
+                      {% for p in cart.products %}
+                      <li class="single-product">
+                          <div class="product-container">
+                            <!-- checkbox without label for selecting an item -->
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                              />
+                            </div>
+                            <!-- product image -->
+                            <div class="product-image">
+                              <img src="./coffee.jpeg" alt="product image" />
+                              <button class="cancel-item">x</button>
+                            </div>
+                            <!-- quantity and name -->
+                            <div class="quantity">
+                              <h3 class="text-center">Name {{ p.product.label }} </h3>
+                              <p class="text-center">Price {{ p.product.price }}</p>
+                              <input
+                                type="number"
+                                class="form-control"
+                                value=Quantity {{ p.quantity }}
+                              />
+                              <p class="text-center">Total Price {{ p.totalPrice }}</p>
+                            </div>
+                            </div>
+                          </div>
+                        </li>
+                      {% endfor %}
+                    <!-- total amount -->
+                    <div class="total-amount">
+                        <h4 class="text-center">Total Checkout Amount {{ cart.totalPrice }}</h4>
+                    </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Right part of the page -->
+            <div class="col-md-5"></div>
+          </div>
+        </div>
+      </section>
 {% endblock %}
