@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import login_user
+from .model_transaction import sort_transactions
 from .pages_inventory import *
 from .pages_supply import *
+from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only
 
@@ -86,11 +88,17 @@ def supply(request):
 @admin_only
 def transactions(request):
     page = "transactions"
+
+    transactions, extra_query = sort_transactions(request)
+
     return render(request, "management/transactions.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        "transactions" : transactions,
+        "extra_query" : extra_query
     })
+
 
 @admin_only
 def account(request):

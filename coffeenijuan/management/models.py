@@ -3,7 +3,7 @@ from account.forms import AccountAuthenticationForm
 from django.db import models
 from datetime import datetime
 from django.db.models.fields import DateTimeField
-
+from account.models import Account
 
 def login_user(request):
     if request.POST:
@@ -20,6 +20,7 @@ def login_user(request):
         form = AccountAuthenticationForm()
     
     return form
+
 
 class Base(models.Model):
     created = DateTimeField(default=datetime.now)
@@ -40,3 +41,18 @@ class Supply(Base):
     
     class Meta:
         ordering = ['-created']
+
+class Transaction(Base):
+    action_type = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True, null=True)
+    user        = models.ForeignKey(Account, on_delete=models.CASCADE)
+    action_id   = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.action_type} on {self.created} with {self.description}"
+
+    class Meta:
+        ordering = ['-created']
+
+def add_transaction(action_type, description, user, action_id):
+    Transaction.objects.create(action_type=action_type, description=description, user=user, action_id=action_id)

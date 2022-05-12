@@ -72,35 +72,35 @@
                 <tbody>
                     {% for supply in supplies %}
                         <tr>
-                        <td class="p-3 h6">{{ supply.label }}</td>
-                        <td class="p-3 h6">{{ supply.price }}</td>
-                        <td class="p-3 h6">{{ supply.stock }}</td>
-                        <td class="p-3 col-3">
-                            <nav class="navbar m-0 navbar-expand-lg navbar-light p-0">
-                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-{{forloop.counter}}" aria-controls="actions-{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="actions-{{forloop.counter}}">
-                                    <ul class="navbar-nav align-items-end mb-2 mb-lg-0">
-                                    <li class="nav-item mx-2">
-                                        <button data-label="{{ supply.label }}" data-url="{% url 'management:delete_supply' id=supply.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
-                                            Delete
-                                        </button>
-                                    </li>
-                                    <li class="nav-item mx-2">
-                                        <a href="{% url 'management:edit_supply' id=supply.id %}" class="btn btn-success" type="button" aria-expanded="false">
-                                            Edit
-                                        </a>
-                                    </li>
-                                    <li class="nav-item mx-2">
-                                        <a href="{% url 'management:view_supply' id=supply.id %}" class="btn btn-primary" type="button" aria-expanded="false">
-                                            View
-                                        </a>
-                                    </li>
-                                    </ul>
-                                </div>
-                            </nav>
-                        </td>
+                            <td class="p-3 h6">{{ supply.label }}</td>
+                            <td class="p-3 h6">{{ supply.price }}</td>
+                            <td class="p-3 h6">{{ supply.stock }}</td>
+                            <td class="p-3 col-3">
+                                <nav class="navbar m-0 navbar-expand-lg navbar-light p-0">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-{{forloop.counter}}" aria-controls="actions-{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="actions-{{forloop.counter}}">
+                                        <ul class="navbar-nav align-items-end mb-2 mb-lg-0">
+                                        <li class="nav-item mx-2">
+                                            <button data-label="{{ supply.label }}" data-url="{% url 'management:delete_supply' id=supply.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
+                                                Delete
+                                            </button>
+                                        </li>
+                                        <li class="nav-item mx-2">
+                                            <a href="{% url 'management:edit_supply' id=supply.id %}" class="btn btn-success" type="button" aria-expanded="false">
+                                                Edit
+                                            </a>
+                                        </li>
+                                        <li class="nav-item mx-2">
+                                            <a href="{% url 'management:view_supply' id=supply.id %}" class="btn btn-primary" type="button" aria-expanded="false">
+                                                View
+                                            </a>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

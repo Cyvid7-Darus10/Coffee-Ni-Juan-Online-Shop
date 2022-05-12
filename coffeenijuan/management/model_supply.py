@@ -1,4 +1,4 @@
-from .models import Supply
+from .models import Supply, add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SupplyForm, SupplyUpdateForm
 
@@ -59,6 +59,7 @@ def add_supply_form(request):
         form = SupplyForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            add_transaction("Added Supply", "Name of Supply: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
             return "redirect"
     else:
         form = SupplyForm()
@@ -67,10 +68,12 @@ def add_supply_form(request):
 
 
 def delete_supply_item(request, id):
+    supply = get_supply_item(request, id)
     try:
         Supply.objects.get(id=id).delete()
     except:
         return "error"
+    add_transaction("Deleted Supply", "Name of Supply: {}".format(supply.label), request.user, id)
     return "success"
 
 
@@ -80,6 +83,7 @@ def edit_supply_form(request, id):
         form = SupplyUpdateForm(request.POST, request.FILES, instance=supply)
         if form.is_valid():
             form.save()
+            add_transaction("Edited Supply", "Name of Supply: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
             return "redirect"
     else:
         form = SupplyUpdateForm(instance=supply)

@@ -1,4 +1,5 @@
 from product.models import Product
+from .models import add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import InventoryForm, InventoryUpdateForm
 
@@ -59,6 +60,7 @@ def add_inventory_form(request):
         form = InventoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            add_transaction("Added Inventory", "Name of Product: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
             return "redirect"
     else:
         form = InventoryForm()
@@ -67,10 +69,12 @@ def add_inventory_form(request):
 
 
 def delete_inventory_item(request, id):
+    product = get_inventory_item(request, id)
     try:
         Product.objects.get(id=id).delete()
     except:
         return "error"
+    add_transaction("Deleted Supply", "Name of Supply: {}".format(product.label), request.user, id)
     return "success"
 
 
@@ -80,6 +84,7 @@ def edit_inventory_form(request, id):
         form = InventoryUpdateForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
+            add_transaction("Edited Product", "Name of Product: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
             return "redirect"
     else:
         form = InventoryUpdateForm(instance=product)
