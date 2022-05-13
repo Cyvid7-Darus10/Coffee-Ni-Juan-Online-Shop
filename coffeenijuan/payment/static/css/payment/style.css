@@ -27,12 +27,34 @@
   background-color: white;;
 }
 
+.custom-btn-color {
+  border: 2px solid #4b2108;
+  background-color: #4b2108;
+  color: white;
+}
+
 .glass-backdrop {
   -webkit-backdrop-filter: blur(10px);
 /* height: 60vh;  */
 backdrop-filter: blur(3px); 
 background-color: rgba(255, 235, 222, 0.5);
 border-radius: 10px;
+}
+
+.cart-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+/* height: 60vh;  */
+backdrop-filter: blur(3px); 
+background-color: rgba(255, 235, 222, 0.5);
+height:65vh;
+}
+
+.summary-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+/* height: 60vh;  */
+backdrop-filter: blur(3px); 
+background-color: rgba(255, 235, 222, 0.5);
+height:auto;
 }
 
 hr.similarProduct-line{
@@ -66,3 +88,24 @@ input {
   background-color: #4b2108; */
   border: 2px solid #4b2108;
 }
+
+.form-check-input{
+  border: 2px solid #4b2108;
+}
+
+.form-check-input:checked {
+  background-color: #4b2108;
+  border-color: #4b2108;
+}
+.cancel-item {
+  position: absolute;
+  left: -7%;
+  background: white;
+  border-radius: 50%;
+  border: 1px solid #888;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 9px;
+}
+

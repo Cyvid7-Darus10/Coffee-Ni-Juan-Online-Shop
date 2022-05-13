@@ -2,12 +2,145 @@
 {% load static %}
 
 {% block content %}
-	<h1> {{ cart.label }} </h1>
-    {% for p in cart.products %}
-        <h3> Name {{ p.product.label }} </h3>
-        <h3> Price {{ p.product.price }} </h3>
-        <h3> Quantity {{ p.quantity }} </h3>
-        <h3> Total Price {{ p.totalPrice }} </h3>
-    {% endfor %}
-	<h2> Total Price of Cart {{ cart.totalPrice }} </h2>
+<article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
+      <span class="display-6"><b>Shopping Cart</b></span>
+    
+      <section class="cart-container col-md-8 d-inline border border-2 border-dark cart-backdrop" style="overflow-y: scroll">
+          <div class="row">
+                <div class="side-button col-12 col-md-3 my-3">
+                
+                  <!-- bootstrap checkbox, you can customize css -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        <h5>Select All </h5>
+                    </label>
+                  </div>
+                  <!-- end of checkbox -->
+                  <!-- <div class="clearfix"></div> -->
+                  <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Cancel</button>
+                </div>
+
+                <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
+                  <ul class="cart-products list-group my-md-3" style="list-style: none;">
+                      <li class="single-product ">
+                          <div class="product-container col-12 row">
+                              
+                            <div class=" buttons col-1">
+                                  <!-- checkbox without label for selecting an item -->
+                                  <button type="button" aria-label="Close"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></button>
+                                  <div class="form-check d-block ">
+                                    <input class="form-check-input" type="checkbox" value=""/>
+                                  </div>
+                              </div>
+
+                              <!-- product image -->
+                              <div class="product-image col-5 d-inline">
+                                <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{% static 'resources/products/1.png' %}" />
+                              </div>
+
+                            <!-- Product details -->
+                              <div class="product-details col-6 d-inline text-start">
+                                  <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+
+                                  <div class="col-12 ">
+                                    <input type='button' value='-' class='minus col-1 yellow-color' field='quantity'/>
+                                    <input type='text' name='quantity' value='1' class='qty col-4 w-25'/>
+                                    <input type='button' value='+' class='plus col-1 yellow-color' field='quantity'/>
+                                  </div>
+
+                                  <span>PHP 500 x 12 = PHP 6000</span>
+
+                              </div>
+                          </div>
+                      </li>
+                      
+                      <li class="single-product ">
+                        <div class="product-container col-12 row">
+                            
+                          <div class=" buttons col-1">
+                                <!-- checkbox without label for selecting an item -->
+                                <button type="button" aria-label="Close"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></button>
+                                <div class="form-check d-block ">
+                                  <input class="form-check-input" type="checkbox" value=""/>
+                                </div>
+                            </div>
+
+                            <!-- product image -->
+                            <div class="product-image col-5 d-inline">
+                              <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{% static 'resources/products/1.png' %}" />
+                            </div>
+
+                          <!-- Product details -->
+                            <div class="product-details col-6 d-inline text-start">
+                                <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+
+                                <div class="col-12 ">
+                                  <input type='button' value='-' class='minus col-1 yellow-color' field='quantity'/>
+                                  <input type='text' name='quantity' value='1' class='qty col-4 w-25'/>
+                                  <input type='button' value='+' class='plus col-1 yellow-color' field='quantity'/>
+                                </div>
+
+                                <span>PHP 500 x 12 = PHP 6000</span>
+
+                            </div>
+                        </div>
+                    </li>
+                    <li class="single-product ">
+                      <div class="product-container col-12 row">
+                          
+                        <div class=" buttons col-1">
+                              <!-- checkbox without label for selecting an item -->
+                              <button type="button" aria-label="Close"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></button>
+                              <div class="form-check d-block ">
+                                <input class="form-check-input" type="checkbox" value=""/>
+                              </div>
+                          </div>
+
+                          <!-- product image -->
+                          <div class="product-image col-5 d-inline">
+                            <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{% static 'resources/products/1.png' %}" />
+                          </div>
+
+                        <!-- Product details -->
+                          <div class="product-details col-6 d-inline text-start">
+                              <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+
+                              <div class="col-12 ">
+                                <input type='button' value='-' class='minus col-1 yellow-color' field='quantity'/>
+                                <input type='text' name='quantity' value='1' class='qty col-4 w-25'/>
+                                <input type='button' value='+' class='plus col-1 yellow-color' field='quantity'/>
+                              </div>
+
+                              <span>PHP 500 x 12 = PHP 6000</span>
+
+                          </div>
+                      </div>
+                  </li>
+                  </ul>
+                </div>
+        </div>     
+    </section>
+
+      <!-- Right part of the page -->
+    <section class="summary d-none col-md-4 d-md-block d-inline text-center">
+        <div class="border border-2 border-dark summary-backdrop m-5 p-4 text-start" style="overflow-y: scroll">
+            <label class="h6"><b>Checked Items</b></label>
+            <br>
+            <div class="ps-5">
+              <span class="clearfix">PHP 500 x 12 = 5000</span>
+              <span class="clearfix">PHP 500 x 12 = 5000</span>
+              <span class="clearfix">PHP 500 x 12 = 5000</span>
+            </div>
+            <hr>
+            <span class="clearfix">Grand Total = PHP 5000</span>
+        </div>
+        <a type="button" class="custom-btn animation-btn text-center" href="{% url 'payment:check_out' 1%}">
+          <span class="button_text_container">
+              CHECK OUT
+          </span>
+        </a>
+    </section>
+  
+  </article>
 {% endblock %}
