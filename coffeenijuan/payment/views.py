@@ -45,6 +45,7 @@ def shopping_cart(request, id):
 
 def check_out(request, id):
     cart = get_if_exists(ShoppingCart, **{'id':id})
+    order = get_if_exists(Order, **{'id':id})
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
