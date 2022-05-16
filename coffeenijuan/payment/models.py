@@ -18,6 +18,8 @@ class Order(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     customer = models.ForeignKey(Account, on_delete=models.CASCADE)
     address = models.CharField(max_length=30, default="None")
+    mobileNumber = models.CharField(max_length=30, default="None")
+    payment_option = models.CharField(max_length=30, default="None")
     status = models.CharField(max_length=30, null=True)
     total_price = models.FloatField(blank=True, null=True)
 
@@ -37,7 +39,15 @@ class ShoppingCart(Base):
         price = 0
         for product in products:
             price += product.totalPrice
-        return price
+        return '{:,}'.format(price)
+
+    def totalPriceSelected(self):
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        price = 0
+        for product in products:
+            if(product.status == "Selected"):
+                price += product.totalPrice
+        return '{:,}'.format(price)
 
     def products(self):
         return ShoppingCartItem.objects.filter(shopping_cart=self.id)
@@ -52,9 +62,27 @@ class ShoppingCartItem(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=30, null=True)
+
+    @property
+    def totalPrice(self):
+        price = self.product.price
+        quantity = self.quantity
+        total = price*quantity
+        return total
+
+    def __str__(self):
+        return f"{self.label} created on {self.created}"
+    
+    class Meta:
+        ordering = ['-created']
+
+class OrderItem(Base):
+    label = models.CharField(max_length=250, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
 
     @property
     def totalPrice(self):
