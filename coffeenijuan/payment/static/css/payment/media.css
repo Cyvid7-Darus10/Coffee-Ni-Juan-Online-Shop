@@ -1,4 +1,4 @@
-/* Screen size width < 1280 px*/
+/* Screen size width < 653px*/
 @media only screen and (max-width: 653px) {
 	.textDetails {
 		font-size: 12px;
@@ -7,4 +7,9 @@
 		font-size: 12px;
 		width: 100px;
 	}
+	.product_details {
+		font-size: 1vw;
+		color: white;
+	}
 }
+
