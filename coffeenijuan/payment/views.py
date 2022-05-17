@@ -40,10 +40,10 @@ def get_if_exists(model, **kwargs):
 
 def shopping_cart(request):
     # cart = get_if_exists(ShoppingCart, **{'customer':request.user})
-    cart = get_if_exists(ShoppingCart, customer = request.user)
+    cart = get_if_exists(ShoppingCart, customer = request.user.id)
     # get user's shopping cart
     item_cnt = 0
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)

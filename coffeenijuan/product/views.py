@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Product
 from payment.models import ShoppingCart, ShoppingCartItem
 from django.http import HttpResponse
-
+# from django.contrib.auth.decorators import login_required
 # global variables for js and css
 js = []
 css = []
@@ -16,7 +16,7 @@ def get_if_exists(model, **kwargs):
         obj = None
     return obj
 
-
+# @login_required
 def product_list(request):
     # check if there is post request
     if request.method == "POST":
@@ -35,7 +35,9 @@ def product_list(request):
     
     # get user's shopping cart
     item_cnt = 0
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
@@ -61,7 +63,7 @@ def product_item(request, id):
 
     # get user's shopping cart
     item_cnt = 0
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
