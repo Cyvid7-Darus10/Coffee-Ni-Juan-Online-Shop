@@ -51,8 +51,8 @@ class ShoppingCart(Base):
 class ShoppingCartItem(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=30, null=True)
 

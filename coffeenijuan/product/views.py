@@ -1,6 +1,7 @@
 from math import ceil
 from django.shortcuts import render, redirect
 from .models import Product
+from payment.models import ShoppingCart, ShoppingCartItem
 from django.http import HttpResponse
 
 # global variables for js and css
@@ -31,11 +32,21 @@ def product_list(request):
     else:
         # get all products
         products = Product.objects.all()
+    
+    # get user's shopping cart
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+    if shopping_cart:
+        # get the shopping cart items of the user
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        item_cnt = len(shopping_cart_items)
+
 
     return render(request, "product/product_list.html", {
         "csss" : css,
         "jss"  : js,
-        "products" : products
+        "products" : products,
+        'item_cnt'    : item_cnt
     })
 
 def product_item(request, id):
@@ -48,11 +59,21 @@ def product_item(request, id):
     not_whole = rating % 1
     rating = int(rating)
 
+    # get user's shopping cart
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+    if shopping_cart:
+        # get the shopping cart items of the user
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        item_cnt = len(shopping_cart_items)
+
+
     return render(request, "product/product_item.html", {
         "csss"        : css,
         "jss"         : js,
         "product"     : product,
         "stars"       : range(rating),
         "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole'   : not_whole
+        'not_whole'   : not_whole,
+        'item_cnt'    : item_cnt
     })

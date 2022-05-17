@@ -70,9 +70,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'payment:shopping_cart' 1%}" class="h3">
+                                <a href="{% url 'payment:shopping_cart' %}" class="h3">
                                     <i class="bi-cart"></i>
-                                    <span class="cart-number">30</span>
+                                    <span class="cart-number">{{ item_cnt }}</span>
                                 </a>
                             </li>
                             <li class="nav-item row justify-content-end">
