@@ -73,12 +73,15 @@ def add_cart(request, id):
         cart = get_if_exists(ShoppingCart, **{'customer':request.user})
         if cart is None:
             cart = ShoppingCart.objects.create(customer=request.user)
-        
+        order = get_if_exists(Order, **{'customer':request.user})
+        if order is None:
+            order = ShoppingCart.objects.create(customer=request.user)
+
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'order': order})
         if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, order=order)
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))

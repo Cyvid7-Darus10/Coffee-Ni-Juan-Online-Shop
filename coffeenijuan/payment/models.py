@@ -18,8 +18,8 @@ class Order(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     customer = models.ForeignKey(Account, on_delete=models.CASCADE)
     address = models.CharField(max_length=30, default="None")
-    mobileNumber = models.CharField(max_length=30, default="None")
-    payment_option = models.CharField(max_length=30, default="None")
+    #mobileNumber = models.CharField(max_length=30, default="None")
+    #payment_option = models.CharField(max_length=30, default="None")
     status = models.CharField(max_length=30, null=True)
     total_price = models.FloatField(blank=True, null=True)
 
@@ -63,7 +63,7 @@ class ShoppingCartItem(Base):
     shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
