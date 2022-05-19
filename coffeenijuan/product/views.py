@@ -42,6 +42,8 @@ def product_item(request, id):
     product = get_if_exists(Product, **{'id':id})
     
     rating = product.rating
+    if not rating:
+        rating = 0
     not_whole = rating % 1
     rating = int(rating)
 

@@ -1,5 +1,3 @@
-
-
 $(".confirm-btn").click(function() {
     let label = $(this).attr('data-label');
     let url = $(this).attr('data-url');
