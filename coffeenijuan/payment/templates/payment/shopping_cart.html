@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<<<<<<< HEAD
 <article class="container-fluid m-0 px-5 row">
   <section class="col-12 col-lg-12 mt-3">
       <span class="display-6"><b>Shopping Cart</b></span>
@@ -80,4 +81,91 @@
           </div>
         </div>
       </section>
+=======
+<article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
+      <span class="display-6"><b>Shopping Cart</b></span>
+    
+      <section class="cart-container col-md-8 d-inline border border-2 border-dark cart-backdrop" style="overflow-y: scroll">
+          <div class="row">
+                <div class="side-button col-12 col-md-3 my-3">
+                
+                  <!-- bootstrap checkbox, you can customize css -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        <h5>Select All </h5>
+                    </label>
+                  </div>
+                  <!-- end of checkbox -->
+                  <!-- <div class="clearfix"></div> -->
+                  <a href = "{% url 'payment:delete_cart' %}" class = "button" >
+                    <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Cancel</button>
+                  </a>
+                </div>
+                
+                  
+                  <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
+                  {% for p in cart.products %} 
+                  
+                      <ul class="cart-products list-group my-md-3" style="list-style: none;">
+                        <li class="single-product ">
+                          <div class="product-container col-12 row">
+                              
+                            <div class=" buttons col-1">
+                                  <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i>
+                                    <div class="form-check d-block ">
+                                      <input class="form-check-input" type="checkbox" value=""/>
+                                    </div>
+                                  </a>
+                              </div>
+
+                              <!-- product image -->
+                              <div class="product-image col-5 d-inline">
+                                <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{{ p.product.image_url }}" />
+                              </div>
+
+                            <!-- Product details -->
+                              <div class="product-details col-6 d-inline text-start">
+                                  <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+                                  <form method="post" class="container-fluid row p-0">
+                                    {% csrf_token %}
+                                    <div class="col-12 ">
+                                      <input type='text' name='quantity' value='{{ p.quantity }}' class='qty col-4 w-25'/>                       
+                                      <a href = "{% url 'payment:update_item' p.id%}" class = "button" >
+                                        <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Update Cart</button>
+                                      </a>
+                                    </div>
+                                  </form> 
+                                  <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+                              </div>
+                          </div>
+                      </li>
+                      </ul> 
+                  {% endfor %} 
+                  </div> 
+               
+    </section>
+
+      <!-- Right part of the page -->
+    <section class="summary d-none col-md-4 d-md-block d-inline text-center">
+        <div class="border border-2 border-dark summary-backdrop m-5 p-4 text-start" style="overflow-y: scroll">
+            <label class="h6"><b>Checked Items</b></label>
+            <br>
+            <div class="ps-5">
+              {% for p in cart.products %} 
+              <span class="clearfix">PHP {{ p.product.price }}  x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+              {% endfor %}
+            </div>
+            <hr>
+            <span class="clearfix">Grand Total = PHP {{ cart.totalPrice }}</span>
+        </div>
+        <a type="button" class="custom-btn animation-btn text-center" href="{% url 'payment:check_out' 1%}">
+          <span class="button_text_container">
+              CHECK OUT
+          </span>
+        </a>
+    </section>
+  
+  </article>
+>>>>>>> checkout-page-changes
 {% endblock %}

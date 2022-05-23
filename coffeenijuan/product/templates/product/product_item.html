@@ -41,7 +41,7 @@
 
                         <!-- Add to Cart and Buy Now -->
                         <div class="col-12 col-lg-5 h6 pt-2">
-                            <form action="" method="post" class="container-fluid row p-0">
+                            <form action="{% url 'payment:add_cart' product.id %}" method="post" class="container-fluid row p-0">
                                 {% csrf_token %}
 
                                 <span class="h5"> Quantity: </span>
@@ -55,7 +55,7 @@
                                     <div class="submit-btn animation-btn-container mt-5">
                                         <span class="su_button_circle"></span>
                                         <div class="col-6-md-1 h5 animation-btn">
-                                            <input class="button_text_container" type="submit" value="ADD TO CART">        
+                                            <input class="button_text_container" name="action" type="submit" value="ADD TO CART">
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                     <div class="submit-btn animation-btn-container mt-5 yellow-color">
                                         <span class="su_button_circle"></span>
                                         <div class="col-6-md-1 h5 animation-btn">
-                                            <input class="button_text_container" type="submit" value="BUY NOW">        
+                                            <input class="button_text_container" name="action" type="submit" value="BUY NOW">        
                                         </div>
                                     </div>
                                 </div>
