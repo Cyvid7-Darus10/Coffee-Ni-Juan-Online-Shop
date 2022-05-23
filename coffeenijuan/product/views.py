@@ -35,14 +35,11 @@ def product_list(request):
     
     # get user's shopping cart
     item_cnt = 0
-
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
         item_cnt = len(shopping_cart_items)
-
 
     return render(request, "product/product_list.html", {
         "csss" : css,
@@ -61,14 +58,13 @@ def product_item(request, id):
     not_whole = rating % 1
     rating = int(rating)
 
-    # get user's shopping cart
+   # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
         item_cnt = len(shopping_cart_items)
-
 
     return render(request, "product/product_item.html", {
         "csss"        : css,

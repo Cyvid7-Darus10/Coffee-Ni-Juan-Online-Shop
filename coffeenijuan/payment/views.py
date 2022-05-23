@@ -59,10 +59,17 @@ def shopping_cart(request):
 def check_out(request, id):
     cart = get_if_exists(ShoppingCart, **{'id':id})
     order = get_if_exists(Order, **{'id':id})
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if shopping_cart:
+        # get the shopping cart items of the user
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
-        "order" : order
+        "order" : order,
+        "item_cnt" : item_cnt
     })
 
 
@@ -95,18 +102,18 @@ def add_cart(request, id):
     # redirect to product item page
     return product_item(request, id)
 
+def update_item(request,id):
+    item = ShoppingCartItem.objects.get(id=id)
 
+    # get the quantity parameter
+    quantity = int(request.POST.get('quantity'))
+    item.quantity = quantity
+    item.save()
+    return shopping_cart(request)
 
 def remove_cart(request, id):
-    # Check if the product is already in the cart
-    
-    product = get_if_exists(Product, **{'id':id})  
-    # item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
-    # item.delete()
-    item = ShoppingCartItem.objects.filter(product=product)
+    item = ShoppingCartItem.objects.filter(id=id)
     item.delete()
-
-    #redirect to shopping cart page
     return shopping_cart(request)
 
 

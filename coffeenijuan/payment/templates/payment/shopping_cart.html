@@ -18,53 +18,52 @@
                   </div>
                   <!-- end of checkbox -->
                   <!-- <div class="clearfix"></div> -->
-                  <a href = "{% url 'payment:delete_cart' %} class = button" >
+                  <a href = "{% url 'payment:delete_cart' %}" class = "button" >
                     <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Cancel</button>
                   </a>
                 </div>
-
-                <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
-                {% for p in cart.products %} 
-                  <ul class="cart-products list-group my-md-3" style="list-style: none;">
-                    <li class="single-product ">
-                      <div class="product-container col-12 row">
-                          
-                        <div class=" buttons col-1">
-                              <!-- checkbox without label for selecting an item -->
-                              {% comment %} <button type="button" aria-label="Close"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></button>
-                              <div class="form-check d-block ">
-                                <input class="form-check-input" type="checkbox" value=""/>
-                              </div> {% endcomment %}
-                              <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i>
-                                <div class="form-check d-block ">
-                                  <input class="form-check-input" type="checkbox" value=""/>
-                                </div>
-                              </a>
-                          </div>
-
-                          <!-- product image -->
-                          <div class="product-image col-5 d-inline">
-                            <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{{ p.product.image_url }}" />
-                          </div>
-
-                        <!-- Product details -->
-                          <div class="product-details col-6 d-inline text-start">
-                              <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
-
-                              <div class="col-12 ">
-                                <input type='button' value='-' class='minus col-1 yellow-color' field='quantity'/>
-                                <input type='text' name='quantity' value='{{ p.quantity }}' class='qty col-4 w-25'/>
-                                <input type='button' value='+' class='plus col-1 yellow-color' field='quantity'/>
+                
+                  
+                  <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
+                  {% for p in cart.products %} 
+                  
+                      <ul class="cart-products list-group my-md-3" style="list-style: none;">
+                        <li class="single-product ">
+                          <div class="product-container col-12 row">
+                              
+                            <div class=" buttons col-1">
+                                  <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i>
+                                    <div class="form-check d-block ">
+                                      <input class="form-check-input" type="checkbox" value=""/>
+                                    </div>
+                                  </a>
                               </div>
 
-                              <span>PHP {{ p.product.price }}  x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+                              <!-- product image -->
+                              <div class="product-image col-5 d-inline">
+                                <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="{{ p.product.image_url }}" />
+                              </div>
 
+                            <!-- Product details -->
+                              <div class="product-details col-6 d-inline text-start">
+                                  <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+                                  <form method="post" class="container-fluid row p-0">
+                                    {% csrf_token %}
+                                    <div class="col-12 ">
+                                      <input type='text' name='quantity' value='{{ p.quantity }}' class='qty col-4 w-25'/>                       
+                                      <a href = "{% url 'payment:update_item' p.id%}" class = "button" >
+                                        <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Update Cart</button>
+                                      </a>
+                                    </div>
+                                  </form> 
+                                  <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+                              </div>
                           </div>
-                      </div>
-                  </li>
-                  </ul> 
-                {% endfor %} 
-        </div>     
+                      </li>
+                      </ul> 
+                  {% endfor %} 
+                  </div> 
+               
     </section>
 
       <!-- Right part of the page -->
