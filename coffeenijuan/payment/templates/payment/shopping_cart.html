@@ -47,13 +47,13 @@
                             <!-- Product details -->
                               <div class="product-details col-6 d-inline text-start">
                                   <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
-                                  <form method="post" class="container-fluid row p-0">
+                                  <form action="{% url 'payment:update_item' p.id%}"  method="POST" class="container-fluid row p-0">
                                     {% csrf_token %}
                                     <div class="col-12 ">
-                                      <input type='text' name='quantity' value='{{ p.quantity }}' class='qty col-4 w-25'/>                       
-                                      <a href = "{% url 'payment:update_item' p.id%}" class = "button" >
-                                        <button type="button" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Update Cart</button>
-                                      </a>
+                                      <input type='number' name='quantity {{p.id}}' value='{{ p.quantity }}' class = 'qty col-4 w-25'/>                       
+                                      {% comment %} <button type="button" name="action" class="btn btn-warning btn-sm button_text_container custom-btn-color "> Update Cart</button> {% endcomment %}
+                                      <button class="btn btn-warning btn-sm button_text_container custom-btn-color " name="action" type="submit" value="Update Cart">Update Cart</button>
+                                     
                                     </div>
                                   </form> 
                                   <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>

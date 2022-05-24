@@ -106,10 +106,12 @@ def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
 
     # get the quantity parameter
-    quantity = int(request.POST.get('quantity'))
+    number = 'quantity' + " " +  str(id)
+    quantity = request.POST.get(number)
     item.quantity = quantity
     item.save()
     return shopping_cart(request)
+    
 
 def remove_cart(request, id):
     item = ShoppingCartItem.objects.filter(id=id)
