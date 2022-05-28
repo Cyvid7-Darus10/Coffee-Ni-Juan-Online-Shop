@@ -14,17 +14,29 @@ class Base(models.Model):
     class Meta:
         abstract = True
 
+class Payment(Base):
+    label = models.CharField(max_length=250, blank=True, null=True)
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    mobile_number = models.CharField(max_length=250, blank=True, null=True)
+    address = models.CharField(max_length=30, default="None")
+    payment_option = models.CharField(max_length=30, default="None")
+    total = models.FloatField(default=0)
+    proof = models.ImageField(upload_to ='payment/proof/')
+
+    def __str__(self):
+        return f"{self.label} initiated on {self.created}"
+    
+    class Meta:
+        ordering = ['-created']
+
 class Order(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     customer = models.ForeignKey(Account, on_delete=models.CASCADE)
-    address = models.CharField(max_length=30, default="None")
-    #mobileNumber = models.CharField(max_length=30, default="None")
-    #payment_option = models.CharField(max_length=30, default="None")
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     status = models.CharField(max_length=30, null=True)
-    total_price = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.label} initiated on {self.created} with status {self.status} and total price of {self.total_price}"
+        return f"{self.label} initiated on {self.created} with status {self.status}"
     
     class Meta:
         ordering = ['-created']
@@ -49,6 +61,14 @@ class ShoppingCart(Base):
                 price += product.totalPrice
         return '{:,}'.format(price)
 
+    def totalPriceSelectedInteger(self):
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        price = 0
+        for product in products:
+            if(product.status == "Selected"):
+                price += product.totalPrice
+        return price;
+
     def products(self):
         return ShoppingCartItem.objects.filter(shopping_cart=self.id)
 
@@ -61,12 +81,7 @@ class ShoppingCart(Base):
 class ShoppingCartItem(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
-
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
     quantity = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=30, null=True)
 
@@ -86,8 +101,9 @@ class ShoppingCartItem(Base):
 class OrderItem(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=30, null=True)
 
     @property
     def totalPrice(self):

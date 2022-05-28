@@ -1,10 +1,9 @@
 from math import ceil
 from django.shortcuts import render,redirect
-from payment.models import Order, ShoppingCart, ShoppingCartItem
+from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
 from django.http import HttpResponse
 from product.models import Product
 from product.views import product_item
-from payment.forms import OrderForm
 
 
 # global variables for js and css
@@ -61,17 +60,41 @@ def check_out(request, id):
     order = get_if_exists(Order, **{'id':id})
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
 
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
         "order" : order,
+        "cart" : shopping_cart,
         "item_cnt" : item_cnt
     })
 
+def add_order(request, payment):
+    customer = request.user
+    cart = get_if_exists(ShoppingCart, **{'customer':request.user})
+    new_order = Order(customer=customer, payment=payment, status="Ongoing")
+    new_order.save()
+
+    products = cart.products()
+    for product in products:
+        if(product.status == "Selected"):
+            new_order_item = OrderItem(order=new_order, product=product.product, quantity=product.quantity, status="Ongoing")
+            new_order_item.save()
+
+    return home(request)
+
+def add_payment(request, cart):
+    if request.POST.get('action') == 'ADD PAYMENT':
+        customer = request.user
+        address = request.POST['address']
+        mobile_number = request.POST['mobile_number']
+        total = float(request.POST['total'])
+        proof = request.FILES['proof']
+        payment_option = request.POST['payment_option_input']
+        new_payment = Payment(customer=customer, address=address, mobile_number=mobile_number, total=total, payment_option=payment_option, proof=proof)
+        new_payment.save()
+        add_order(request, new_payment)
+    return home(request)
 
 def add_cart(request, id):
     # Check if the param action value is ADD TO CART
