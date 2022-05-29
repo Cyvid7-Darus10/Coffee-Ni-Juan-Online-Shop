@@ -40,9 +40,11 @@ def get_if_exists(model, **kwargs):
 def shopping_cart(request):
     # cart = get_if_exists(ShoppingCart, **{'customer':request.user})
     cart = get_if_exists(ShoppingCart, customer = request.user.id)
+
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    
     if shopping_cart:
         # get the shopping cart items of the user
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
@@ -89,9 +91,15 @@ def add_payment(request, cart):
         address = request.POST['address']
         mobile_number = request.POST['mobile_number']
         total = float(request.POST['total'])
-        proof = request.FILES['proof']
+        
+        if( request.POST['proof_exist'] == "None"):
+            proof ="None"
+        else:
+            proof = request.FILES['proof']
+
         payment_option = request.POST['payment_option_input']
         new_payment = Payment(customer=customer, address=address, mobile_number=mobile_number, total=total, payment_option=payment_option, proof=proof)
+        
         new_payment.save()
         add_order(request, new_payment)
     return home(request)
@@ -103,19 +111,22 @@ def add_cart(request, id):
         cart = get_if_exists(ShoppingCart, **{'customer':request.user})
         if cart is None:
             cart = ShoppingCart.objects.create(customer=request.user)
-        order = get_if_exists(Order, **{'customer':request.user})
-        if order is None:
-            order = ShoppingCart.objects.create(customer=request.user)
+        # order = get_if_exists(Order, **{'customer':request.user})
+        # if order is None:
+        #     order = ShoppingCart.objects.create(customer=request.user)
 
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'order': order})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
         if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, order=order)
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         item.quantity += quantity
+        item.save()
+        
+        item.status = 'Selected'
         item.save()
 
     elif request.POST.get('action') == 'BUY NOW':

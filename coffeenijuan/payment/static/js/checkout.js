@@ -9,10 +9,18 @@ $(document).ready(function(){
         $('#onlinePayment').modal("show");
       }else if(opval=="bank"){ 
         $('#bankTransfer').modal("show"); 
+      }else{
+        $("#proof_exist").prop("value", "None");
       }
+        console.log($("#proof").prop("value"));
   });
 
   $(".confirm_submit").on("click", function() {
+      if ($("#proof_exist").prop("value") != "None"){
+        $("#proof_exist").prop("value", "Not None");
+      }else{
+        $("#proof_exist").prop("value", "None");
+      }
     $('.submit_payment_form').trigger("click");
   })
 
@@ -48,7 +56,7 @@ $(document).ready(function(){
       $("#temp").attr("id", id);
 
       $("#"+id).css("display", "inline");
-      // $("#proof").css("display", "none");
+      $("#proof").css("display", "none");
     }
   })
 });
