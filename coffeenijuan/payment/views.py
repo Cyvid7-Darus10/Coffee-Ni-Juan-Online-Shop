@@ -106,15 +106,13 @@ def add_payment(request, cart):
 
 def add_cart(request, id):
     # Check if the param action value is ADD TO CART
-    if request.POST.get('action') == 'ADD TO CART':
-        # Check if the product is already in the cart
-        cart = get_if_exists(ShoppingCart, **{'customer':request.user})
-        if cart is None:
-            cart = ShoppingCart.objects.create(customer=request.user)
-        # order = get_if_exists(Order, **{'customer':request.user})
-        # if order is None:
-        #     order = ShoppingCart.objects.create(customer=request.user)
 
+    cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})    
+    # Check if the product is already in the cart
+    if cart is None:
+        cart = ShoppingCart.objects.create(customer=request.user)
+
+    if request.POST.get('action') == 'ADD TO CART':
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
         item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
@@ -124,14 +122,27 @@ def add_cart(request, id):
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         item.quantity += quantity
-        item.save()
-        
-        item.status = 'Selected'
+        item.status = "Selected"
         item.save()
 
     elif request.POST.get('action') == 'BUY NOW':
-        # redirect to buy now
-        pass
+        for product in cart.products():
+            if product.status == "Selected":
+                product.status = "Pending"
+                product.save()
+
+        # Check if the product is already in the cart
+        product = get_if_exists(Product, **{'id':id})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        if item is None:
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+        
+        quantity = int(request.POST.get('quantity'))
+        item.quantity = quantity
+        item.status = "Selected"
+        item.save()
+
+        return check_out(request, cart.id)
 
     # redirect to product item page
     return product_item(request, id)
