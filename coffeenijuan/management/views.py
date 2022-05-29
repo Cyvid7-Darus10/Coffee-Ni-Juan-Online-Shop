@@ -3,6 +3,10 @@ from .models import login_user
 from .model_transaction import sort_transactions
 from .pages_inventory import *
 from .pages_supply import *
+
+##Account
+from .pages_account import *
+
 from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only
@@ -100,14 +104,27 @@ def transactions(request):
     })
 
 
+# @admin_only
+# def account(request):
+#     page = "account"
+#     return render(request, "management/account/account.html", {
+#         "csss" : css,
+#         "jss"  : js,
+#         "page" : page
+#     })
+
 @admin_only
 def account(request):
     page = "account"
-    return render(request, "management/account.html", {
+    return render(request, "management/account/account.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        # "supplies" : supplies,
+        # "extra_query" : extra_query
     })
+
+
 
 @admin_only
 def orders(request):

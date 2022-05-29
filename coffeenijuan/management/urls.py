@@ -19,6 +19,10 @@ urlpatterns = [
     path('management/edit_supply/<int:id>', views.edit_supply, name='edit_supply'),
     path('management/transactions', views.transactions, name='transactions'),
     path('management/account', views.account, name='account'),
+    
+    #Add Account
+    path('management/add_account', views.add_account, name='add_account'),
+
     path('management/orders', views.orders, name='orders'),
     path('management/settings', views.settings, name='settings'),
 ]

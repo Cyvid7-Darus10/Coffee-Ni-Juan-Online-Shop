@@ -91,3 +91,25 @@ class SupplyUpdateForm(forms.ModelForm):
         }
 
 
+
+# Add Account Form
+class AccountForm(forms.ModelForm):
+    name       = forms.CharField(label="Name", max_length=250, required=True, widget=forms.TextInput(
+                    attrs={
+                    'class':'form-control',
+                    'placeholder':'Name'
+                    }))
+    type       = forms.FloatField(label="Type", required=True, widget=forms.NumberInput(
+                    attrs={
+                    'class':'form-control',
+                    'placeholder':'Type'
+                    }))
+    date       = forms.IntegerField(label="Date", required=True, widget=forms.NumberInput(
+                    attrs={
+                    'class':'form-control',
+                    'placeholder':'Date',
+                    }))
+
+    class Meta:
+        model = Supply
+        fields = ['name', 'type', 'date']
