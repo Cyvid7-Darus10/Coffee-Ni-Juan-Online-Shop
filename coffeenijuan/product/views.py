@@ -50,6 +50,8 @@ def product_list(request):
 
 def product_item(request, id):
     product = get_if_exists(Product, **{'id':id})
+    # get all products
+    items = Product.objects.all()
 
     if not product:
         return redirect('product:product_list')
@@ -73,5 +75,6 @@ def product_item(request, id):
         "stars"       : range(rating),
         "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
         'not_whole'   : not_whole,
-        'item_cnt'    : item_cnt
+        'item_cnt'    : item_cnt,
+        "items" :   items
     })
