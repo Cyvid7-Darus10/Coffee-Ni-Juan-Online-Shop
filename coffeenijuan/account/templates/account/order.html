@@ -1,0 +1,53 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+<article class="container-fluid m-0 px-5 row">
+    <section class="col-12 col-lg-3 my-5 pt-4">
+        <div class="col-12 row p-2 h3 d-lg-block mx-1 glass-backdrop" style=" height: auto; border: #4b2108; background-color: #e7b1926e;">
+            <span class="col-9  h5"><b>CUSTOMER PROFILE</b></span>
+            <hr>
+            <div class="text-center">
+                <span ><i class=" display-5 bi bi-person-square"></i></span>
+                <span class="d-block h6"> Jeff Earl Layahin</span>
+                <span class="d-block h6"> jeffaerl@email.com</span>
+            </div>
+            
+        </div>	       
+    </section>	
+    
+    <section class="col-12 col-lg-9">
+        <div class="col-12 mt-2 text-center" >
+            <span class="display-5 px-2 text-center"><strong>ORDERS</strong></span>
+        </div>
+        
+        <div class="row mt-2 col-12" >
+            <table class="table table-bordered table-sm" style=" border-color: #4b2108!important;">
+                <thead class="table text-center" style="background-color:#6a442a; color: antiquewhite;">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll; height: 65vh;">
+                  <tr>
+                    <th scope="row">04/06/22</th>
+                    <td>Kanla-on Coffee</td>
+                    <td>$200</td>
+                    <td>20pc</td>
+                    <td>$2000</td>
+                    <td>Pending</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+        </div>
+    </section>
+</article>	
+
+{% endblock %}

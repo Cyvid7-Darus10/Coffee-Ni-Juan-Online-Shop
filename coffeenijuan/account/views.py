@@ -38,6 +38,15 @@ def home(request):
         "page" : page
     })
 
+def order(request):
+    page = "order"
+
+    return render(request, "account/order.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page
+    })
+
 def about(request):
     page = "about"
 
