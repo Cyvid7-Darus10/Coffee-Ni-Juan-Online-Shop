@@ -13,6 +13,10 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from product.models import Product
+from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
+from product.views import product_item
+
 
 
 js = []
@@ -29,22 +33,42 @@ def prompt_message(request, type):
         'page' : page
     })
 
+
+    
+
 def home(request):
     page = "home"
+
+     # get all products
+    items = Product.objects.all()
 
     return render(request, "account/home.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        "items" :   items
     })
+
+
+
+
 
 def order(request):
     page = "order"
 
+    # get user's shopping cart
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if shopping_cart:
+        # get the shopping cart items of the user
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        item_cnt = len(shopping_cart_items)
+
     return render(request, "account/order.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        'item_cnt': item_cnt
     })
 
 def about(request):

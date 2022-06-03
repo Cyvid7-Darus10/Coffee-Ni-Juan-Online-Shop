@@ -40,7 +40,7 @@
             <nav class="navbar navbar-expand-lg navbar-light p-0 bg-white">
                 <div class="container-fluid p-2">
                     <div class="container row">
-                        <a class="col-3 col-lg-2" href="{% url 'product:product_list' %}">
+                        <a class="col-3 col-lg-2" href="{% url 'account:home' %}">
                             <img src="{% static 'resources/logo.png' %}" class="col-8" alt="Kape Giting Logo" />
                         </a>
                         <div class="col-7 col-lg-4 d-flex align-items-center">
@@ -48,8 +48,8 @@
                                 FOLLOW US ON
                             </span>
     
-                            <a class="h5 me-2" href=""><i class="bi bi-facebook black"></i></a>
-                            <a class="h5" href=""><i class="bi bi-instagram black"></i></a>
+                            <a class="h5 me-2" href="https://www.facebook.com/kape.giting" target=”_blank”><i class="bi bi-facebook black"></i></a>
+                            <a class="h5" href="https://www.instagram.com/caffeinerefillph/" target=”_blank”><i class="bi bi-instagram black"></i></a>
                         </div>
                         <button class="col-2 navbar-toggler navbar-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -66,7 +66,7 @@
                         <ul class="nav px-lg-5 mt-3 mt-lg-0 mx-2 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
                             <li class="nav-item">
                                 <a href="{% url 'product:product_list' %}" class="h3 mx-3">
-                                    <i class="bi-house-door"></i>
+                                    <i class="bi-shop"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -75,13 +75,15 @@
                                     <span class="cart-number">{{ item_cnt }}</span>
                                 </a>
                             </li>
-                            <li class="nav-item row justify-content-end">
-                                <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                <div class="col-6 p-0">
-                                    <div id="name" class="fw-bolder">Jeff Layahin</div>
-                                    <div id="username">jeff_gwapo</div>
-                                </div>   
-                            </li>
+                            <a href="{% url 'account:order' %}" class="h6" style="text-decoration:none;">
+                                <li class="nav-item row justify-content-end align-items-center">
+                                    <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                                    <div class="col-6 p-0 d-inline">
+                                        <div id="name" class="fw-bolder">JeffLayahin</div>
+                                        <div id="username">jeff_gwapo</div>
+                                    </div>   
+                                </li>
+                            </a>
                         </ul>
                     </div>
                 </div>
