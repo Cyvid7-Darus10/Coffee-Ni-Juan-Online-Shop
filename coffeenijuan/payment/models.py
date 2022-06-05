@@ -35,6 +35,17 @@ class Order(Base):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     status = models.CharField(max_length=30, null=True)
 
+    @property
+    def products(self):
+        return OrderItem.objects.filter(order=self.id)
+
+    def totalPrice(self):
+        products = OrderItem.objects.filter(order=self.id)
+        price = 0
+        for product in products:
+            price += product.totalPrice
+        return price;
+
     def __str__(self):
         return f"{self.label} initiated on {self.created} with status {self.status}"
     

@@ -56,6 +56,15 @@ def shopping_cart(request):
         "item_cnt" : item_cnt
     })
 
+def order(request):
+    orders = Order.objects.filter(customer=request.user.id)
+    order_cnt = len(orders)
+    return render(request, "payment/order.html", {
+        "csss" : css,
+        "jss"  : js,
+        "orders" : orders,
+        "order_cnt" : order_cnt
+    })
 
 def check_out(request, id):
     cart = get_if_exists(ShoppingCart, **{'id':id})

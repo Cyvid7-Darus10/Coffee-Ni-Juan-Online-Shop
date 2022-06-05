@@ -33,9 +33,6 @@ def prompt_message(request, type):
         'page' : page
     })
 
-
-    
-
 def home(request):
     page = "home"
 
@@ -47,28 +44,6 @@ def home(request):
         "jss"  : js,
         "page" : page,
         "items" :   items
-    })
-
-
-
-
-
-def order(request):
-    page = "order"
-
-    # get user's shopping cart
-    item_cnt = 0
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
-        item_cnt = len(shopping_cart_items)
-
-    return render(request, "account/order.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page,
-        'item_cnt': item_cnt
     })
 
 def about(request):
