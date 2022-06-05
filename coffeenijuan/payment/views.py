@@ -66,23 +66,13 @@ def order(request):
         "order_cnt" : order_cnt
     })
 
-def check_out(request, id):
-    cart = get_if_exists(ShoppingCart, **{'id':id})
-    order = get_if_exists(Order, **{'id':id})
-
-    item_cnt = 0
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
-        item_cnt = len(shopping_cart_items)
+def check_out(request):
+    cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
 
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
-        "order" : order,
-        "cart" : shopping_cart,
-        "item_cnt" : item_cnt
+        "cart" : cart,
     })
 
 def add_order(request, payment):
@@ -96,6 +86,11 @@ def add_order(request, payment):
         if(product.status == "Selected"):
             new_order_item = OrderItem(order=new_order, product=product.product, quantity=product.quantity, status="Ongoing")
             new_order_item.save()
+
+    shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
+    if(payment.payment_option == "cod"):
+        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
+        new_order_item.save()
 
     return home(request)
 
