@@ -1,11 +1,12 @@
-from .models import Supply, add_transaction
+from account.models import Account
+from .models import add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import AccountForm, SupplyUpdateForm
+from .forms import CreateAccountForm, AccountUpdateForm
 
 # Help Functions
 
-def sort_supplies(request):
-    label = request.GET.get('label')
+def sort_accounts(request):
+    label = request.GET.get('email')
     
     sort = request.GET.get('sort')  
     # split the sort by '-'
@@ -22,27 +23,35 @@ def sort_supplies(request):
     # check if the label is not empty
     if label:
         # get the supplies that match the label
-        supply_list = Supply.objects.filter(label__icontains=label)
-        extra_query = "?label=" + label
+        account_list = Account.objects.filter(email__icontains=label)
+        extra_query = "?email=" + label
     
     if sort:
         if label:
-            supply_object = supply_list
+            account_object = account_list
             extra_query += "&sort="+ sort_order +"-" + sort_type
         else:
             extra_query = "?sort="+ sort_order +"-" + sort_type
-            supply_object = Supply.objects.all()
+            account_object = Account.objects.all()
 
         if sort_order == "asc":
-            supply_list = supply_object.order_by(sort_type)
+            account_list = account_object.order_by(sort_type)
         else:
-            supply_list = supply_object.order_by('-' + sort_type)
+            account_list = account_object.order_by('-' + sort_type)
 
     if not sort and not label:
-        supply_list = Supply.objects.all()
+        account_list = Account.objects.all()
+
+    filter = request.GET.get('filter')
+
+    if filter:
+        # get the supplies that match the label
+        account_type = filter.split('-')[1]
+        account_list = account_list.filter(account_type=account_type)
+        extra_query += "&account_type=" + account_type
 
     # paginate the supplies
-    paginator = Paginator(supply_list, 5)
+    paginator = Paginator(account_list, 5)
     page_number = request.GET.get('page')
     
     try:
@@ -56,46 +65,46 @@ def sort_supplies(request):
 
 def add_account_form(request):
     if request.POST:
-        form = AccountForm(request.POST, request.FILES)
+        form = CreateAccountForm(request.POST)
         if form.is_valid():
             form.save()
-            add_transaction("Added Account", "Name of Account: {}".format(form.cleaned_data['name']), request.user, form.instance.id)
+            add_transaction("Added Account", "Name of Account: {}".format(form.cleaned_data['email']), request.user, form.instance.id)
             return "redirect"
     else:
-        form = AccountForm()
+        form = CreateAccountForm()
     
     return form
 
 
-def delete_supply_item(request, id):
-    supply = get_supply_item(request, id)
+def delete_account_item(request, id):
+    account = get_account_by_id(request, id)
     try:
-        Supply.objects.get(id=id).delete()
+        Account.objects.get(id=id).delete()
     except:
         return "error"
-    add_transaction("Deleted Supply", "Name of Supply: {}".format(supply.label), request.user, id)
+    add_transaction("Deleted Account", "Name of Account: {}".format(account.email), request.user, id)
     return "success"
 
 
-def edit_supply_form(request, id):
-    supply = get_supply_item(request, id)
+def edit_account_form(request, id):
+    account = get_account_by_id(request, id)
     if request.POST:
-        form = SupplyUpdateForm(request.POST, request.FILES, instance=supply)
+        form = AccountUpdateForm(request.POST, request.FILES, instance=account)
         if form.is_valid():
             form.save()
-            add_transaction("Edited Supply", "Name of Supply: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
+            add_transaction("Edited Account", "Name of Account: {}".format(form.cleaned_data['email']), request.user, form.instance.id)
             return "redirect"
     else:
-        form = SupplyUpdateForm(instance=supply)
+        form = AccountUpdateForm(instance=account)
     
     return form
 
 
-def get_supply_item(request, id):
-    supply = Supply.objects.get(id=id)
-    return supply
+def get_account_by_id(request, id):
+    account = Account.objects.get(id=id)
+    return account
 
 
-def get_supply_items(request):
-    supplies = Supply.objects.all()
+def get_accounts(request):
+    supplies = Account.objects.all()
     return supplies

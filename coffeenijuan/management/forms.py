@@ -1,6 +1,8 @@
 from django import forms
+from account.models import Account
 from product.models import Product
 from .models import Supply
+from account.forms import RegistrationForm
 
 class InventoryForm(forms.ModelForm):
     label       = forms.CharField(label="Label", max_length=250, required=True, widget=forms.TextInput(
@@ -90,26 +92,25 @@ class SupplyUpdateForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
         }
 
-
-
-# Add Account Form
-class AccountForm(forms.ModelForm):
-    name       = forms.CharField(label="Name", max_length=250, required=True, widget=forms.TextInput(
-                    attrs={
-                    'class':'form-control',
-                    'placeholder':'Name'
-                    }))
-    type       = forms.FloatField(label="Type", required=True, widget=forms.NumberInput(
-                    attrs={
-                    'class':'form-control',
-                    'placeholder':'Type'
-                    }))
-    date       = forms.IntegerField(label="Date", required=True, widget=forms.NumberInput(
-                    attrs={
-                    'class':'form-control',
-                    'placeholder':'Date',
-                    }))
-
+class CreateAccountForm(RegistrationForm):
     class Meta:
-        model = Supply
-        fields = ['name', 'type', 'date']
+        model = Account
+        fields = ['email', 'username', 'first_name', "last_name", 'account_type']
+        widgets = {
+             'contact_number': forms.TextInput(attrs={'class':'form-control'}),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+        }
+
+class AccountUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['email', 'username', 'first_name', "last_name", 'address', 'contact_number', 'account_type']
+        widgets = {
+            'email': forms.TextInput(attrs={'class':'form-control'}),
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'first_name': forms.TextInput(attrs={'class':'form-control'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control'}),
+            'address': forms.TextInput(attrs={'class':'form-control'}),
+            'contact_number': forms.TextInput(attrs={'class':'form-control'}),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+        }

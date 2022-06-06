@@ -9,7 +9,7 @@ css = []
 
 @admin_only
 def add_account(request):
-    page = "Inventory | Add Account"
+    page = "Account | Add Account"
     
     account_form = add_account_form(request)
     if account_form == "redirect":
@@ -24,42 +24,42 @@ def add_account(request):
     })
 
 @admin_only
-def delete_supply(request, id):
+def delete_account(request, id):
 
-    result = delete_supply_item(request, id)
+    result = delete_account_item(request, id)
 
     if result == "error":
-        messages.add_message(request, messages.ERROR, "Error deleting supply")
+        messages.add_message(request, messages.ERROR, "Error deleting account")
     elif result == "success":
-        messages.add_message(request, messages.SUCCESS, "Successfully deleted supply")
+        messages.add_message(request, messages.SUCCESS, "Successfully deleted account")
 
-    return redirect("management:supply")
+    return redirect("management:account")
 
 @admin_only
-def view_supply(request, id):
-    page = "Inventory | View Supply"
+def edit_account(request, id):
+    page = "Account | Edit account"
 
-    supply_item = get_supply_item(request, id)
+    account_form = edit_account_form(request, id)
+    if account_form == "redirect":
+        messages.add_message(request, messages.SUCCESS, "Successfully edited account")
+        return redirect("management:account")
 
-    return render(request, "management/supply/view_supply.html", {
+    return render(request, "management/account/edit_account.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
-        "supply_item" : supply_item
+        "account_form" : account_form
     })
 
 @admin_only
-def edit_supply(request, id):
-    page = "Inventory | Edit Supply"
+def view_account(request, id):
+    page = "Account | View Account"
 
-    supply_form = edit_supply_form(request, id)
-    if supply_form == "redirect":
-        messages.add_message(request, messages.SUCCESS, "Successfully edited supply")
-        return redirect("management:supply")
+    account = get_account_by_id(request, id)
 
-    return render(request, "management/supply/edit_supply.html", {
+    return render(request, "management/account/view_account.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
-        "supply_form" : supply_form
+        "account" : account
     })

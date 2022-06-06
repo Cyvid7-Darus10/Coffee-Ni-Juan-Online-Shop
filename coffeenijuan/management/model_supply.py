@@ -56,7 +56,7 @@ def sort_supplies(request):
 
 def add_supply_form(request):
     if request.POST:
-        form = SupplyForm(request.POST, request.FILES)
+        form = SupplyForm(request.POST)
         if form.is_valid():
             form.save()
             add_transaction("Added Supply", "Name of Supply: {}".format(form.cleaned_data['label']), request.user, form.instance.id)

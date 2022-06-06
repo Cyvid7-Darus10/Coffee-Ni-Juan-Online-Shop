@@ -3,6 +3,7 @@ from .models import login_user
 from .model_transaction import sort_transactions
 from .pages_inventory import *
 from .pages_supply import *
+from .pages_account import *
 
 ##Account
 from .pages_account import *
@@ -104,26 +105,19 @@ def transactions(request):
     })
 
 
-# @admin_only
-# def account(request):
-#     page = "account"
-#     return render(request, "management/account/account.html", {
-#         "csss" : css,
-#         "jss"  : js,
-#         "page" : page
-#     })
-
 @admin_only
 def account(request):
     page = "account"
+
+    accounts, extra_query = sort_accounts(request)
+
     return render(request, "management/account/account.html", {
         "csss" : css,
         "jss"  : js,
         "page" : page,
-        # "supplies" : supplies,
-        # "extra_query" : extra_query
+        "accounts" : accounts,
+        "extra_query" : extra_query
     })
-
 
 
 @admin_only
