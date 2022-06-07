@@ -1,6 +1,6 @@
-if($("#id_username").val()){
-    $("#id_username").removeClass("d-none");
-}
+$("#id_username").addClass("d-none");
+$("#id_first_name").addClass("d-none");
+$("#id_last_name").addClass("d-none");
 
 if($("#id_username").val()){
     $("#id_username").removeClass("d-none");
@@ -15,7 +15,7 @@ if($("#id_last_name").val()){
     $(".container").removeClass("py-5");
 }
 
-$("#id_email").blur(function() {
+$("#id_email").on('keyup', function(){
     if($(this).val()){
         $("#id_username").removeClass("d-none");
     } else {
@@ -23,7 +23,7 @@ $("#id_email").blur(function() {
     }
 });
 
-$("#id_username").blur(function() {
+$("#id_username").on('keyup', function(){
     if($(this).val()){
         $("#id_first_name").removeClass("d-none");
         $(".container div.row").removeClass("py-5");
@@ -33,7 +33,7 @@ $("#id_username").blur(function() {
     }
 });
 
-$("#id_first_name").blur(function() {
+$("#id_first_name").on('keyup', function(){
     if($(this).val()){
         $("#id_last_name").removeClass("d-none");
         $(".container").removeClass("py-5");
