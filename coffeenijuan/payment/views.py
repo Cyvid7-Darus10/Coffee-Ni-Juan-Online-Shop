@@ -52,10 +52,7 @@ def shopping_cart(request):
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
-        item_cnt = len(shopping_cart_items)
+    item_cnt = shopping_cart.countNotDeletedProducts()
     return render(request, "payment/shopping_cart.html", {
         "csss" : css,
         "jss"  : js,
