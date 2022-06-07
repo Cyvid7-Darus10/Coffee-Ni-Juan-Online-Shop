@@ -9,7 +9,7 @@
                 {% for product in items %}
                     {% if product.label != "Shipping Fee" %}
                     <a href="{% url 'product:product_item' product.id %}" class="col-md-4 p-2 rotation-1">
-						<img class="rounded img-fluid float-image" src="{{ product.image_url }}" />
+						<img class="rounded img-fluid float-image" src="/media/{{ product.image }}" />
 					</a>
                     {% endif %}
                 {% endfor %}
