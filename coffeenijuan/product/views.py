@@ -44,10 +44,8 @@ def product_list(request):
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
-        item_cnt = len(shopping_cart_items)
+    item_cnt = shopping_cart.countNotDeletedProducts()
+
     return render(request, "product/product_list.html", {
         "csss"      : css,
         "jss"       : js,
@@ -81,10 +79,7 @@ def product_item(request, id):
    # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
-        item_cnt = len(shopping_cart_items)
+    item_cnt = shopping_cart.countNotDeletedProducts()
 
     return render(request, "product/product_item.html", {
         "csss"        : css,

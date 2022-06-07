@@ -4,6 +4,7 @@ from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem,Payment
 from django.http import HttpResponse
 from product.models import Product
 from product.views import product_item
+from product.views import product_list
 from account.views import home
 from account.models import Account
 # global variables for js and css
@@ -100,6 +101,16 @@ def check_out(request):
         "item_cnt" : item_cnt
     })
 
+def order(request):
+    orders = Order.objects.filter(customer=request.user.id)
+    order_cnt = len(orders)
+    return render(request, "payment/order.html", {
+        "csss" : css,
+        "jss"  : js,
+        "orders" : orders,
+        "order_cnt" : order_cnt
+    })
+
 def add_order(request, payment):
     customer = request.user
     cart = get_if_exists(ShoppingCart, **{'customer':request.user})
@@ -182,7 +193,7 @@ def add_cart(request, id):
         return check_out(request)
 
     # redirect to product item page
-    return product_item(request, id)
+    return product_list(request)
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)

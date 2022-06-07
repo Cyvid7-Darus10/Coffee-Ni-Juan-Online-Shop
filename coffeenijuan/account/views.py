@@ -17,8 +17,6 @@ from product.models import Product
 from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
 from product.views import product_item
 
-
-
 js = []
 css = []
 page = "home"

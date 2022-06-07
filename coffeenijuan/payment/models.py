@@ -86,10 +86,18 @@ class ShoppingCart(Base):
         for product in products:
             if(product.status == "Selected"):
                 price += product.totalPrice
-        return price;
+        return price
 
     def products(self):
         return ShoppingCartItem.objects.filter(shopping_cart=self.id)
+
+    def countNotDeletedProducts(self):
+        count = 0
+        list_of_products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        for product in list_of_products:
+            if(product.status != "Deleted"):
+                count+=1
+        return count
 
     def __str__(self):
         return f"{self.label} created on {self.created}"
