@@ -1,11 +1,11 @@
 from math import ceil
 from django.shortcuts import render,redirect
-from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
+from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem,Payment
 from django.http import HttpResponse
 from product.models import Product
 from product.views import product_item
-
-
+from account.views import home
+from account.models import Account
 # global variables for js and css
 js = []
 css = []
@@ -38,41 +38,66 @@ def get_if_exists(model, **kwargs):
     return obj
 
 def shopping_cart(request):
+   
+    if request.user.is_authenticated == False: 
+        return home(request)
+    username = request.user.username
+    name = request.user.first_name
+    surname = request.user.last_name
     # cart = get_if_exists(ShoppingCart, **{'customer':request.user})
     cart = get_if_exists(ShoppingCart, customer = request.user.id)
-
+    if cart is None:
+        cart = ShoppingCart.objects.create(customer=request.user)
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    
     if shopping_cart:
         # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
         item_cnt = len(shopping_cart_items)
     return render(request, "payment/shopping_cart.html", {
         "csss" : css,
         "jss"  : js,
+        "username":username,
+        "name":name,
+        "surname": surname,
         "cart": cart,
         "item_cnt" : item_cnt
     })
 
-def order(request):
-    orders = Order.objects.filter(customer=request.user.id)
-    order_cnt = len(orders)
-    return render(request, "payment/order.html", {
-        "csss" : css,
-        "jss"  : js,
-        "orders" : orders,
-        "order_cnt" : order_cnt
-    })
-
 def check_out(request):
-    cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    username = request.user.username
+    name = request.user.first_name
+    surname = request.user.last_name
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
 
+    item_cnt = 0
+    if request.method == 'POST':
+        if request.POST.get('action') == 'Check_out':
+            if request.POST.get('selectAll') == 'selectAll':
+                ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending").update(status="Selected")
+            else:
+                array = request.POST.getlist("checkItem")
+                for i in array:
+                     ShoppingCartItem.objects.filter(id=i).update(status="Selected")
+        # elif request.POST.get('action') == 'Update Cart':
+        #     request.POST.get('quantity')   
+        else:
+           return delete_cart(request)
+   
+    if shopping_cart:
+        # get the shopping cart items of the user
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
+        item_cnt = len(shopping_cart_items)
+            
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
-        "cart" : cart,
+        "username":username,
+        "name":name,
+        "surname": surname,
+        "cart" : shopping_cart,
+        "item_cnt" : item_cnt
     })
 
 def add_order(request, payment):
@@ -86,6 +111,7 @@ def add_order(request, payment):
         if(product.status == "Selected"):
             new_order_item = OrderItem(order=new_order, product=product.product, quantity=product.quantity, status="Ongoing")
             new_order_item.save()
+            ShoppingCartItem.objects.filter(status="Selected").update(status="Ongoing")
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if(payment.payment_option == "cod"):
@@ -115,7 +141,9 @@ def add_payment(request, cart):
 
 def add_cart(request, id):
     # Check if the param action value is ADD TO CART
-
+    if request.user.is_authenticated == False: 
+        return home(request)
+        
     cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})    
     # Check if the product is already in the cart
     if cart is None:
@@ -135,10 +163,10 @@ def add_cart(request, id):
         item.save()
 
     elif request.POST.get('action') == 'BUY NOW':
-        for product in cart.products():
-            if product.status == "Selected":
-                product.status = "Pending"
-                product.save()
+        # for product in cart.products():
+        #     if product.status == "Selected":
+        #         product.status = "Pending"
+        #         product.save()
 
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
@@ -151,57 +179,32 @@ def add_cart(request, id):
         item.status = "Selected"
         item.save()
 
-        return check_out(request, cart.id)
+        return check_out(request)
 
     # redirect to product item page
     return product_item(request, id)
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
-
-    # get the quantity parameter
-    number = 'quantity' + " " +  str(id)
-    quantity = request.POST.get(number)
-    item.quantity = quantity
-    item.save()
+    # if request.POST.get('action') == id:
+    #     if request.POST.get('checkItem') == id:
+    #         ShoppingCartItem.objects.filter(id=id).update(status="Checked")
+    if request.POST.get('action') == 'Update Cart':
+        # get the quantity parameter
+        number = 'quantity' + " " +  str(id)
+        quantity = request.POST.get(number)
+        item.quantity = quantity
+        item.save()
+    
     return shopping_cart(request)
     
-
 def remove_cart(request, id):
     item = ShoppingCartItem.objects.filter(id=id)
     item.delete()
     return shopping_cart(request)
 
-
 def delete_cart(request):
-    ShoppingCart.objects.all().delete()
+    checkbox = request.POST.get('selectAll')
+    if checkbox == 'selectAll':
+        ShoppingCartItem.objects.filter(status="Pending").delete()
     return shopping_cart(request)
-
-def product_item(request, id):
-    product = get_if_exists(Product, **{'id':id})
-
-    if not product:
-        return redirect('product:product_list')
-    
-    rating = product.rating
-    not_whole = rating % 1
-    rating = int(rating)
-
-    return render(request, "product/product_item.html", {
-        "csss"        : css,
-        "jss"         : js,
-        "product"     : product,
-        "stars"       : range(rating),
-        "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole'   : not_whole
-    })
-
-def home(request):
-    page = "home"
-
-    return render(request, "account/home.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page
-    })
-

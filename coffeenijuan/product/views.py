@@ -18,6 +18,14 @@ def get_if_exists(model, **kwargs):
 
 # @login_required
 def product_list(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        name = request.user.first_name
+        surname = request.user.last_name
+    else:
+        username = 'Username'
+        name = 'No Account'  
+        surname = ""
     # check if there is post request
     if request.method == "POST":
         # use the filter data to get the product list
@@ -38,17 +46,27 @@ def product_list(request):
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
         item_cnt = len(shopping_cart_items)
-
     return render(request, "product/product_list.html", {
-        "csss" : css,
-        "jss"  : js,
-        "products" : products,
-        'item_cnt'    : item_cnt
+        "csss"      : css,
+        "jss"       : js,
+        "username"  :username,
+        "name"      :name,
+        "surname"   : surname,
+        "products"  : products,
+        'item_cnt'  : item_cnt
     })
 
 def product_item(request, id):
+    if request.user.is_authenticated:
+        username = request.user.username
+        name = request.user.first_name
+        surname = request.user.last_name
+    else:
+        username = 'Username'
+        name = 'No Account'  
+        surname = ""
     product = get_if_exists(Product, **{'id':id})
     # get all products
     items = Product.objects.all()
@@ -65,12 +83,15 @@ def product_item(request, id):
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
         item_cnt = len(shopping_cart_items)
 
     return render(request, "product/product_item.html", {
         "csss"        : css,
         "jss"         : js,
+        "username"    : username,
+        "name"        : name,
+        "surname"     : surname,
         "product"     : product,
         "stars"       : range(rating),
         "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),

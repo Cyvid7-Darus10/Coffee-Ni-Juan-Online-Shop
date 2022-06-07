@@ -63,6 +63,14 @@ class ShoppingCart(Base):
         for product in products:
             price += product.totalPrice
         return '{:,}'.format(price)
+    
+    def totalPricePending(self):
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        price = 0
+        for product in products:
+            if(product.status == "Pending"):
+                price += product.totalPrice
+        return '{:,}'.format(price)
 
     def totalPriceSelected(self):
         products = ShoppingCartItem.objects.filter(shopping_cart=self.id)

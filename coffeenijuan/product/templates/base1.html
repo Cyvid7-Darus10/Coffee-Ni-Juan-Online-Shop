@@ -70,15 +70,13 @@
                                     <span class="cart-number"> {{ item_cnt }} </span>
                                 </a>
                             </li>
-                            <a href="{% url 'payment:order' %}" class="h6" style="text-decoration:none;">
-                                <li class="nav-item row justify-content-end align-items-center">
-                                    <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                    <div class="col-6 p-0 d-inline">
-                                        <div id="name" class="fw-bolder">JeffLayahin</div>
-                                        <div id="username">jeff_gwapo</div>
-                                    </div>   
-                                </li>
-                            </a>
+                            <li class="nav-item row justify-content-end">
+                                <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                                <div class="col-6 p-0">
+                                    <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
+                                    <div id="username">{{ username }}</div>
+                                </div>   
+                            </li>
                         </ul>
                     </div>
                 </div>
