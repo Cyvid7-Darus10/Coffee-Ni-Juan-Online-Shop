@@ -9,10 +9,6 @@
 */__pycache__/
 venv/
 coffeenijuan/db.sqlite3
-.gitignore
-.gitignore
-.gitignore
-.gitignore
 Scripts/sqlformat.exe
 Scripts/pythonw.exe
 Scripts/python.exe
@@ -26,6 +22,4 @@ Scripts/Activate.ps1
 Scripts/activate.bat
 Scripts/activate
 coffeenijuan/db.sqlite3
-.gitignore
-.gitignore
 .gitignore
