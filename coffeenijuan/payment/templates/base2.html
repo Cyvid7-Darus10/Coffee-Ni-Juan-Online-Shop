@@ -76,11 +76,19 @@
                                 </a>
                             </li>
                             <li class="nav-item row justify-content-end">
-                                <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                <div class="col-6 p-0">
-                                    <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
-                                    <div id="username">{{ username }}</div>
-                                </div>   
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                                        <div class="col-6 p-0 d-inline">
+                                            <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
+                                            <div id="username">{{ username }}</div>
+                                        </div> 
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <li><a class="dropdown-item h6 small fw-bolder" href="{% url 'payment:order' %}">ORDER LIST</a></li>
+                                      <li><a class="dropdown-item h6 small fw-bolder " href="{% url 'account:logout' %}">LOGOUT</a></li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>
