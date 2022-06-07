@@ -13,7 +13,9 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
-
+from product.models import Product
+from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
+from product.views import product_item
 
 js = []
 css = []
@@ -32,10 +34,14 @@ def prompt_message(request, type):
 def home(request):
     page = "home"
 
+     # get all products
+    items = Product.objects.all()
+
     return render(request, "account/home.html", {
         "csss" : css,
         "jss"  : js,
-        "page" : page
+        "page" : page,
+        "items" :   items
     })
 
 def about(request):

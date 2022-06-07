@@ -1,8 +1,9 @@
 from math import ceil
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product
+from payment.models import ShoppingCart, ShoppingCartItem
 from django.http import HttpResponse
-
+# from django.contrib.auth.decorators import login_required
 # global variables for js and css
 js = []
 css = []
@@ -15,8 +16,17 @@ def get_if_exists(model, **kwargs):
         obj = None
     return obj
 
-
+# @login_required
 def product_list(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        name = request.user.first_name
+        surname = request.user.last_name
+    else:
+        username = 'Username'
+        name = 'No Account'  
+        surname = ""
+
     # check if there is post request
     if request.method == "POST":
         # use the filter data to get the product list
@@ -31,15 +41,38 @@ def product_list(request):
     else:
         # get all products
         products = Product.objects.all()
+    
+    # get user's shopping cart
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
 
     return render(request, "product/product_list.html", {
-        "csss" : css,
-        "jss"  : js,
-        "products" : products
+        "csss"      : css,
+        "jss"       : js,
+        "username"  :username,
+        "name"      :name,
+        "surname"   : surname,
+        "products"  : products,
+        'item_cnt'  : item_cnt
     })
 
 def product_item(request, id):
+    if request.user.is_authenticated:
+        username = request.user.username
+        name = request.user.first_name
+        surname = request.user.last_name
+    else:
+        username = 'Username'
+        name = 'No Account'  
+        surname = ""
     product = get_if_exists(Product, **{'id':id})
+    # get all products
+    items = Product.objects.all()
+
+    if not product:
+        return redirect('product:product_list')
     
     rating = product.rating
     if not rating:
@@ -47,11 +80,22 @@ def product_item(request, id):
     not_whole = rating % 1
     rating = int(rating)
 
+   # get user's shopping cart
+    item_cnt = 0
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
+
     return render(request, "product/product_item.html", {
-        "csss"     : css,
-        "jss"      : js,
-        "product"  : product,
-        "n"        : range(rating),
-        "n2"       : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole': not_whole
+        "csss"        : css,
+        "jss"         : js,
+        "username"    : username,
+        "name"        : name,
+        "surname"     : surname,
+        "product"     : product,
+        "stars"       : range(rating),
+        "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
+        'not_whole'   : not_whole,
+        'item_cnt'    : item_cnt,
+        "items" :   items
     })
