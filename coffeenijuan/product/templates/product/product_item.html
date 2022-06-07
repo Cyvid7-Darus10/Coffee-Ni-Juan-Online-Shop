@@ -1,4 +1,4 @@
-{% extends "base1.html" %}
+{% extends "base2.html" %}
 {% load static %}
 
 {% block content %}
@@ -19,13 +19,13 @@
                     <!-- Ratings and Sold -->
                     <div class="d-flex p-2">
                         <div class="stars m-0 p-0 text-warning">
-                            {% for i in n %}
+                            {% for i in stars %}
                                 <i class="bi bi-star-fill"></i>
                             {% endfor %}     
                             {% if not_whole %}
                                 <i class="bi bi-star-half"></i>
                             {% endif %}
-                            {% for i in n2 %}
+                            {% for i in empty_stars %}
                                 <i class="bi bi-star"></i>
                             {% endfor %}                       
                         </div>
@@ -41,7 +41,7 @@
 
                         <!-- Add to Cart and Buy Now -->
                         <div class="col-12 col-lg-5 h6 pt-2">
-                            <form action="" method="post" class="container-fluid row p-0">
+                            <form action="{% url 'payment:add_cart' product.id %}" method="post" class="container-fluid row p-0">
                                 {% csrf_token %}
 
                                 <span class="h5"> Quantity: </span>
@@ -55,7 +55,7 @@
                                     <div class="submit-btn animation-btn-container mt-5">
                                         <span class="su_button_circle"></span>
                                         <div class="col-6-md-1 h5 animation-btn">
-                                            <input class="button_text_container" type="submit" value="ADD TO CART">        
+                                            <input class="button_text_container" name="action" type="submit" value="ADD TO CART">
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                     <div class="submit-btn animation-btn-container mt-5 yellow-color">
                                         <span class="su_button_circle"></span>
                                         <div class="col-6-md-1 h5 animation-btn">
-                                            <input class="button_text_container" type="submit" value="BUY NOW">        
+                                            <input class="button_text_container" name="action" type="submit" value="BUY NOW">
                                         </div>
                                     </div>
                                 </div>
@@ -82,11 +82,14 @@
         <section class="similarProducts container mb-4">
             <div class="row text-center">
                 <div class="similarProductsTitle "><h5><b>Similar Products</b></h5></div>
-                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/1.png' %}" />
-                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/2.png' %}" />
-                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/3.png' %}" />
-                <img class="productImage col-6 col-md-3 img-fluid mt-4" src="{% static 'resources/products/4.png' %}" />
-            </div>
+                {% for product in items %}
+                    {% if product.label != "Shipping Fee" %}
+                    <a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2">
+						<img class="img-fluid" src="{{ product.image_url }}" />
+					</a>
+                    {% endif %}
+                {% endfor %}
+                </div>
         </section>
     </article>
 {% endblock %}

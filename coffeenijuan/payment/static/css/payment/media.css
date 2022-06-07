@@ -1,0 +1,15 @@
+/* Screen size width < 653px*/
+@media only screen and (max-width: 653px) {
+	.textDetails {
+		font-size: 12px;
+	}
+	.addToCart, .buyNow {
+		font-size: 12px;
+		width: 100px;
+	}
+	.product_details {
+		font-size: 1vw;
+		color: white;
+	}
+}
+

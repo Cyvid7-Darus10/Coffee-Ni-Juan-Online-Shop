@@ -1,0 +1,112 @@
+/* For Stars */
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+.search-input {
+  border: 3px solid black;
+  border-right: 1px solid black;
+  outline: none;
+  border-radius: 5px 0 0 5px;
+  width: 80%;
+}
+
+.search-btn {
+  border: 3px solid black;
+  border-left: 2px solid black;
+  border-radius: 0 5px 5px 0;
+  background-color: white;
+  width: 20%;
+}
+
+.search-btn:hover {
+  background-color: rgba(94, 68, 51, 0.3);
+}
+
+.navbar-btn {
+  border: 3px solid black !important;
+  border-radius: 5px;
+  background-color: white;;
+}
+
+.custom-btn-color {
+  border: 2px solid #4b2108;
+  background-color: #4b2108;
+  color: white;
+  width: auto;
+}
+
+.glass-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+/* height: 60vh;  */
+backdrop-filter: blur(3px); 
+background-color: rgba(255, 235, 222, 0.5);
+border-radius: 10px;
+}
+
+.cart-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+/* height: 60vh;  */
+backdrop-filter: blur(3px); 
+background-color: rgba(255, 235, 222, 0.5);
+height:65vh;
+}
+
+.summary-backdrop {
+  -webkit-backdrop-filter: blur(10px);
+/* height: 60vh;  */
+backdrop-filter: blur(3px); 
+background-color: rgba(255, 235, 222, 0.5);
+height:auto;
+}
+
+hr.similarProduct-line{
+  height: 3px;
+  border-radius: 5px;
+}
+
+.cart-number {
+  position: relative;
+  top: 10px;
+  left: -10px;
+  padding: 5px;
+  background-color: rgb(46, 40, 32);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  border: 2px solid #4b2108;
+  border-radius: 2px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  padding: 7px;
+}
+
+.select-syle{
+  /* color: #ffffff;
+  background-color: #4b2108; */
+  border: 2px solid #4b2108;
+}
+
+.form-check-input{
+  border: 2px solid #4b2108;
+}
+
+.form-check-input:checked {
+  background-color: #4b2108;
+  border-color: #4b2108;
+}
+.cancel-item {
+  position: absolute;
+  left: -7%;
+  background: white;
+  border-radius: 50%;
+  border: 1px solid #888;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 9px;
+}
+
