@@ -80,7 +80,7 @@ def check_out(request):
                 for i in array:
                      ShoppingCartItem.objects.filter(id=i).update(status="Selected")
         # elif request.POST.get('action') == 'Update Cart':
-        #     request.POST.get('quantity')   
+        #     request.POST.get('quantity')
         else:
            return delete_cart(request)
    
@@ -174,12 +174,11 @@ def add_cart(request, id):
         item.quantity += quantity
         item.status = "Pending"
         item.save()
-
     elif request.POST.get('action') == 'BUY NOW':
-        # for product in cart.products():
-        #     if product.status == "Selected":
-        #         product.status = "Pending"
-        #         product.save()
+        for product in cart.products():
+            if product.status == "Selected":
+                product.status = "Pending"
+                product.save()
 
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
@@ -191,7 +190,6 @@ def add_cart(request, id):
         item.quantity = quantity
         item.status = "Selected"
         item.save()
-
         return check_out(request)
 
     # redirect to product item page

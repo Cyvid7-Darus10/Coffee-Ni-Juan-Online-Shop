@@ -26,6 +26,7 @@ def product_list(request):
         username = 'Username'
         name = 'No Account'  
         surname = ""
+
     # check if there is post request
     if request.method == "POST":
         # use the filter data to get the product list
@@ -44,7 +45,8 @@ def product_list(request):
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    item_cnt = shopping_cart.countNotDeletedProducts()
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
 
     return render(request, "product/product_list.html", {
         "csss"      : css,
@@ -79,7 +81,8 @@ def product_item(request, id):
    # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    item_cnt = shopping_cart.countNotDeletedProducts()
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
 
     return render(request, "product/product_item.html", {
         "csss"        : css,
