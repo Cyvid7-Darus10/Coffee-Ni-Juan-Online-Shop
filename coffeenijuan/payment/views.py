@@ -52,7 +52,8 @@ def shopping_cart(request):
     # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    item_cnt = shopping_cart.countNotDeletedProducts()
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
     return render(request, "payment/shopping_cart.html", {
         "csss" : css,
         "jss"  : js,
@@ -85,7 +86,7 @@ def check_out(request):
    
     if shopping_cart:
         # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending")
+        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
         item_cnt = len(shopping_cart_items)
             
     return render(request, "payment/check_out.html", {
@@ -101,11 +102,15 @@ def check_out(request):
 def order(request):
     orders = Order.objects.filter(customer=request.user.id)
     order_cnt = len(orders)
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if shopping_cart:
+        item_cnt = shopping_cart.countNotDeletedProducts()
     return render(request, "payment/order.html", {
         "csss" : css,
         "jss"  : js,
         "orders" : orders,
-        "order_cnt" : order_cnt
+        "order_cnt" : order_cnt,
+        "item_cnt" : item_cnt
     })
 
 def add_order(request, payment):
@@ -126,7 +131,7 @@ def add_order(request, payment):
         new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
         new_order_item.save()
 
-    return home(request)
+    return order(request)
 
 def add_payment(request, cart):
     if request.POST.get('action') == 'ADD PAYMENT':
@@ -207,8 +212,18 @@ def update_item(request,id):
     return shopping_cart(request)
     
 def remove_cart(request, id):
-    item = ShoppingCartItem.objects.filter(id=id)
-    item.delete()
+    item = ShoppingCartItem.objects.get(id=id)
+    item.status = "Deleted"
+    item.save()
+    return shopping_cart(request)
+
+def check_box(request, id):
+    item = ShoppingCartItem.objects.get(id=id)
+    if(item.status == "Pending"):
+        item.status = "Selected"
+    elif(item.status == "Selected"):
+        item.status = "Pending"
+    item.save()
     return shopping_cart(request)
 
 def delete_cart(request):

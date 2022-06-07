@@ -30,9 +30,11 @@
                       
                     <div class=" buttons col-1">
                           <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
+                            <a  href ="{% url 'payment:check_box' p.id %}">
                             <div class="form-check d-block ">
-                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}' />
+                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}'/>
                             </div>
+                            </a>
                       </div>
 
                       <!-- product image -->
@@ -63,9 +65,11 @@
                       
                     <div class=" buttons col-1">
                           <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
+                            <a  href ="{% url 'payment:check_box' p.id %}">
                             <div class="form-check d-block ">
                               <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}' checked/>
                             </div>
+                          </a>
                       </div>
 
                       <!-- product image -->
