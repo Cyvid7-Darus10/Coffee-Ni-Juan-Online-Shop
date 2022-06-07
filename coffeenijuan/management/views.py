@@ -5,12 +5,11 @@ from .pages_inventory import *
 from .pages_supply import *
 from .pages_account import *
 
-##Account
 from .pages_account import *
 
 from .model_transaction import *
 from .helpers import excelreport
-from .decorators import admin_only
+from .decorators import admin_only, include_farmer
 
 # global variables for js and css
 js = []
@@ -21,7 +20,9 @@ def login(request):
 
     login_form = login_user(request)
 
-    if request.user.is_authenticated and request.user.is_admin: 
+    if request.user.is_authenticated: 
+        if request.user.account_type == "farmer":
+            return redirect("management:supply")
         return redirect("management:overview")
 
     return render(request, "management/login.html", {
@@ -30,6 +31,7 @@ def login(request):
         "login_form" : login_form,
         "page" : page
     })
+
 
 @admin_only
 def overview(request):
@@ -52,6 +54,7 @@ def overview(request):
         "page" : page
     })
 
+
 @admin_only
 def inventory(request):
     page = "inventory"
@@ -71,14 +74,15 @@ def inventory(request):
         "extra_query" : extra_query
     })
 
-@admin_only
+
+@include_farmer
 def supply(request):
     page = "supply"
 
     # Check if the user wants to export the inventory
     if request.GET.get("export"):
-        products = get_supply_items(request)
-        return excelreport(request, products, "supply")
+        supplies = get_supply_items(request)
+        return excelreport(request, supplies, "supply")
 
     supplies, extra_query = sort_supplies(request)
 
@@ -89,6 +93,7 @@ def supply(request):
         "supplies" : supplies,
         "extra_query" : extra_query
     })
+
 
 @admin_only
 def transactions(request):
@@ -128,6 +133,7 @@ def orders(request):
         "jss"  : js,
         "page" : page
     })
+
 
 @admin_only
 def settings(request):

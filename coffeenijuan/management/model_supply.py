@@ -2,7 +2,6 @@ from .models import Supply, add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SupplyForm, SupplyUpdateForm
 
-# Help Functions
 
 def sort_supplies(request):
     label = request.GET.get('label')
@@ -41,6 +40,9 @@ def sort_supplies(request):
     if not sort and not label:
         supply_list = Supply.objects.all()
 
+    if request.user.account_type == "farmer":
+        supply_list = supply_list.filter(added_by=request.user)
+
     # paginate the supplies
     paginator = Paginator(supply_list, 5)
     page_number = request.GET.get('page')
@@ -54,10 +56,12 @@ def sort_supplies(request):
 
     return supplies, extra_query
 
+
 def add_supply_form(request):
     if request.POST:
         form = SupplyForm(request.POST)
         if form.is_valid():
+            form.instance.added_by = request.user
             form.save()
             add_transaction("Added Supply", "Name of Supply: {}".format(form.cleaned_data['label']), request.user, form.instance.id)
             return "redirect"
@@ -68,6 +72,9 @@ def add_supply_form(request):
 
 
 def delete_supply_item(request, id):
+    if request.user.account_type == "farmer":
+        if supply.added_by != request.user:
+            return "error"
     supply = get_supply_item(request, id)
     try:
         Supply.objects.get(id=id).delete()
@@ -79,6 +86,9 @@ def delete_supply_item(request, id):
 
 def edit_supply_form(request, id):
     supply = get_supply_item(request, id)
+    if request.user.account_type == "farmer":
+        if supply.added_by != request.user:
+            return "redirect"
     if request.POST:
         form = SupplyUpdateForm(request.POST, request.FILES, instance=supply)
         if form.is_valid():

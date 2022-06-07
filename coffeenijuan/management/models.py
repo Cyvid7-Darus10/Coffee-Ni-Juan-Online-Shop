@@ -35,6 +35,7 @@ class Supply(Base):
     price       = models.FloatField(blank=True, null=True)
     stock       = models.PositiveIntegerField(default=0)
     description = models.TextField(blank=True, null=True)
+    added_by    = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.label} on {self.created} with {self.price} price"
