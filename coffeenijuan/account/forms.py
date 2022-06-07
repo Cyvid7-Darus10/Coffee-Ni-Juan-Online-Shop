@@ -8,32 +8,32 @@ from account.models import Account
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         max_length=60, widget=forms.EmailInput(
-            attrs={'placeholder': 'Email'}
+            attrs={'placeholder': 'Email', 'class': 'form-control'}
             ), help_text='Valid Email Required'
         )
     username = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'Username', 'class': 'd-none'}
+            attrs={'placeholder': 'Username', 'class': 'form-control'}
             )
         )
     first_name = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'First Name', 'class': 'd-none'}
+            attrs={'placeholder': 'First Name', 'class': 'form-control'}
                 )
             )
     last_name = forms.CharField(
         max_length=60, widget=forms.TextInput(
-            attrs={'placeholder': 'Last Name', 'class': 'd-none'}
+            attrs={'placeholder': 'Last Name', 'class': 'form-control'}
             )
         )
     password1 = forms.CharField(
         max_length=60, widget=forms.PasswordInput(
-            attrs={'placeholder': 'Password'}
+            attrs={'placeholder': 'Password', 'class': 'form-control'}
             )
         )
     password2 = forms.CharField(
         max_length=60, widget=forms.PasswordInput(
-            attrs={'placeholder': 'Confirm Password'}
+            attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}
             )
         )
     
@@ -72,6 +72,7 @@ class AccountAuthenticationForm(forms.ModelForm):
 			password = self.cleaned_data['password']
 			if not authenticate(email=email, password=password):
 				raise forms.ValidationError("Invalid login")
+
 
 class ForgotPassword(forms.Form):
     email = forms.EmailField(

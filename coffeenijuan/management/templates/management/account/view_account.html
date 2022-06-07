@@ -1,0 +1,27 @@
+{% extends "management/base_overview.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="card align-items-center">
+        <div class="card-body">
+            <h5 class="card-title">{{ account.email }}</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>First Name:</strong> {{ account.first_name }}</li>
+            <li class="list-group-item"><strong>Last Name:</strong> {{ account.last_name }}</li>
+            <li class="list-group-item"><strong>Address:</strong> {{ account.address }}</li>
+            <li class="list-group-item"><strong>Contact Number:</strong> {{ account.contact_number }}</li>
+            <li class="list-group-item"><strong>Account Type:</strong> {{ account.account_type }}</li>
+        </ul>
+        <div class="card-body">
+            <button data-label="{{ account.email }}" data-url="{% url 'management:delete_account' id=account.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
+                Delete
+            </button>
+            <a href="{% url 'management:edit_account' id=account.id %}" class="btn btn-success" type="button" aria-expanded="false">
+                Edit
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

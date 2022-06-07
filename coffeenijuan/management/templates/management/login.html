@@ -1,0 +1,35 @@
+{% extends "management/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="card text-center col-10 col-lg-4 m-5 mx-auto">
+        <div class="card-body p-4">
+            <form action="{% url 'management:login' %}" method="post">
+                <div class="row text-center ">
+                    <img class="img-fluid mx-auto" style="width:100px" src="{% static 'resources/logo.png' %}">
+                    <h2 class="h6 col-12"> Admin Site </h2>
+                </div>
+                
+                {% csrf_token %}
+                {{ form }}
+        
+                {% for field in login_form %}
+                    <div class="m-2 login-input">
+                        {{field}}
+                    </div>
+                    {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            
+                {% if login_form.non_field_errors %}
+                    <div class="text-danger">
+                        {{login_form.non_field_errors}}
+                    </div>
+                {% endif %}
+        
+                <input class="btn btn-primary w-100 mt-5" type="submit" name="login" value="LOGIN">  
+            </form>
+        </div>
+    </div>
+{% endblock %}

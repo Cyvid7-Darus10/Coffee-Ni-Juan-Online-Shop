@@ -1,0 +1,32 @@
+{% extends "management/base_overview.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="card text-center col-10 col-lg-10 mx-auto mt-5">
+        <div class="card-body p-xl-5">
+            <form action="{% url 'management:add_account' %}" method="post" enctype="multipart/form-data">
+                
+                {% csrf_token %}
+
+                {% for field in account_form %}
+                    <div class="mb-3 h6 text-start">
+
+                        {{field}}
+                    </div>
+                    {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                    
+                {% endfor %}
+                    
+                {% if login_form.non_field_errors %}
+                    <div class="text-danger">
+                        {{login_form.non_field_errors}}
+                    </div>
+                {% endif %}
+        
+                <input class="btn btn-primary w-100 px-xl-5" type="submit" value="Add Account">  
+            </form>
+        </div>
+    </div>
+{% endblock %}
