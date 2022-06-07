@@ -226,6 +226,12 @@ def check_box(request, id):
 
 def delete_cart(request):
     checkbox = request.POST.get('selectAll')
+    cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    if cart:
+        products = cart.products();
     if checkbox == 'selectAll':
-        ShoppingCartItem.objects.filter(status="Pending").delete()
+        for product in products:
+            item = ShoppingCartItem.objects.get(id=product.id)
+            item.status = "Deleted"
+            item.save()
     return shopping_cart(request)
