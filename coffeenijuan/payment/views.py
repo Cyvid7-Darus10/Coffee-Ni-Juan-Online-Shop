@@ -84,10 +84,9 @@ def check_out(request):
         elif request.POST.get('action') == 'Cancel':
              return delete_cart(request)
    
+    item_cnt = 0
     if shopping_cart:
-        # get the shopping cart items of the user
-        shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
-        item_cnt = len(shopping_cart_items)
+        item_cnt = shopping_cart.countNotDeletedProducts()
             
     return render(request, "payment/check_out.html", {
         "csss" : css,
@@ -103,6 +102,7 @@ def order(request):
     orders = Order.objects.filter(customer=request.user.id)
     order_cnt = len(orders)
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
+    item_cnt =0
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
     return render(request, "payment/order.html", {
@@ -171,6 +171,8 @@ def add_cart(request, id):
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
+        if item.status == "Deleted":
+            item.quantity = 0
         item.quantity += quantity
         item.status = "Pending"
         item.save()
