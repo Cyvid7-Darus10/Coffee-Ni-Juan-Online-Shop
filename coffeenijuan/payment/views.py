@@ -81,8 +81,8 @@ def check_out(request):
                      ShoppingCartItem.objects.filter(id=i).update(status="Selected")
         # elif request.POST.get('action') == 'Update Cart':
         #     request.POST.get('quantity')
-        else:
-           return delete_cart(request)
+        elif request.POST.get('action') == 'Cancel':
+             return delete_cart(request)
    
     if shopping_cart:
         # get the shopping cart items of the user
@@ -193,7 +193,7 @@ def add_cart(request, id):
         return check_out(request)
 
     # redirect to product item page
-    return product_list(request)
+    return product_item(request,product.id)
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
