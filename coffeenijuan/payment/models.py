@@ -16,7 +16,7 @@ class Base(models.Model):
 
 class Payment(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
-    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE, default=None, null=True)
     mobile_number = models.CharField(max_length=250, blank=True, null=True)
     address = models.CharField(max_length=30, default="None")
     payment_option = models.CharField(max_length=30, default="None")
@@ -31,8 +31,8 @@ class Payment(Base):
 
 class Order(Base):
     label = models.CharField(max_length=250, blank=True, null=True)
-    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE, default=None, null=True)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default=None, null=True)
     status = models.CharField(max_length=30, null=True)
 
     @property
@@ -54,7 +54,7 @@ class Order(Base):
 
 class ShoppingCart(Base):   
     label = models.CharField(max_length=250, blank=True, null=True)
-    customer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE, default=None, null=True)
 
     @property
     def totalPrice(self):
