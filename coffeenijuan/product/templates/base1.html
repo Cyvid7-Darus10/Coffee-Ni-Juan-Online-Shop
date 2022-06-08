@@ -70,12 +70,11 @@
                                     <span class="cart-number"> {{ item_cnt }} </span>
                                 </a>
                             </li>
-                            <li class="nav-item row justify-content-end align-items-center">
+                            <li class="nav-item row justify-content-end">
                                 <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                <div class="col-6 p-0 d-inline">
+                                <div class="col-6 p-0">
                                     <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
                                     <div id="username">{{ username }}</div>
-                                    </div>   
                                 </div>   
                             </li>
                         </ul>
@@ -94,7 +93,7 @@
         </footer>
 
         <script defer src="{% static 'js/animations.js' %}"></script>
-        <script defer src="{% static 'js/product.js' %}"></script>
+        <script defer src="{% static 'js/product.js' %}"></script
         {% for js in jss %}
             <script defer src="{{ js }}"></script>
         {% endfor %}

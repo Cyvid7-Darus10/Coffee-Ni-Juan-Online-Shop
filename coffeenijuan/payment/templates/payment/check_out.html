@@ -41,7 +41,7 @@
               <div class="product_details row">
                 <div class="col-3 text-center h6">
                   <a href="{% url 'product:product_item' p.product.id %}" target="_blank"><img class="d-none d-md-inline img-fluid p-1 rounded float-left" style="max-width: 10vw"  
-                  src="{{ p.product.image_url }}" /></a>
+                  src="/media/{{ p.product.image }}" /></a>
                   <div class="col-3 d-sm-inline d-md-none">{{p.product.label}}</div>
                 </div>
 

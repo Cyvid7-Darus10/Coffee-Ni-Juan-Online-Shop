@@ -110,26 +110,3 @@ input {
   line-height: 9px;
 }
 
-.dropdown-menu{
-  color: #4b2108;
-  border: 2px solid #4b2108;
-}
-
-.dropdown-item{
-  color: #4b2108;
-  text-align: center;
-}
-
-.dropdown-item:hover{
-  background-color: #4b2108;
-  color: #ffffff;
-}
-
-.btn:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem #4b210838;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(3px); 
-  background-color: rgba(255, 235, 222, 0.5);
-  border-radius: 10px;
-}
