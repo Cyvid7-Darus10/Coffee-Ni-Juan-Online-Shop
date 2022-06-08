@@ -129,7 +129,7 @@ def add_order(request, payment):
         new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
         new_order_item.save()
 
-    return order(request)
+    # return order(request)
 
 def add_payment(request, cart):
     if request.POST.get('action') == 'ADD PAYMENT':
@@ -164,13 +164,16 @@ def add_cart(request, id):
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
         item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
-        if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+    
+        if item is not None:
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        
+        if item.status == "Ongoing" or item.status == "Deleted":
+                item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         item.quantity += quantity
-        item.status = "Pending"
         item.save()
     elif request.POST.get('action') == 'BUY NOW':
         for product in cart.products():
@@ -195,9 +198,7 @@ def add_cart(request, id):
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
-    # if request.POST.get('action') == id:
-    #     if request.POST.get('checkItem') == id:
-    #         ShoppingCartItem.objects.filter(id=id).update(status="Checked")
+
     if request.POST.get('action') == 'Update Cart':
         # get the quantity parameter
         number = 'quantity' + " " +  str(id)
