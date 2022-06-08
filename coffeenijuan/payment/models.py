@@ -5,6 +5,8 @@ from django.contrib.postgres.fields import ArrayField
 from product.models import Product
 from account.models import Account
 from django.db.models import Sum
+from django.db.models import Q
+
 
 class Base(models.Model):
     created = DateTimeField(default=datetime.now)
@@ -58,38 +60,42 @@ class ShoppingCart(Base):
 
     @property
     def totalPrice(self):
-        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        productsActive = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
+        productsPending = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Pending")
         price = 0
-        for product in products:
+        for product in productsActive:
+            price += product.totalPrice
+        for product in productsPending:
             price += product.totalPrice
         return '{:,}'.format(price)
     
     def totalPricePending(self):
-        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        productsPending = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Pending")
         price = 0
-        for product in products:
-            if(product.status == "Pending"):
-                price += product.totalPrice
+        for product in productsPending:
+            price += product.totalPrice
         return '{:,}'.format(price)
 
     def totalPriceSelected(self):
-        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        productsSelected = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
         price = 0
-        for product in products:
-            if(product.status == "Selected"):
-                price += product.totalPrice
+        for product in productsSelected:
+            price += product.totalPrice
         return '{:,}'.format(price)
 
     def totalPriceSelectedInteger(self):
-        products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
         price = 0
         for product in products:
-            if(product.status == "Selected"):
-                price += product.totalPrice
+            price += product.totalPrice
         return price
 
     def products(self):
         return ShoppingCartItem.objects.filter(shopping_cart=self.id)
+
+    def productsNotDeleted(self):
+        cart = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        return cart.filter(~Q(status="Deleted"))
 
     def countNotDeletedProducts(self):
         count = 0

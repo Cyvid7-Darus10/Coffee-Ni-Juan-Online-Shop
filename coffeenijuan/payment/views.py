@@ -122,11 +122,11 @@ def add_order(request, payment):
         if(product.status == "Selected"):
             new_order_item = OrderItem(order=new_order, product=product.product, quantity=product.quantity, status="Ongoing")
             new_order_item.save()
-            ShoppingCartItem.objects.filter(status="Selected").update(status="Ongoing")
+            ShoppingCartItem.objects.filter(status="Selected").update(status="Deleted")
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if(payment.payment_option == "cod"):
-        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
+        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Deleted")
         new_order_item.save()
 
     return order(request)
@@ -163,15 +163,18 @@ def add_cart(request, id):
     if request.POST.get('action') == 'ADD TO CART':
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status':"Selected"})
         if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status':"Pending"})
+            if item is None:
+                item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         item.quantity += quantity
         item.status = "Pending"
         item.save()
+
     elif request.POST.get('action') == 'BUY NOW':
         for product in cart.products():
             if product.status == "Selected":
@@ -232,4 +235,5 @@ def delete_cart(request):
             item = ShoppingCartItem.objects.get(id=product.id)
             item.status = "Deleted"
             item.save()
+
     return shopping_cart(request)
