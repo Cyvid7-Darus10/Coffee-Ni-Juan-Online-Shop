@@ -155,7 +155,7 @@ def add_payment(request, cart):
         
         new_payment.save()
         add_order(request, new_payment)
-    return home(request)
+    return order(request)
 
 def add_cart(request, id):
     # Check if the param action value is ADD TO CART
