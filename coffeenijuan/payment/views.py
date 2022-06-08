@@ -98,6 +98,9 @@ def check_out(request):
     })
 
 def order(request):
+    username = request.user.username
+    name = request.user.first_name
+    surname = request.user.last_name
     orders = Order.objects.filter(customer=request.user.id)
     order_cnt = len(orders)
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
@@ -108,7 +111,11 @@ def order(request):
         "jss"  : js,
         "orders" : orders,
         "order_cnt" : order_cnt,
-        "item_cnt" : item_cnt
+        "item_cnt" : item_cnt,
+        "username":username,
+        "name":name,
+        "surname": surname,
+        
     })
 
 def add_order(request, payment):
