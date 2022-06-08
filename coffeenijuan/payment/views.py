@@ -163,9 +163,12 @@ def add_cart(request, id):
     if request.POST.get('action') == 'ADD TO CART':
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
     
-        if item is not None:
+        if item is None:
+            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
+        
+        if item is None:
             item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
         
         if item.status == "Ongoing" or item.status == "Deleted":
