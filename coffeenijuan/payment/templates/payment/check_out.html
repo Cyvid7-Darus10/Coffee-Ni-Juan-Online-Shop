@@ -19,12 +19,12 @@
                   <div class="col-12 col-md-6 ">
                       <label for="address"></label>
                       
-                      <input type="text" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address">
+                      <input type="text" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address" value="{{request.user.address}}">
                   </div>
 
                   <div class="col-12 col-md-6">
                       <label for="mobile-no"></label>
-                      <input type="text" name="mobile_number" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no">    
+                      <input type="text" name="mobile_number" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no" value="{{request.user.contact_number}}">
               
                   </div>
               </div>
@@ -38,7 +38,7 @@
             </div>
             {% for p in cart.products %}
               {% if p.status == "Selected" %}
-              <div class="product_details row">
+              <div class="product product_details row">
                 <div class="col-3 text-center h6">
                   <a href="{% url 'product:product_item' p.product.id %}" target="_blank"><img class="d-none d-md-inline img-fluid p-1 rounded float-left" style="max-width: 10vw"  
                   src="/media/{{ p.product.image }}" /></a>
@@ -88,8 +88,8 @@
             PLACE ORDER
         </button>
     </section>
-    <input type="text" name="proof_exist" id="proof_exist" style="display:none" value="None">
-    <input type="file" name="proof" id="proof" class="proof_image form-control" style="display:none">
+<!--     <input type="text" name="proof_exist" id="proof_exist" style="display:none" value="None"> -->
+<!--     <input type="file" name="proof" id="proof" class="proof_image form-control" style="display:none"> -->
     <input type="hidden" class="payment_option_input" name="payment_option_input" value="none">
     <input type="submit" class="submit_payment_form" name="action" value="ADD PAYMENT" style="display:none">
     <form>
@@ -135,6 +135,27 @@
         <div class="modal-body">
             <p>
                 Please select a payment method.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</article>
+
+<!-- MODALS -->
+<!-- Place Order Prompt -->
+<article class="modal fade" id="noProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: #fdf6f6;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"><b>No Product in Checkout</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Please select some products in the cart.
             </p>
         </div>
         <div class="modal-footer">
