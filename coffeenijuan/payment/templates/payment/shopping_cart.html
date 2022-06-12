@@ -23,7 +23,7 @@
           </div>
           <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
           {% for p in cart.products %} 
-            {% if p.status == "Pending" %}
+            {% comment %} {% if p.status == "Pending" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
                 <li class="single-product ">
                   <div class="product-container col-12 row">
@@ -57,7 +57,7 @@
                   </div>
               </li>
               </ul> 
-            {% endif %}
+            {% endif %} {% endcomment %}
             {% if p.status == "Selected" or p.status == "Pending" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
                 <li class="single-product ">
@@ -67,7 +67,11 @@
                           <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
                             <a  href ="{% url 'payment:check_box' p.id %}">
                             <div class="form-check d-block ">
+                              {% if p.status == "Selected" %}
                               <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}' checked/>
+                              {% elif p.status == "Pending" %}
+                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}'/>
+                              {% endif %}
                             </div>
                           </a>
                       </div>

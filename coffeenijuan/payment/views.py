@@ -98,9 +98,6 @@ def check_out(request):
     })
 
 def order(request):
-    username = request.user.username
-    name = request.user.first_name
-    surname = request.user.last_name
     orders = Order.objects.filter(customer=request.user.id)
     order_cnt = len(orders)
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
@@ -111,11 +108,7 @@ def order(request):
         "jss"  : js,
         "orders" : orders,
         "order_cnt" : order_cnt,
-        "item_cnt" : item_cnt,
-        "username":username,
-        "name":name,
-        "surname": surname,
-        
+        "item_cnt" : item_cnt
     })
 
 def add_order(request, payment):
@@ -167,24 +160,32 @@ def add_cart(request, id):
     if cart is None:
         cart = ShoppingCart.objects.create(customer=request.user)
 
-    if request.POST.get('action') == 'ADD TO CART':
+    if request.POST.get('action') == 'ADD TO CART':   
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status':"Selected"})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
+    
         if item is None:
-            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status':"Pending"})
-            if item is None:
-                item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status="Pending")
+            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Selected"})
+
+        # if item is None:
+        #     item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Deleted"})
+        # else:
+        #     item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Ongoing"})
         
-        if item.status == "Ongoing" or item.status == "Deleted":
-                item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        if item is None:
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        
+        if item.status == "Deleted":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        elif item.status == "Ongoing":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         item.quantity += quantity
+        item.status = "Pending"
         item.save()
-
     elif request.POST.get('action') == 'BUY NOW':
         for product in cart.products():
             if product.status == "Selected":
@@ -243,5 +244,4 @@ def delete_cart(request):
             item = ShoppingCartItem.objects.get(id=product.id)
             item.status = "Deleted"
             item.save()
-
     return shopping_cart(request)
