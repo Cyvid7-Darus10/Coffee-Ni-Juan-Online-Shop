@@ -18,14 +18,6 @@ def get_if_exists(model, **kwargs):
 
 # @login_required
 def product_list(request):
-    if request.user.is_authenticated:
-        username = request.user.username
-        name = request.user.first_name
-        surname = request.user.last_name
-    else:
-        username = 'Username'
-        name = 'No Account'  
-        surname = ""
 
     # check if there is post request
     if request.method == "POST":
@@ -51,9 +43,6 @@ def product_list(request):
     return render(request, "product/product_list.html", {
         "csss"      : css,
         "jss"       : js,
-        "username"  :username,
-        "name"      :name,
-        "surname"   : surname,
         "products"  : products,
         'item_cnt'  : item_cnt
     })

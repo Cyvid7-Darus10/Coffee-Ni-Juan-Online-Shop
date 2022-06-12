@@ -82,7 +82,7 @@ hr.similarProduct-line{
   padding: 5px;
   background-color: rgb(46, 40, 32);
   color: white;
-  border-radius: 50%;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: bold;
 }

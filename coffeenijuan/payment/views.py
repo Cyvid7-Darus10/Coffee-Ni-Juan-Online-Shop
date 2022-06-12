@@ -44,9 +44,7 @@ def shopping_cart(request):
    
     if request.user.is_authenticated == False: 
         return home(request)
-    username = request.user.username
-    name = request.user.first_name
-    surname = request.user.last_name
+
     # cart = get_if_exists(ShoppingCart, **{'customer':request.user})
     cart = get_if_exists(ShoppingCart, customer = request.user.id)
     if cart is None:
@@ -59,9 +57,6 @@ def shopping_cart(request):
     return render(request, "payment/shopping_cart.html", {
         "csss" : css,
         "jss"  : js,
-        "username":username,
-        "name":name,
-        "surname": surname,
         "cart": cart,
         "item_cnt" : item_cnt
     })

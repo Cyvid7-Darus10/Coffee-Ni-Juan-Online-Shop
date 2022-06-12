@@ -16,7 +16,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/product/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/payment/style.css' %}" />
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/payment/style.css' %}" /> -->
 
 
         {% for css in csss %}
@@ -38,61 +38,59 @@
         <div class="loader-wrapper">
             <span class="loader"><span class="loader-inner"></span></span>
         </div>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light p-0 bg-white">
-                <div class="container p-2">
-                    <div class="container row p-0">
-                        <a class="col-3 col-lg-2" href="{% url 'account:home' %}">
-                            <img src="{% static 'resources/logo.png' %}" class="col-8" alt="Kape Giting Logo" />
-                        </a>
-                        <div class="col-7 col-lg-4 d-flex align-items-center">
-                            <span class="fw-bolder h6 px-2">
-                                FOLLOW US ON
-                            </span>
-    
-                            <a class="h5 me-2" href="https://www.facebook.com/kape.giting" target=”_blank”><i class="bi bi-facebook black"></i></a>
-                            <a class="h5" href="https://www.instagram.com/caffeinerefillph/" target=”_blank”><i class="bi bi-instagram black"></i></a>
-                        </div>
-                        <button class="col-2 navbar-toggler navbar-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
-              
-                    
-                    <div class="collapse navbar-collapse w-100" id="navbarHeader">
-                        <form class="form-inline row col-12 col-lg-6 ms-1 mt-3 mt-lg-0 ms-lg-0">
-                            <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn search-btn" type="submit"><i class="bi bi-search black"></i></button>
-                        </form>
 
-                        <ul class="nav px-lg-5 mt-3 mt-lg-0 mx-2 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
-                            <li class="nav-item align-items-center">
-                                <a href="{% url 'payment:shopping_cart' %}" class="h3">
-                                    <i class="bi-cart"></i>
-                                    <span class="cart-number"> {{ item_cnt }} </span>
-                                </a>
-                            </li>
-                            <li class="nav-item row justify-content-end align-items-center">
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.1rem 0.5rem;">
-                                        <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                        <div class="col-6 p-0 d-inline">
-                                            <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
-                                            <!-- <div id="username">{{ username }}</div> -->
-                                        </div> 
-                                    </button>
-                                    {% if request.user.is_authenticated %}
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item h6 small fw-bolder" href="{% url 'payment:order' %}">ORDER LIST</a></li>
-                                        <li><a class="dropdown-item h6 small fw-bolder " href="{% url 'account:logout' %}">LOGOUT</a></li>
-                                    </ul>
-                                    {% endif %}
-                                </div>  
-                            </li>
-                        </ul>
-                    </div>
+        <header class="navbar navbar-expand-lg navbar-light p-0 bg-white px-5">
+            <div class="container-fluid d-flex flex-row py-2 justify-content-lg-start">
+                <a class="col-2 col-lg-1" href="{% url 'account:home' %}">
+                    <img src="{% static 'resources/logo.png' %}" class="col-8" alt="Kape Giting Logo" />
+                </a>
+                <div class="d-flex align-items-center">
+                    <span class="fw-bolder h6 px-2 m-0">
+                        FOLLOW US ON
+                    </span>
+                    <a class="h5 me-2 m-0" href="https://www.facebook.com/kape.giting" target=”_blank”><i class="bi bi-facebook black"></i></a>
+                    <a class="h5 m-0" href="https://www.instagram.com/caffeinerefillph/" target=”_blank”><i class="bi bi-instagram black"></i></a>
                 </div>
-            </nav>
+                <button class="col-2 navbar-toggler navbar-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        
+            
+            <div class="collapse navbar-collapse w-100" id="navbarHeader">
+                <form class="form-inline p-0 m-0 row col-12 col-md-7">
+                    <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn search-btn" type="submit"><i class="bi bi-search black"></i></button>
+                </form>
+
+                <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
+                    <li class="nav-item align-items-center">
+                        <a href="{% url 'payment:shopping_cart' %}" class="h3">
+                            <i class="bi-cart"></i>
+                            <span class="cart-number"> {{ item_cnt }} </span>
+                        </a>
+                    </li>
+                    <li class="nav-item justify-content-end align-items-center">
+                        <div class="btn-group">
+                            <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                            <button type="button" class="dropdown-toggle fw-bolder d-flex flex-row align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if request.user.is_authenticated %}
+                                    {{ request.user.username }}
+                                {% else %}
+                                    Guest
+                                {% endif %}
+                            </button>
+                            {% if request.user.is_authenticated %}
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'payment:order' %}">ORDER LIST</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'account:logout' %}">LOGOUT</a></li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </header>
 
         {% block content %} 
