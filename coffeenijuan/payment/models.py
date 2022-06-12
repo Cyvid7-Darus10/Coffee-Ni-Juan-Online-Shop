@@ -41,10 +41,10 @@ class Order(Base):
 
     def totalPrice(self):
         products = OrderItem.objects.filter(order=self.id)
-        price = 0
+        total = 0
         for product in products:
-            price += product.totalPrice
-        return price;
+            total += product.price
+        return total
 
     def __str__(self):
         return f"{self.label} initiated on {self.created} with status {self.status}"

@@ -7,6 +7,8 @@ from product.views import product_item
 from product.views import product_list
 from account.views import home
 from account.models import Account
+from django.contrib import messages
+
 # global variables for js and css
 js = []
 css = []
@@ -129,7 +131,7 @@ def add_order(request, payment):
         new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
         new_order_item.save()
 
-    return order(request)
+    # return order(request)
 
 def add_payment(request, cart):
     if request.POST.get('action') == 'ADD PAYMENT':

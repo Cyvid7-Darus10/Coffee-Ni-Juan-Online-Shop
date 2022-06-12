@@ -36,7 +36,7 @@
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                {% if request.user.account_type == "admin" %}
+                {% if request.user.account_type == "admin" or request.user.is_admin %}
                   <li>
                     {% if page == 'overview' %}
                         <a href="{% url 'management:overview' %}" class="nav-link active" aria-current="page">
@@ -68,7 +68,7 @@
                         <span class="d-none d-lg-inline">Supplies</span>
                     </a>
                   </li>
-                {% if request.user.account_type == "admin" %}
+                {% if request.user.account_type == "admin" or request.user.is_admin %}
                   <li>
                     {% if page == 'transactions' %}
                         <a href="{% url 'management:transactions' %}" class="nav-link active" aria-current="page">

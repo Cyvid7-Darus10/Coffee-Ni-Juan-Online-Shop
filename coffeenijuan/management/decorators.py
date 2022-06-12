@@ -9,7 +9,7 @@ def admin_only(view_func):
         if request.user.is_authenticated and request.user.is_admin:
             return view_func(request, *args, **kwargs)
         else:
-            messages.error(request, "You do not have permission to access this page")
+            messages.add_message(request, messages.ERROR, 'You are not authorized to access the previous page') 
             return redirect("account:index")
     return wrapper_function
 
@@ -21,6 +21,6 @@ def include_farmer(view_func):
             ):
             return view_func(request, *args, **kwargs)
         else:
-            messages.error(request, "You do not have permission to access this page")
+            messages.add_message(request, messages.ERROR, "You do not have permission to access the previous page")
             return redirect("account:index")
     return wrapper_function

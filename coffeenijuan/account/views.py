@@ -16,6 +16,7 @@ from django.utils.encoding import force_bytes
 from product.models import Product
 from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
 from product.views import product_item
+from django.contrib import messages
 
 js = []
 css = []
