@@ -1,20 +1,12 @@
-from math import ceil
 from django.shortcuts import render, redirect
 from .models import Product
-from payment.models import ShoppingCart, ShoppingCartItem
-from django.http import HttpResponse
-# from django.contrib.auth.decorators import login_required
+from payment.models import ShoppingCart
+from account.support import get_if_exists
+
 # global variables for js and css
 js = []
 css = []
 
-# helper function
-def get_if_exists(model, **kwargs):
-    try:
-        obj = model.objects.get(**kwargs)
-    except model.DoesNotExist:
-        obj = None
-    return obj
 
 # @login_required
 def product_list(request):
@@ -52,6 +44,7 @@ def product_list(request):
         "all_products" : all_products,
         'item_cnt'     : item_cnt
     })
+
 
 def product_item(request, id):
     product = get_if_exists(Product, **{'id':id})

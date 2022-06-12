@@ -4,9 +4,7 @@ from .model_transaction import sort_transactions
 from .pages_inventory import *
 from .pages_supply import *
 from .pages_account import *
-
 from .pages_account import *
-
 from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only, include_farmer
