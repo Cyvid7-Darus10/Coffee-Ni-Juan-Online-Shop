@@ -12,7 +12,6 @@ from django.contrib import messages
 # global variables for js and css
 js = []
 css = []
-
 # def createpost(request):
 #         if request.method == 'POST':
 #             if request.POST.get('title') and request.POST.get('content'):
@@ -185,9 +184,23 @@ def add_cart(request, id):
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
-        item.quantity += quantity
-        item.status = "Pending"
-        item.save()
+        if quantity >= product.stock:
+            quantity = product.stock
+            product.stock -= quantity
+            product.save()
+
+            item.quantity += quantity
+            item.status = "Pending"
+            item.save()
+        elif product.stock == 0:
+            pass
+        else:
+            product.stock -= quantity
+            product.save()
+            item.quantity += quantity
+            item.status = "Pending"
+            item.save()
+        
     elif request.POST.get('action') == 'BUY NOW':
         for product in cart.products():
             if product.status == "Selected":
@@ -211,14 +224,41 @@ def add_cart(request, id):
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
-
+    product = item.product
     if request.POST.get('action') == 'Update Cart':
         # get the quantity parameter
         number = 'quantity' + " " +  str(id)
         quantity = request.POST.get(number)
-        item.quantity = quantity
-        item.save()
+        quantity = int(quantity)
+        if quantity >= product.stock:
+            quantity = product.stock
+            product.stock -= quantity
+            product.save()
 
+            item.quantity += quantity
+            item.status = "Pending"
+            item.save()
+        elif product.stock == 0:
+            pass
+        elif quantity < item.quantity:
+            product.stock += item.quantity - quantity
+            product.save()
+            item.quantity = quantity
+            item.status = "Pending"
+            item.save()
+        elif quantity > item.quantity:
+            product.stock -=  quantity - item.quantity 
+            product.save()
+            item.quantity = quantity
+            item.status = "Pending"
+            item.save()
+        # else:
+        #     product.stock -= quantity
+        #     product.save()
+        #     item.quantity = quantity
+        #     item.status = "Pending"
+        #     item.save()
+        
     if request.POST.get('checkItem') == id:
         item.status = "Selected"
         item.save()
@@ -226,6 +266,10 @@ def update_item(request,id):
     
 def remove_cart(request, id):
     item = ShoppingCartItem.objects.get(id=id)
+    product = item.product
+    quantity = item.quantity
+    product.stock += quantity
+    product.save()
     item.status = "Deleted"
     item.save()
     return shopping_cart(request)
