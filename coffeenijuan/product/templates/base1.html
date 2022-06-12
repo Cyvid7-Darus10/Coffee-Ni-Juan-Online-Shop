@@ -16,6 +16,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/product/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/payment/style.css' %}" />
+
 
         {% for css in csss %}
             <link rel="stylesheet" type="text/css" href="{{ css }}" />
@@ -70,12 +72,22 @@
                                     <span class="cart-number"> {{ item_cnt }} </span>
                                 </a>
                             </li>
-                            <li class="nav-item row justify-content-end">
-                                <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
-                                <div class="col-6 p-0">
-                                    <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
-                                    <div id="username">{{ username }}</div>
-                                </div>   
+                            <li class="nav-item row justify-content-end align-items-center">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.1rem 0.5rem;">
+                                        <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                                        <div class="col-6 p-0 d-inline">
+                                            <div id="name" class="fw-bolder">{{ name }} {{ surname }}</div>
+                                            <!-- <div id="username">{{ username }}</div> -->
+                                        </div> 
+                                    </button>
+                                    {% if request.user.is_authenticated %}
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item h6 small fw-bolder" href="{% url 'payment:order' %}">ORDER LIST</a></li>
+                                        <li><a class="dropdown-item h6 small fw-bolder " href="{% url 'account:logout' %}">LOGOUT</a></li>
+                                    </ul>
+                                    {% endif %}
+                                </div>  
                             </li>
                         </ul>
                     </div>
@@ -93,7 +105,8 @@
         </footer>
 
         <script defer src="{% static 'js/animations.js' %}"></script>
-        <script defer src="{% static 'js/product.js' %}"></script
+        <script defer src="{% static 'js/product.js' %}"></script>
+
         {% for js in jss %}
             <script defer src="{{ js }}"></script>
         {% endfor %}

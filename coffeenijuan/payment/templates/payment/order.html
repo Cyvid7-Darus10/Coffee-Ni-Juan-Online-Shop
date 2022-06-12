@@ -4,7 +4,7 @@
 {% block content %}
 <article class="container-fluid m-0 px-5 row">
     <section class="col-12 col-lg-3 my-5 pt-4">
-        <div class="col-12 row p-2 h3 d-lg-block mx-1 glass-backdrop" style=" height: auto; border: #4b2108; background-color: #e7b1926e;">
+        <div class="col-12 row p-2 h3 d-lg-block mx-1 glass-backdrop">
             <span class="col-9  h5"><b>CUSTOMER PROFILE</b></span>
             <hr>
             <div class="text-center">
@@ -23,52 +23,55 @@
             <span class="display-5 px-2 text-center"><strong>ORDERS</strong></span>
         </div>
         
-        <!-- For Loop -->
-        {% if order_cnt == 0 %}
-          <div class="col-12 h3">You have no orders right now</div>
-        {% endif %}
-        {% for order in orders %}
-        <div class="row mt-2 col-12" >
-          <div>Order {{order.id}}</div>
-            <table class="table table-bordered table-sm" style=" border-color: #4b2108!important;">
-                <thead class="table text-center" style="background-color:#4f250d; color: antiquewhite;">
-                  <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <!-- For Loop -->
-                {% for product in order.products %}
-                <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
-                  <tr>
-                    <th scope="row">{{order.created}}</th>
-                    <td>{{product.product.label}}</td>
-                    <td>{{productproduct.price}}</td>
-                    <td>{{product.quantity}}</td>
-                    <td>₱ {{product.totalPrice}}</td>
-                    <td>{{product.status}}</td>
-                  </tr>
-                </tbody>
-                {% endfor %}
-                <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
-                  <tr>
-                    <th scope="row"></th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>₱ {{order.totalPrice}}</td>
-                    <td></td>
-                  </tr> 
-                </tbody>
-                <!-- End Loop -->
-              </table>
+        <div style="overflow-y: scroll; height: 69vh;">
+          <!-- For Loop -->
+          {% if order_cnt == 0 %}
+            <div class="col-12 h3">You have no orders right now</div>
+          {% endif %}
+          {% for order in orders %}
+          <div class="row mt-2 mx-0 col-12" >
+            <div>Order {{order.id}}</div>
+              <table class="table table-bordered table-sm" style=" border-color: #4b2108!important;">
+                  <thead class="table text-center" style="background-color:#4f250d; color: antiquewhite;">
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Product Name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Total</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <!-- For Loop -->
+                  {% for product in order.products %}
+                  <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
+                    <tr>
+                      <th scope="row">{{order.created}}</th>
+                      <td>{{product.product.label}}</td>
+                      <td>{{product.product.price}}</td>
+                      <td>{{product.quantity}}</td>
+                      <td>₱ {{product.totalPrice}}</td>
+                      <td>{{product.status}}</td>
+                    </tr>
+                  </tbody>
+                  {% endfor %}
+                  <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
+                    <tr>
+                      <th scope="row"></th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>₱ {{order.totalPrice}}</td>
+                      <td></td>
+                    </tr> 
+                  </tbody>
+                  <!-- End Loop -->
+                </table>
+          </div>
+          {% endfor %}
+          <!-- End Loop -->
         </div>
-        {% endfor %}
-        <!-- End Loop -->
+
     </section>
 </article>	
 

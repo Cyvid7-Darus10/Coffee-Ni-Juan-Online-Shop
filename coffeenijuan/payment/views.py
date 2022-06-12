@@ -124,11 +124,11 @@ def add_order(request, payment):
         if(product.status == "Selected"):
             new_order_item = OrderItem(order=new_order, product=product.product, quantity=product.quantity, status="Ongoing")
             new_order_item.save()
-            ShoppingCartItem.objects.filter(status="Selected").update(status="Ongoing")
+            ShoppingCartItem.objects.filter(status="Selected").update(status="Deleted")
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if(payment.payment_option == "cod"):
-        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
+        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Deleted")
         new_order_item.save()
 
     # return order(request)
@@ -150,7 +150,7 @@ def add_payment(request, cart):
         
         new_payment.save()
         add_order(request, new_payment)
-    return home(request)
+    return order(request)
 
 def add_cart(request, id):
     # Check if the param action value is ADD TO CART
@@ -162,12 +162,26 @@ def add_cart(request, id):
     if cart is None:
         cart = ShoppingCart.objects.create(customer=request.user)
 
-    if request.POST.get('action') == 'ADD TO CART':
+    if request.POST.get('action') == 'ADD TO CART':   
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
+    
         if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Selected"})
+
+        # if item is None:
+        #     item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Deleted"})
+        # else:
+        #     item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Ongoing"})
+        
+        if item is None:
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        
+        if item.status == "Deleted":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        elif item.status == "Ongoing":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
@@ -197,16 +211,17 @@ def add_cart(request, id):
 
 def update_item(request,id):
     item = ShoppingCartItem.objects.get(id=id)
-    # if request.POST.get('action') == id:
-    #     if request.POST.get('checkItem') == id:
-    #         ShoppingCartItem.objects.filter(id=id).update(status="Checked")
+
     if request.POST.get('action') == 'Update Cart':
         # get the quantity parameter
         number = 'quantity' + " " +  str(id)
         quantity = request.POST.get(number)
         item.quantity = quantity
         item.save()
-    
+
+    if request.POST.get('checkItem') == id:
+        item.status = "Selected"
+        item.save()
     return shopping_cart(request)
     
 def remove_cart(request, id):
@@ -215,14 +230,14 @@ def remove_cart(request, id):
     item.save()
     return shopping_cart(request)
 
-def check_box(request, id):
-    item = ShoppingCartItem.objects.get(id=id)
-    if(item.status == "Pending"):
-        item.status = "Selected"
-    elif(item.status == "Selected"):
-        item.status = "Pending"
-    item.save()
-    return shopping_cart(request)
+# def check_box(request, id):
+#     item = ShoppingCartItem.objects.get(id=id)
+#     if(item.status == "Pending"):
+#         item.status = "Selected"
+#     elif(item.status == "Selected"):
+#         item.status = "Pending"
+#     item.save()
+#     return shopping_cart(request)
 
 def delete_cart(request):
     checkbox = request.POST.get('selectAll')
