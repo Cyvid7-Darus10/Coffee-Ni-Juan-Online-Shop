@@ -48,14 +48,7 @@ def product_list(request):
     })
 
 def product_item(request, id):
-    if request.user.is_authenticated:
-        username = request.user.username
-        name = request.user.first_name
-        surname = request.user.last_name
-    else:
-        username = 'Username'
-        name = 'No Account'  
-        surname = ""
+   
     product = get_if_exists(Product, **{'id':id})
     # get all products
     items = Product.objects.all()
@@ -78,9 +71,6 @@ def product_item(request, id):
     return render(request, "product/product_item.html", {
         "csss"        : css,
         "jss"         : js,
-        "username"    : username,
-        "name"        : name,
-        "surname"     : surname,
         "product"     : product,
         "stars"       : range(rating),
         "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),

@@ -61,9 +61,7 @@ def shopping_cart(request):
     })
 
 def check_out(request):
-    username = request.user.username
-    name = request.user.first_name
-    surname = request.user.last_name
+   
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
 
     item_cnt = 0
@@ -86,9 +84,6 @@ def check_out(request):
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
-        "username":username,
-        "name":name,
-        "surname": surname,
         "cart" : shopping_cart,
         "item_cnt" : item_cnt
     })
@@ -159,6 +154,8 @@ def add_cart(request, id):
     if request.POST.get('action') == 'ADD TO CART':   
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
+        if product.stock == 0:
+            return product_item(request,product.id)
         item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
     
         if item is None:
@@ -179,23 +176,14 @@ def add_cart(request, id):
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
-        if quantity >= product.stock:
-            quantity = product.stock
-            product.stock -= quantity
-            product.save()
-
-            item.quantity += quantity
-            item.status = "Pending"
-            item.save()
-        elif product.stock == 0:
-            pass
-        else:
-            product.stock -= quantity
-            product.save()
-            item.quantity += quantity
-            item.status = "Pending"
-            item.save()
         
+        product.stock -= quantity
+        product.save()
+
+        item.quantity += quantity
+        item.status = "Pending"
+        item.save()
+     
     elif request.POST.get('action') == 'BUY NOW':
         for product in cart.products():
             if product.status == "Selected":
@@ -225,28 +213,39 @@ def update_item(request,id):
         number = 'quantity' + " " +  str(id)
         quantity = request.POST.get(number)
         quantity = int(quantity)
-        if quantity >= product.stock:
-            quantity = product.stock
-            product.stock -= quantity
-            product.save()
+        
+        
+        if product.stock > quantity:
+            if quantity < item.quantity:
+                product.stock += item.quantity - quantity
+                product.save()
+                item.quantity = quantity
+                item.status = "Pending"
+                item.save()
 
-            item.quantity += quantity
-            item.status = "Pending"
-            item.save()
+            elif quantity > item.quantity:
+                product.stock -=  quantity - item.quantity 
+                product.save()
+
+                item.quantity = quantity
+                item.status = "Pending"
+                item.save()
+        elif product.stock < quantity:
+            if quantity < item.quantity:
+                product.stock += item.quantity - quantity
+                product.save()
+                item.quantity = quantity
+                item.status = "Pending"
+                item.save()
+            elif quantity > item.quantity:
+                product.stock -=  quantity - item.quantity 
+                product.save()
+                item.quantity = quantity
+                item.status = "Pending"
+                item.save()
         elif product.stock == 0:
             pass
-        elif quantity < item.quantity:
-            product.stock += item.quantity - quantity
-            product.save()
-            item.quantity = quantity
-            item.status = "Pending"
-            item.save()
-        elif quantity > item.quantity:
-            product.stock -=  quantity - item.quantity 
-            product.save()
-            item.quantity = quantity
-            item.status = "Pending"
-            item.save()
+        
         # else:
         #     product.stock -= quantity
         #     product.save()
@@ -254,9 +253,11 @@ def update_item(request,id):
         #     item.status = "Pending"
         #     item.save()
         
-    if request.POST.get('checkItem') == id:
-        item.status = "Selected"
-        item.save()
+    # if request.POST.get('checkItem') == id:
+    #     # if request.POST.get('checkItem') is checked:
+    #     item.status = "Selected"
+    #     item.save()
+
     return shopping_cart(request)
     
 def remove_cart(request, id):
@@ -269,14 +270,14 @@ def remove_cart(request, id):
     item.save()
     return shopping_cart(request)
 
-# def check_box(request, id):
-#     item = ShoppingCartItem.objects.get(id=id)
-#     if(item.status == "Pending"):
-#         item.status = "Selected"
-#     elif(item.status == "Selected"):
-#         item.status = "Pending"
-#     item.save()
-#     return shopping_cart(request)
+def check_box(request, id):
+    item = ShoppingCartItem.objects.get(id=id)
+    if(item.status == "Pending"):
+        item.status = "Selected"
+    elif(item.status == "Selected"):
+        item.status = "Pending"
+    item.save()
+    return shopping_cart(request)
 
 def delete_cart(request):
     checkbox = request.POST.get('selectAll')

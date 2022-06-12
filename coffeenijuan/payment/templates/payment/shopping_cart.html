@@ -62,12 +62,10 @@
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
                 <li class="single-product ">
                   <div class="product-container col-12 row">
-                    <form action="{% url 'payment:update_item' p.id %}"  method="POST" class="container-fluid row p-0">
-                      {% csrf_token %}
 
                     <div class=" buttons col-1">
                           <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
-                            {% comment %} <a  href ="{% url 'payment:check_box' p.id %}"> {% endcomment %}
+                            <a  href ="{% url 'payment:check_box' p.id %}"> 
                             <div class="form-check d-block ">
                               {% if p.status == "Selected" %}
                               <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}' checked/>
@@ -75,7 +73,7 @@
                               <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}'/>
                               {% endif %}
                             </div>
-                          {% comment %} </a> {% endcomment %}
+                          </a>
                       </div>
 
                       <!-- product image -->
@@ -86,15 +84,16 @@
                     <!-- Product details -->
                       <div class="product-details col-6 d-inline text-start">
                           <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
-                          
+                          <form action="{% url 'payment:update_item' p.id %}"  method="POST" class="container-fluid row p-0">
+                            {% csrf_token %}
                             <div class="col-12 ">
-                              <input type='number' name='quantity {{p.id}}' value='{{ p.quantity }}' class = 'qty col-4 w-25'/>                       
+                              <input type='number' name='quantity {{p.id}}' value='{{ p.quantity }}' class = 'qty col-4 w-25' min ="1"/>                       
                               <button class="btn btn-warning btn-sm button_text_container custom-btn-color " name="action" type="submit" value="Update Cart">Update Cart</button>
                             </div>
-                          
+                          </form>
                           <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
                       </div>
-                    </form>
+                    
                   </div>
               </li>
               </ul> 
