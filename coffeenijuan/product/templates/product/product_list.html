@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block content %}
-    <article class="container-fluid m-0 px-5 row">
-		<section class="col-12 col-lg-3 mt-5 glass-backdrop">
-			<div class="col-12 row h3 d-none d-lg-block">
-				<img class="img-fluid col-3" src = "{% static 'resources/filter.png' %}" />
+    <article class="container-fluid m-0 px-5 py-3 row">
+		<section class="col-12 col-lg-3 glass-backdrop" style="height: fit-content;">
+			<div class="col-12 row h3 d-none d-lg-block text-center mt-2">
+				<img class="img-fluid col-2" src = "{% static 'resources/filter.png' %}" />
 				<span class="col-9"> Search Filter</span>
 			</div>	
 			<!--Rating and Price Range-->
@@ -31,7 +31,7 @@
 						<label class="half" for="star1half" title="somewhat good - 1.5 stars"></label>
 						<input type="radio" id="star1" name="rating" value="1" />
 						<label class = "full" for="star1" title="bad - 1 star"></label>
-						<input type="radio" id="starhalf" name="rating" value="half" />
+						<input type="radio" id="starhalf" name="rating" value="0.5" />
 						<label class="half" for="starhalf" title="bad - 0.5 stars"></label>
 					</fieldset>
 				</div>
@@ -60,15 +60,20 @@
 			</form>
 		</section>	
 		
-		<section class="col-12 col-lg-9">
-			<span class="display-5">Product List</span>
-			<div class="row mt-3" style="overflow-y: scroll; height: 70vh;">
+		<section class="col-12 col-lg-9 border border-dark">
+			<div class="row " style="overflow-y: scroll; height: 80vh;">
 				<!-- Loops the products data -->
 				{% for product in products %}
 					{% if product.label != "Shipping Fee" %}
-					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2">
+					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2 text-decoration-none">
 						<img class="img-fluid" src="/media/{{ product.image }}" />
-						<span class="h6 fw-bolder">Php {{ product.price }} | {{ product.rating }} Stars</span>
+						<div class="bg-light px-2 py-1">
+							<p class="h6 fw-bolder text-truncate">{{product.label}}</p>
+							<div class="d-flex d-row justify-content-between ">
+								<p class="h6 text-truncate">Php {{ product.price }}</p>
+								<p class="h6 text-truncate">{{ product.rating }} Stars</p>
+							</div>
+						</div>
 					</a>
 					{% endif %}
 				{% endfor %}

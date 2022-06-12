@@ -22,11 +22,10 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/payment/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/product/style.css' %}" />
 
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  </script> 
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>  
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-   
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap'); 
@@ -57,11 +56,22 @@
         
             
             <div class="collapse navbar-collapse w-100" id="navbarHeader">
-                <form class="form-inline p-0 m-0 row col-12 col-md-7">
-                    <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+                <form class="form-inline p-0 m-0 row col-12 col-md-7" action="{% url 'product:product_list' %}">
+                    <input class="form-control search-input" id="product_item" type="search" name="label" placeholder="Search" aria-label="Search">
                     <button class="btn search-btn" type="submit"><i class="bi bi-search black"></i></button>
                 </form>
 
+                <script>
+                    var availableProducts = [
+                        {% for product in all_products %}
+                          "{{product.label}}",
+                        {% endfor %}
+                    ];
+              
+                    $("#product_item").autocomplete({
+                        source: availableProducts
+                    });
+                </script>
                 <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
                     <li class="nav-item">
                         <a href="{% url 'product:product_list' %}" class="h3 mx-3">

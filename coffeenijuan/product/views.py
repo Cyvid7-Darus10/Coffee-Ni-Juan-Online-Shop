@@ -20,7 +20,11 @@ def get_if_exists(model, **kwargs):
 def product_list(request):
 
     # check if there is post request
-    if request.method == "POST":
+    label = request.GET.get('label')
+    print(label)
+    if label:
+        products = Product.objects.filter(label__icontains=label)
+    elif request.method == "POST":
         # use the filter data to get the product list
         max = request.POST.get('max', None)
         max = max if max else 1000.00
@@ -28,11 +32,12 @@ def product_list(request):
         min = min if min else 0.00
         rating = request.POST.get('rating', 0)
         rating = rating if rating else 0.00
-
         products = Product.objects.filter(price__gte=min, price__lte=max, rating__gte=rating)
     else:
         # get all products
         products = Product.objects.all()
+
+    all_products = Product.objects.all()
     
     # get user's shopping cart
     item_cnt = 0
@@ -41,17 +46,15 @@ def product_list(request):
         item_cnt = shopping_cart.countNotDeletedProducts()
 
     return render(request, "product/product_list.html", {
-        "csss"      : css,
-        "jss"       : js,
-        "products"  : products,
-        'item_cnt'  : item_cnt
+        "csss"         : css,
+        "jss"          : js,
+        "products"     : products,
+        "all_products" : all_products,
+        'item_cnt'     : item_cnt
     })
 
 def product_item(request, id):
-   
     product = get_if_exists(Product, **{'id':id})
-    # get all products
-    items = Product.objects.all()
 
     if not product:
         return redirect('product:product_list')
@@ -62,11 +65,13 @@ def product_item(request, id):
     not_whole = rating % 1
     rating = int(rating)
 
-   # get user's shopping cart
+    # get user's shopping cart
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
+
+    all_products = Product.objects.all()
 
     return render(request, "product/product_item.html", {
         "csss"        : css,
@@ -76,5 +81,5 @@ def product_item(request, id):
         "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
         'not_whole'   : not_whole,
         'item_cnt'    : item_cnt,
-        "items" :   items
+        "all_products": all_products
     })
