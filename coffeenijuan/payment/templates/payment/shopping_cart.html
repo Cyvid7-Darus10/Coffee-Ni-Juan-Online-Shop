@@ -83,7 +83,7 @@
 
                     <!-- Product details -->
                       <div class="product-details col-6 d-inline text-start">
-                          <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
+                          <span> <b> {{ p.product.label }}</b> </span>
                           <form action="{% url 'payment:update_item' p.id %}"  method="POST" class="container-fluid row p-0">
                             {% csrf_token %}
                             <div class="col-12 ">

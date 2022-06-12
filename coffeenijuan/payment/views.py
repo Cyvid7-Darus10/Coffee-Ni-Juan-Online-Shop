@@ -220,44 +220,40 @@ def update_item(request,id):
                 product.stock += item.quantity - quantity
                 product.save()
                 item.quantity = quantity
-                item.status = "Pending"
-                item.save()
+                
 
             elif quantity > item.quantity:
                 product.stock -=  quantity - item.quantity 
                 product.save()
 
                 item.quantity = quantity
-                item.status = "Pending"
-                item.save()
+               
         elif product.stock < quantity:
             if quantity < item.quantity:
                 product.stock += item.quantity - quantity
                 product.save()
                 item.quantity = quantity
-                item.status = "Pending"
-                item.save()
+                
             elif quantity > item.quantity:
-                product.stock -=  quantity - item.quantity 
-                product.save()
-                item.quantity = quantity
-                item.status = "Pending"
-                item.save()
+                if product.stock + item.quantity < quantity:       
+                    item.quantity = product.stock + item.quantity
+                    product.stock = 0;
+                    product.save()
+                    
+                else:
+                    product.stock -= item.quantity - quantity
+                    product.save()
+                    item.quantity = quantity
+                    
         elif product.stock == 0:
             pass
-        
-        # else:
-        #     product.stock -= quantity
-        #     product.save()
-        #     item.quantity = quantity
-        #     item.status = "Pending"
-        #     item.save()
         
     # if request.POST.get('checkItem') == id:
     #     # if request.POST.get('checkItem') is checked:
     #     item.status = "Selected"
     #     item.save()
-
+    item.status = "Pending"
+    item.save()
     return shopping_cart(request)
     
 def remove_cart(request, id):
