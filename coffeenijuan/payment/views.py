@@ -216,7 +216,10 @@ def update_item(request,id):
         quantity = request.POST.get(number)
         item.quantity = quantity
         item.save()
-    
+
+    if request.POST.get('checkItem') == id:
+        item.status = "Selected"
+        item.save()
     return shopping_cart(request)
     
 def remove_cart(request, id):
@@ -225,14 +228,14 @@ def remove_cart(request, id):
     item.save()
     return shopping_cart(request)
 
-def check_box(request, id):
-    item = ShoppingCartItem.objects.get(id=id)
-    if(item.status == "Pending"):
-        item.status = "Selected"
-    elif(item.status == "Selected"):
-        item.status = "Pending"
-    item.save()
-    return shopping_cart(request)
+# def check_box(request, id):
+#     item = ShoppingCartItem.objects.get(id=id)
+#     if(item.status == "Pending"):
+#         item.status = "Selected"
+#     elif(item.status == "Selected"):
+#         item.status = "Pending"
+#     item.save()
+#     return shopping_cart(request)
 
 def delete_cart(request):
     checkbox = request.POST.get('selectAll')
