@@ -2,78 +2,41 @@
 {% load static %}
 
 {% block content %}
-  <form action= "{% url 'payment:check_out'%}" method="POST">
+  <form id="check_out_form" action="{% url 'payment:check_out'%}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   <article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
     <span class="display-6"><b>Shopping Cart</b></span>
       <section class="cart-container col-md-8 d-inline border border-2 border-dark cart-backdrop" style="overflow-y: scroll">
         <div class="row">
           <div class="side-button col-12 col-md-3 my-3">
-            <form action ="{% url 'payment:delete_cart' %}" method ="POST">
-              {% csrf_token %}
               <!-- bootstrap checkbox, you can customize css -->
               <div class="form-check">
-                <input type="checkbox" id="select-all" class="form-check-input" name="selectAll" value="selectAll">
+                <input type="checkbox" id="select-all" class="selectAll form-check-input" name="selectAll" value="selectAll">
                 <label class="form-check-label" for="flexCheckChecked" >
                     <h5>Select All </h5>
                 </label>
               </div>
-              <button name="action" type="submit" class="btn btn-warning btn-sm button_text_container custom-btn-color " value="Cancel"> Cancel</button>
-            </form> 
+                <span class="btn btn-warning btn-sm button_text_container custom-btn-color" >
+                  <input type="submit" name="action" value="Delete Selected">
+                </span>
           </div>
           <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
           {% for p in cart.products %} 
-            {% comment %} {% if p.status == "Pending" %}
-              <ul class="cart-products list-group my-md-3" style="list-style: none;">
-                <li class="single-product ">
-                  <div class="product-container col-12 row">
-                      
-                    <div class=" buttons col-1">
-                          <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
-                            <a  href ="{% url 'payment:check_box' p.id %}">
-                            <div class="form-check d-block ">
-                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}'/>
-                            </div>
-                            </a>
-                      </div>
-
-                      <!-- product image -->
-                      <div class="product-image col-5 d-inline">
-                        <img class="img-fluid p-1 rounded float-left" style="max-width: 10vw"  src="/media/{{ p.product.image }}" />
-                      </div>
-
-                    <!-- Product details -->
-                      <div class="product-details col-6 d-inline text-start">
-                          <span> <b>Kanla-on Coffee {{ p.product.label }}</b> </span>
-                          <form action="{% url 'payment:update_item' p.id %}"  method="POST" class="container-fluid row p-0">
-                            {% csrf_token %}
-                            <div class="col-12 ">
-                              <input type='number' name='quantity {{p.id}}' value='{{ p.quantity }}' class = 'qty col-4 w-25'/>                       
-                              <button class="btn btn-warning btn-sm button_text_container custom-btn-color " name="action" type="submit" value="Update Cart">Update Cart</button>
-                            </div>
-                          </form>
-                          <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
-                      </div>
-                  </div>
-              </li>
-              </ul> 
-            {% endif %} {% endcomment %}
             {% if p.status == "Selected" or p.status == "Pending" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
-                <li class="single-product ">
-                  <div class="product-container col-12 row">
 
+                <li class="single-product">
+                  <div class="product-container col-12 row">
                     <div class=" buttons col-1">
                           <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a>
-                            <a  href ="{% url 'payment:check_box' p.id %}"> 
                             <div class="form-check d-block ">
                               {% if p.status == "Selected" %}
-                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}' checked/>
+                                <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}' checked/>
                               {% elif p.status == "Pending" %}
-                              <input type="checkbox" name="checkItem" id="checkItem" class="form-check-input" value='{{p.id}}'/>
+                              <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}'/>
                               {% endif %}
+                              <span class="productId" hidden>{{p.id}}</span>
                             </div>
-                          </a>
                       </div>
 
                       <!-- product image -->
@@ -83,17 +46,18 @@
 
                     <!-- Product details -->
                       <div class="product-details col-6 d-inline text-start">
-                          <span> <b> {{ p.product.label }}</b> </span>
-                          <form action="{% url 'payment:update_item' p.id %}"  method="POST" class="container-fluid row p-0">
-                            {% csrf_token %}
-                            <div class="col-12 ">
-                              <input type='number' name='quantity {{p.id}}' value='{{ p.quantity }}' class = 'qty col-4 w-25' min ="1"/>                       
-                              <button class="btn btn-warning btn-sm button_text_container custom-btn-color " name="action" type="submit" value="Update Cart">Update Cart</button>
-                            </div>
-                          </form>
-                          <span>PHP {{ p.product.price }} x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+                          <span> <b>{{ p.product.label }}</b> </span>
+                          <br />
+                          <input type='text' name='quantity{{ p.id }}' value='{{ p.quantity }}' class = 'qty col-4 w-25'/>
+                          <span class="stock" hidden>{{ p.product.stock }}</span>
+                          <br />
+
+                          <span><span class="productId" hidden>{{p.id}}</span>₱ <span class="price">{{ p.product.price }}</span> x <span class="quantity">{{ p.quantity }}</span> = ₱ <span class="totalPrice">{{ p.totalPrice }}</span></span>
                       </div>
-                    
                   </div>
               </li>
               </ul> 
@@ -107,20 +71,20 @@
           <div class="border border-2 border-dark summary-backdrop m-5 p-4 text-start" style="overflow-y: scroll">
               <label class="h6"><b>Selected Items</b></label>
               <br>
-              <div class="ps-5">
+              <div class="prices ps-5">
+                {% comment %}
                 {% for p in cart.products %} 
                   {% if p.status == "Selected" %}
-                  <span class="clearfix">PHP {{ p.product.price }}  x {{ p.quantity }} = PHP {{ p.totalPrice }}</span>
+                  <span class="clearfix">₱ {{ p.product.price }}  x {{ p.quantity }} = ₱ {{ p.totalPrice }}</span>
                   {% endif %}
                 {% endfor %}
+                {% endcomment %}
               </div>
               <hr>
-              <span class="clearfix">Grand Total = PHP {{ cart.totalPriceSelected }}</span>
+              <span class="clearfix">Grand Total = ₱ <span class="grandTotal">{{ cart.totalPriceSelected }}</span></span>
           </div>
-          <button class="custom-btn animation-btn text-center" name="action" value="Check_out">
-            <span class="button_text_container">
-                CHECK OUT
-            </span>
+          <button class="custom-btn animation-btn text-center" >
+            <input type="submit" name="action" value="Check Out">
           </button>
       </section>
   </article>

@@ -1,3 +1,6 @@
+import json
+from django.http import JsonResponse
+from math import ceil
 from django.shortcuts import render,redirect
 from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem,Payment
 from product.models import Product
@@ -30,18 +33,43 @@ def shopping_cart(request):
 
 @users_only
 def check_out(request):
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+
+    username = request.user.username
+    name = request.user.first_name
+    surname = request.user.last_name
+>>>>>>> Stashed changes
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     item_cnt = 0
     if request.method == 'POST':
-        if request.POST.get('action') == 'Check_out':
-            if request.POST.get('selectAll') == 'selectAll':
-                ShoppingCartItem.objects.filter(shopping_cart=shopping_cart, status="Pending").update(status="Selected")
-            else:
-                array = request.POST.getlist("checkItem")
-                for i in array:
-                     ShoppingCartItem.objects.filter(id=i).update(status="Selected")
-        elif request.POST.get('action') == 'Cancel':
-             return delete_cart(request)
+<<<<<<< Updated upstream
+        # print(request.POST.get('action'));
+        # print(request.POST.getlist("checkItem"));
+        # print(request.POST.get('quantity27'));
+=======
+        print(request.POST.get('action'));
+        print(request.POST.getlist("checkItem"));
+        print(request.POST.get('quantity27'));
+>>>>>>> Stashed changes
+        if request.POST.get('action') == 'Check Out':
+            ShoppingCartItem.objects.filter(status="Selected").update(status="Pending");
+            items = ShoppingCartItem.objects.filter(status="Pending");
+            for i in items:
+                if request.POST.get('quantity'+str(i.id)):
+                    num = int(request.POST.get('quantity'+str(i.id)))
+                    ShoppingCartItem.objects.filter(id=i.id).update(quantity=num)
+
+            arr = request.POST.getlist("checkItem")
+
+            for i in arr:
+                ShoppingCartItem.objects.filter(id=i).update(status="Selected")
+
+        elif request.POST.get('action') == 'Delete Selected':
+            return delete_cart(request)
 
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
@@ -227,8 +255,9 @@ def remove_cart(request, id):
     product.save()
     item.status = "Deleted"
     item.save()
+    message = request.POST.get('title')
+<<<<<<< Updated upstream
     return shopping_cart(request)
-
 
 @users_only
 def check_box(request, id):
@@ -240,16 +269,23 @@ def check_box(request, id):
     item.save()
     return shopping_cart(request)
 
+=======
+    return shopping_cart(request)
+
+def check_box(request, id):
+    item = ShoppingCartItem.objects.get(id=id)
+    if(item.status == "Pending"):
+        item.status = "Selected"
+    elif(item.status == "Selected"):
+        item.status = "Pending"
+    item.save()
+    return shopping_cart(request)
+>>>>>>> Stashed changes
 
 @users_only
 def delete_cart(request):
-    checkbox = request.POST.get('selectAll')
-    cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-    if cart:
-        products = cart.products();
-    if checkbox == 'selectAll':
-        for product in products:
-            item = ShoppingCartItem.objects.get(id=product.id)
-            item.status = "Deleted"
-            item.save()
+    arr = request.POST.getlist("checkItem")
+    for i in arr:
+        ShoppingCartItem.objects.filter(id=i).update(status="Deleted")
+    message = request.POST.get('title')
     return shopping_cart(request)

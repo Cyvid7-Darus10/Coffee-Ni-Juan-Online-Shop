@@ -16,12 +16,12 @@ $(".minus").on("click", function() {
 
 $(".qty").on("keyup keydown", function() {
 	let val = parseInt($(".qty").val());
-	console.log(val)
-	let stock = parseInt($("#stock").text());
+	let stock = parseInt($(".stock").text());
+	let $this = $(this);
 	if($(".qty").val() == "") {
-		$(".qty").val(0);		
+		$this.val(0);
 	}
 	if(val > stock || !(/^([0-9])+$/.test($(".qty").val()))) {
-		$(".qty").val(stock);
+		$this.val(stock);
 	}
 })
