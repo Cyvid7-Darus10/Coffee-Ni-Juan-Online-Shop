@@ -8,15 +8,11 @@ from .support import get_if_exists, encrypt, decrypt
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Account
 from django.urls import reverse
-import datetime
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from product.models import Product
-from payment.models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
-from product.views import product_item
-from django.contrib import messages
 
 js = []
 css = []
