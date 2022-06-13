@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db.models.fields import DateTimeField
 from account.models import Account
 
+
 class Base(models.Model):
     created = DateTimeField(default=datetime.now)
     updated = DateTimeField(default=datetime.now)
@@ -10,6 +11,7 @@ class Base(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Product(Base):
     label       = models.CharField(max_length=250, blank=True, null=True)
