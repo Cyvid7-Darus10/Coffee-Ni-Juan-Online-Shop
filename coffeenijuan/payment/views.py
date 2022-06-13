@@ -33,10 +33,6 @@ def shopping_cart(request):
 
 @users_only
 def check_out(request):
-    username = request.user.username
-    name = request.user.first_name
-    surname = request.user.last_name
-    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     item_cnt = 0
     if request.method == 'POST':
         # print(request.POST.get('action'));
@@ -57,7 +53,7 @@ def check_out(request):
 
         elif request.POST.get('action') == 'Delete Selected':
             return delete_cart(request)
-
+    shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
             
@@ -170,11 +166,27 @@ def add_cart(request, id):
 
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
-        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product})
+        if product.stock == 0:
+            return redirect("product:product_item", product.id)
+        item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Pending"})
+    
         if item is None:
-            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product)
+            item = get_if_exists(ShoppingCartItem, **{'shopping_cart':cart, 'product':product, 'status': "Selected"})
+
+
+        if item is None:
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
         
+        if item.status == "Deleted":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+        elif item.status == "Ongoing":
+            item = ShoppingCartItem.objects.create(shopping_cart=cart, product=product, status = "Pending")
+
         quantity = int(request.POST.get('quantity'))
+
+        product.stock -= quantity
+        product.save()
+        
         item.quantity = quantity
         item.status = "Selected"
         item.save()
@@ -185,52 +197,47 @@ def add_cart(request, id):
 
 
 @users_only
-def update_item(request,id):
+def update_item(request,id,quantity):
     item = ShoppingCartItem.objects.get(id=id)
     product = item.product
-    if request.POST.get('action') == 'Update Cart':
-        # get the quantity parameter
-        number = 'quantity' + " " +  str(id)
-        quantity = request.POST.get(number)
-        quantity = int(quantity)
-        
-        
-        if product.stock > quantity:
-            if quantity < item.quantity:
-                product.stock += item.quantity - quantity
+    quantity = int(quantity)
+           
+    if product.stock > quantity:
+        if quantity < item.quantity:
+            product.stock += item.quantity - quantity
+            product.save()
+            item.quantity = quantity
+            
+
+        elif quantity > item.quantity:
+            product.stock -=  quantity - item.quantity 
+            product.save()
+
+            item.quantity = quantity
+            
+    elif product.stock < quantity:
+        if quantity < item.quantity:
+            product.stock += item.quantity - quantity
+            product.save()
+            item.quantity = quantity
+            
+        elif quantity > item.quantity:
+            if product.stock + item.quantity < quantity:       
+                item.quantity = product.stock + item.quantity
+                product.stock = 0;
+                product.save()
+                
+            else:
+                product.stock -= item.quantity - quantity
                 product.save()
                 item.quantity = quantity
                 
-
-            elif quantity > item.quantity:
-                product.stock -=  quantity - item.quantity 
-                product.save()
-
-                item.quantity = quantity
-               
-        elif product.stock < quantity:
-            if quantity < item.quantity:
-                product.stock += item.quantity - quantity
-                product.save()
-                item.quantity = quantity
-                
-            elif quantity > item.quantity:
-                if product.stock + item.quantity < quantity:       
-                    item.quantity = product.stock + item.quantity
-                    product.stock = 0;
-                    product.save()
-                    
-                else:
-                    product.stock -= item.quantity - quantity
-                    product.save()
-                    item.quantity = quantity
-                    
-        elif product.stock == 0:
-            pass
+    elif product.stock == 0:
+        pass
 
     item.status = "Pending"
     item.save()
-    return shopping_cart(request)
+    # return shopping_cart(request)
 
 
 @users_only
