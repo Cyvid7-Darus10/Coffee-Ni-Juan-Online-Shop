@@ -15,10 +15,10 @@ $(".minus").on("click", function() {
 });
 
 $(".qty").on("keyup keydown", function() {
-	let val = parseInt($(".qty").val());
-	let stock = parseInt($(".stock").text());
 	let $this = $(this);
-	if($(".qty").val() == "") {
+	let val = parseInt($this.val());
+	let stock = parseInt($this.closest("div").find(".stock").text());
+	if($this.val() == "") {
 		$this.val(0);
 	}
 	if(val > stock || !(/^([0-9])+$/.test($(".qty").val()))) {

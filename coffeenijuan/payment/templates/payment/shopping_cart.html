@@ -21,7 +21,7 @@
                 </span>
           </div>
           <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
-          {% for p in cart.products %} 
+          {% for p in cart.products %}
             {% if p.status == "Selected" or p.status == "Pending" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
 
@@ -46,10 +46,6 @@
 
                     <!-- Product details -->
                       <div class="product-details col-6 d-inline text-start">
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
                           <span> <b>{{ p.product.label }}</b> </span>
                           <br />
                           <input type='text' name='quantity{{ p.id }}' value='{{ p.quantity }}' class = 'qty col-4 w-25'/>

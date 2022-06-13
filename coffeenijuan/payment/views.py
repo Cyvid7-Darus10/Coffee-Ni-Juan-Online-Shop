@@ -33,28 +33,15 @@ def shopping_cart(request):
 
 @users_only
 def check_out(request):
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-
     username = request.user.username
     name = request.user.first_name
     surname = request.user.last_name
->>>>>>> Stashed changes
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     item_cnt = 0
     if request.method == 'POST':
-<<<<<<< Updated upstream
         # print(request.POST.get('action'));
         # print(request.POST.getlist("checkItem"));
         # print(request.POST.get('quantity27'));
-=======
-        print(request.POST.get('action'));
-        print(request.POST.getlist("checkItem"));
-        print(request.POST.get('quantity27'));
->>>>>>> Stashed changes
         if request.POST.get('action') == 'Check Out':
             ShoppingCartItem.objects.filter(status="Selected").update(status="Pending");
             items = ShoppingCartItem.objects.filter(status="Pending");
@@ -256,7 +243,6 @@ def remove_cart(request, id):
     item.status = "Deleted"
     item.save()
     message = request.POST.get('title')
-<<<<<<< Updated upstream
     return shopping_cart(request)
 
 @users_only
@@ -268,19 +254,6 @@ def check_box(request, id):
         item.status = "Pending"
     item.save()
     return shopping_cart(request)
-
-=======
-    return shopping_cart(request)
-
-def check_box(request, id):
-    item = ShoppingCartItem.objects.get(id=id)
-    if(item.status == "Pending"):
-        item.status = "Selected"
-    elif(item.status == "Selected"):
-        item.status = "Pending"
-    item.save()
-    return shopping_cart(request)
->>>>>>> Stashed changes
 
 @users_only
 def delete_cart(request):
