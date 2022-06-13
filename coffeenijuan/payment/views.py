@@ -100,7 +100,6 @@ def add_order(request, payment):
         new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Deleted")
         new_order_item.save()
 
-
 @users_only
 def add_payment(request, cart):
     if request.POST.get('action') == 'ADD PAYMENT':

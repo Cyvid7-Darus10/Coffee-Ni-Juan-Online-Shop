@@ -42,10 +42,10 @@ class Order(Base):
         return OrderItem.objects.filter(order=self.id)
 
     def totalPrice(self):
-        products = OrderItem.objects.filter(order=self.id)
+        order_items = OrderItem.objects.filter(order=self.id)
         total = 0
-        for product in products:
-            total += product.price
+        for order_item in order_items:
+            total += order_item.product.price
         return total
 
     def __str__(self):
