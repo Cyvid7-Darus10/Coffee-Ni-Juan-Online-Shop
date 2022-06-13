@@ -11,6 +11,7 @@ css = []
 # @login_required
 def product_list(request):
 
+    rating = 0
     # check if there is post request
     label = request.GET.get('label')
     print(label)
@@ -42,7 +43,8 @@ def product_list(request):
         "jss"          : js,
         "products"     : products,
         "all_products" : all_products,
-        'item_cnt'     : item_cnt
+        'item_cnt'     : item_cnt,
+        "rating"       : rating
     })
 
 

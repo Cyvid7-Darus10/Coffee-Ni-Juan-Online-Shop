@@ -5,7 +5,7 @@
     <article class="container-fluid m-0 px-5 py-3 row">
 		<section class="col-12 col-lg-3 glass-backdrop" style="height: fit-content;">
 			<div class="col-12 row h3 d-none d-lg-block text-center mt-2">
-				<img class="img-fluid col-2" src = "{% static 'resources/filter.png' %}" />
+				<img class="img-fluid col-2" src = "{% static 'resources/filter.png' %}"/>
 				<span class="col-9"> Search Filter</span>
 			</div>	
 			<!--Rating and Price Range-->
@@ -14,25 +14,75 @@
 				<div class="col-12 mt-0 mt-lg-5">
 					<span class="h4"> Rating </span>
 					<fieldset class="rating me-auto">
-						<input type="radio" id="star5" name="rating" value="5" />
-						<label class = "full" for="star5" title="Awesome - 5 stars"></label>
-						<input type="radio" id="star4half" name="rating" value="4.5" />
-						<label class="half" for="star4half" title="pretty good - 4.5 stars"></label>
-						<input type="radio" id="star4" name="rating" value="4" />
-						<label class = "full" for="star4" title="pretty good - 4 stars"></label>
-						<input type="radio" id="star3half" name="rating" value="3.5" />
-						<label class="half" for="star3half" title="somewhat good - 3.5 stars"></label>
-						<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="somewhat good - 3 stars"></label>
-						<input type="radio" id="star2half" name="rating" value="2.5" />
-						<label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-						<input type="radio" id="star2" name="rating" value="2" />
-						<label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-						<input type="radio" id="star1half" name="rating" value="1.5" />
-						<label class="half" for="star1half" title="somewhat good - 1.5 stars"></label>
-						<input type="radio" id="star1" name="rating" value="1" />
-						<label class = "full" for="star1" title="bad - 1 star"></label>
-						<input type="radio" id="starhalf" name="rating" value="0.5" />
-						<label class="half" for="starhalf" title="bad - 0.5 stars"></label>
+						{% if rating == "5" %}
+							<input type="radio" id="star5" name="rating" value="5" checked/>
+						{% else %}
+							<input type="radio" id="star5" name="rating" value="5"/>
+						{% endif %}
+						<label class="full" for="star5"></label>
+						
+						{% if rating == "4.5" %}
+							<input type="radio" id="star4half" name="rating" value="4.5" checked/>
+						{% else %}
+							<input type="radio" id="star4half" name="rating" value="4.5"/>
+						{% endif %}
+						<label class="half" for="star4half"></label>
+
+						{% if rating == "4" %}
+							<input type="radio" id="star4" name="rating" value="4" checked/>
+						{% else %}
+							<input type="radio" id="star4" name="rating" value="4"/>
+						{% endif %}
+						<label class="full" for="star4"></label>
+
+						{% if rating == "3.5" %}
+							<input type="radio" id="star3half" name="rating" value="3.5" checked/>
+						{% else %}
+							<input type="radio" id="star3half" name="rating" value="3.5"/>
+						{% endif %}
+						<label class="half" for="star3half"></label>
+
+						{% if rating == "3" %}
+							<input type="radio" id="star3" name="rating" value="3" checked/>
+						{% else %}
+							<input type="radio" id="star3" name="rating" value="3"/>
+						{% endif %}
+						<label class="full" for="star3"></label>
+
+						{% if rating == "2.5" %}
+							<input type="radio" id="star2half" name="rating" value="2.5" checked/>
+						{% else %}
+							<input type="radio" id="star2half" name="rating" value="2.5"/>
+						{% endif %}
+						<label class="half" for="star2half"></label>
+
+						{% if rating == "2" %}
+							<input type="radio" id="star2" name="rating" value="2" checked/>
+						{% else %}
+							<input type="radio" id="star2" name="rating" value="2"/>
+						{% endif %}
+						<label class="full" for="star2"></label>
+
+						{% if rating == "1.5" %}
+							<input type="radio" id="star1half" name="rating" value="1.5" checked/>
+						{% else %}
+							<input type="radio" id="star1half" name="rating" value="1.5"/>
+						{% endif %}
+						<label class="half" for="star1half"></label>
+
+						{% if rating == "1" %}
+							<input type="radio" id="star1" name="rating" value="1" checked/>
+						{% else %}
+							<input type="radio" id="star1" name="rating" value="1"/>
+						{% endif %}
+						<label class="full" for="star1"></label>
+
+						{% if rating == "0.5" %}
+							<input type="radio" id="starhalf" name="rating" value="0.5" checked/>
+						{% else %}
+							<input type="radio" id="starhalf" name="rating" value="0.5"/>
+						{% endif %}
+						<label class="half" for="starhalf"></label>
 					</fieldset>
 				</div>
 				<div class="col-12 mt-5">
@@ -66,7 +116,7 @@
 				{% for product in products %}
 					{% if product.label != "Shipping Fee" %}
 					<a href="{% url 'product:product_item' product.id %}" class="d-block col-6 col-lg-3 p-2 text-decoration-none">
-						<img class="img-fluid" src="/media/{{ product.image }}" />
+						<img class="img-fluid" src="/media/{{ product.image }}"/>
 						<div class="bg-light px-2 py-1">
 							<p class="h6 fw-bolder text-truncate">{{product.label}}</p>
 							<div class="d-flex d-row justify-content-between ">

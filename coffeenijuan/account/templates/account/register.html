@@ -18,13 +18,11 @@
                 {{ form }}
 
                 {% for field in registration_form %}
-                    
-                        {{field.label_tag}}
-                        {{field}}
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
-                    
+                    {{field.label_tag}}
+                    {{field}}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
                 {% endfor %}
 
                 {% if registration_form.non_field_errors %}

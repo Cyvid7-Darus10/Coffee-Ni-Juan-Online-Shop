@@ -15,11 +15,11 @@ from decouple import config
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'secondary',
-        messages.INFO: 'info',
-        messages.SUCCESS: 'success',
-        messages.WARNING: 'warning',
-        messages.ERROR: 'danger',
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
