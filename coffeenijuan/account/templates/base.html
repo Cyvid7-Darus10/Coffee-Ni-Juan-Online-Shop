@@ -20,8 +20,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>  
         
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap'); 
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Roboto:wght@300;400&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap'); 
+            @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Roboto:wght@300;400&display=swap');
         </style>
     </head>
 
@@ -43,7 +43,7 @@
                     <li class="nav-item p-2">
                         <div class="animation-btn-container">
                             <span class="su_button_circle"></span>
-                            {% if page == "home" and not user.is_authenticated %}
+                            {% if page == "home" or page == "register" and not user.is_authenticated %}
                                 <a type="button" class="custom-btn animation-btn" href="{% url 'account:login' %}">
                                     <span class="button_text_container">
                                         LOGIN

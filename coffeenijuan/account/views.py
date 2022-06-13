@@ -35,7 +35,6 @@ def prompt_message(request, type):
 def home(request):
     page = "home"
 
-     # get all products
     items = Product.objects.all()
 
     return render(request, "account/home.html", {
@@ -110,14 +109,20 @@ def register(request):
             message = "Hello {} {}".format(user.first_name, user.last_name)    
             from_email = settings.EMAIL_HOST_USER
             to_list = [email]
-            send_mail(subject, message, from_email, to_list, fail_silently=False)
+            try:
+                send_mail(subject, message, from_email, to_list, fail_silently=False)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
 
             # Sending Verification Email
             link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "+" + str(user.id)))
             message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
             to_list = [email]
-            send_mail(subject, message, from_email, to_list, fail_silently=False)
 
+            try:
+                send_mail(subject, message, from_email, to_list, fail_silently=False)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
     
             return redirect('account:home')
         else:

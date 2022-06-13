@@ -217,7 +217,7 @@ def update_item(request,id):
             elif quantity > item.quantity:
                 if product.stock + item.quantity < quantity:       
                     item.quantity = product.stock + item.quantity
-                    product.stock = 0;
+                    product.stock = 0
                     product.save()
                     
                 else:
