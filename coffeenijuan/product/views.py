@@ -30,6 +30,10 @@ def product_list(request):
         # get all products
         products = Product.objects.all()
 
+    if request.POST.get('submit_type') == 'SELECT ALL':
+        products = Product.objects.all()
+        rating = 0
+
     all_products = Product.objects.all()
     
     # get user's shopping cart
