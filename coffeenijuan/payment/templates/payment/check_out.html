@@ -37,7 +37,7 @@
                 <div class="col-3 h6"><b>Subtotal</b></div>
               </div>
               {% for shopping_cart_item in shopping_cart.shopping_cart_items %}
-                {% if shopping_cart_item.status == "Selected" %}
+                {% if shopping_cart_item.status == "selected" %}
                   <div class="product product_details row">
                     <div class="col-3 text-center h6">
                       <a href="{% url 'product:product_item' shopping_cart_item.product.id %}" target="_blank"><img class="d-none d-md-inline img-fluid p-1 rounded float-left" style="max-width: 10vw"  

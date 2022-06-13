@@ -5,9 +5,10 @@ from .pages_inventory import *
 from .pages_supply import *
 from .pages_account import *
 from .pages_account import *
+from .pages_order import *
 from .model_transaction import *
 from .helpers import excelreport
-from .decorators import admin_only, include_farmer
+from .decorators import admin_only, include_farmer, include_staff
 
 # global variables for js and css
 js = []
@@ -123,13 +124,18 @@ def account(request):
     })
 
 
-@admin_only
-def orders(request):
+@include_staff
+def order_list(request):
     page = "orders"
-    return render(request, "management/orders.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page
+
+    orders, extra_query = sort_orders(request)
+
+    return render(request, "management/order/orders.html", {
+        "csss"        : css,
+        "jss"         : js,
+        "page"        : page,
+        "orders"      : orders,
+        "extra_query" : extra_query
     })
 
 

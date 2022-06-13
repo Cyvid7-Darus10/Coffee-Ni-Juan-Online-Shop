@@ -22,7 +22,7 @@ class Product(Base):
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.label} on {self.created} with {self.price} price"
+        return self.label
     
     class Meta:
         ordering = ['-created']

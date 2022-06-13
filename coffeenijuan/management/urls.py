@@ -23,6 +23,10 @@ urlpatterns = [
     path('management/delete_account/<int:id>', views.delete_account, name='delete_account'),
     path('management/edit_account/<int:id>', views.edit_account, name='edit_account'),
     path('management/view_account/<int:id>', views.view_account, name='view_account'),
-    path('management/orders', views.orders, name='orders'),
+    path('management/order_list', views.order_list, name='order_list'),
+    path('management/view_order/<int:id>', views.view_order, name='view_order'),
+    path('management/cancel_order/<int:id>', views.cancel_order, name='cancel_order'),
+    path('management/approve_order/<int:id>', views.approve_order, name='approve_order'),
+    path('management/complete_order/<int:id>', views.complete_order, name='complete_order'),
     path('management/settings', views.settings, name='settings'),
 ]

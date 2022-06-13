@@ -37,8 +37,8 @@ def check_out(request):
     item_cnt = 0
     if request.method == 'POST':
         if request.POST.get('action') == 'Check Out':
-            ShoppingCartItem.objects.filter(status="Selected").update(status="Pending")
-            pending_cart_items = ShoppingCartItem.objects.filter(status="Pending")
+            ShoppingCartItem.objects.filter(status="selected").update(status="pending")
+            pending_cart_items = ShoppingCartItem.objects.filter(status="pending")
             for pending_cart_item in pending_cart_items:
                 if request.POST.get('quantity'+str(pending_cart_item.id)):
                     num = int(request.POST.get('quantity'+str(pending_cart_item.id)))
@@ -47,7 +47,7 @@ def check_out(request):
             selected_items_ids = request.POST.getlist("checkItem")
 
             for selected_items_id in selected_items_ids:
-                ShoppingCartItem.objects.filter(id=selected_items_id).update(status="Selected")
+                ShoppingCartItem.objects.filter(id=selected_items_id).update(status="selected")
 
         elif request.POST.get('action') == 'Delete Selected':
             return delete_cart(request)
@@ -89,13 +89,13 @@ def add_order(request, payment):
     customer = request.user
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user})
 
-    new_order = Order.objects.create(customer=customer, payment=payment, status="Ongoing")
+    new_order = Order.objects.create(customer=customer, payment=payment, status="ongoing")
 
     shopping_cart_items = shopping_cart.shopping_cart_items()
     for shopping_cart_item in shopping_cart_items:
-        if (shopping_cart_item.status == "Selected"):
-            OrderItem.objects.create(order=new_order, product=shopping_cart_item.product, quantity=shopping_cart_item.quantity, status="Ongoing")
-            shopping_cart_item.status = "Deleted"
+        if (shopping_cart_item.status == "selected"):
+            OrderItem.objects.create(order=new_order, product=shopping_cart_item.product, quantity=shopping_cart_item.quantity, status="ongoing")
+            shopping_cart_item.status = "deleted"
             shopping_cart_item.save()
 
 
@@ -132,18 +132,18 @@ def add_cart(request, id):
         product = get_if_exists(Product, **{'id':id})
         if product.stock == 0:
             return redirect("product:product_item", product.id)
-        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "Pending"})
+        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
     
         if shopping_cart_item is None:
-            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "Selected"})
+            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "selected"})
 
         if shopping_cart_item is None:
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
         
-        if shopping_cart_item.status == "Deleted":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
-        elif shopping_cart_item.status == "Ongoing":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
+        if shopping_cart_item.status == "deleted":
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
+        elif shopping_cart_item.status == "ongoing":
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
 
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
@@ -152,30 +152,30 @@ def add_cart(request, id):
         product.save()
 
         shopping_cart_item.quantity += quantity
-        shopping_cart_item.status = "Pending"
+        shopping_cart_item.status = "pending"
         shopping_cart_item.save()
      
     elif request.POST.get('action') == 'BUY NOW':
         for shopping_cart_item in shopping_cart.shopping_cart_items():
-            if shopping_cart_item.status == "Selected":
-                shopping_cart_item.status = "Pending"
+            if shopping_cart_item.status == "selected":
+                shopping_cart_item.status = "pending"
                 shopping_cart_item.save()
 
         product = get_if_exists(Product, **{'id':id})
         if product.stock == 0:
             return redirect("product:product_item", product.id)
-        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "Pending"})
+        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "pending"})
     
         if shopping_cart_item is None:
-            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "Selected"})
+            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "selected"})
 
         if shopping_cart_item is None:
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
         
-        if shopping_cart_item.status == "Deleted":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
-        elif shopping_cart_item.status == "Ongoing":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "Pending")
+        if shopping_cart_item.status == "deleted":
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
+        elif shopping_cart_item.status == "ongoing":
+            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
 
         quantity = int(request.POST.get('quantity'))
 
@@ -183,7 +183,7 @@ def add_cart(request, id):
         product.save()
         
         shopping_cart_item.quantity = quantity
-        shopping_cart_item.status = "Selected"
+        shopping_cart_item.status = "selected"
         shopping_cart_item.save()
 
         return check_out(request)
@@ -230,14 +230,14 @@ def update_item(request, id, quantity):
     elif product.stock == 0:
         pass
 
-    shopping_cart_item.status = "Pending"
+    shopping_cart_item.status = "pending"
     shopping_cart_item.save()
 
 
 @users_only
 def remove_cart(request, id):
     shopping_cart_item        = ShoppingCartItem.objects.get(id=id)
-    shopping_cart_item.status = "Deleted"
+    shopping_cart_item.status = "deleted"
     shopping_cart_item.save()
 
     product           =  shopping_cart_item.product
@@ -252,10 +252,10 @@ def remove_cart(request, id):
 def check_box(request, id):
     shopping_cart_item = ShoppingCartItem.objects.get(id=id)
 
-    if shopping_cart_item.status == "Pending":
-        shopping_cart_item.status = "Selected"
-    elif shopping_cart_item.status == "Selected":
-        shopping_cart_item.status = "Pending"
+    if shopping_cart_item.status == "pending":
+        shopping_cart_item.status = "selected"
+    elif shopping_cart_item.status == "selected":
+        shopping_cart_item.status = "pending"
 
     shopping_cart_item.save()
 
@@ -266,7 +266,7 @@ def check_box(request, id):
 def delete_cart(request):
     arr = request.POST.getlist("checkItem")
     for i in arr:
-        ShoppingCartItem.objects.filter(id=i).update(status="Deleted")
+        ShoppingCartItem.objects.filter(id=i).update(status="deleted")
     message = request.POST.get('title')
 
     return shopping_cart(request)

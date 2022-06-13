@@ -25,7 +25,7 @@ class Payment(Base):
     proof          = models.ImageField(upload_to ='payment/proof/')
 
     def __str__(self):
-        return f"{self.label} initiated on {self.created}"
+        return self.payment_option
     
     class Meta:
         ordering = ['-created']
@@ -64,10 +64,7 @@ class OrderItem(Base):
 
     @property
     def total_price(self):
-        price = self.product.price 
-        if price is None:
-            price = 0
-        return price * self.quantity
+        return self.product.price * self.quantity
 
     def __str__(self):
         return f"{self.label} created on {self.created}"
@@ -82,7 +79,7 @@ class ShoppingCart(Base):
 
     @property
     def total_price(self):
-        productsActive = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
+        productsActive = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="selected")
         productsPending = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Pending")
         price = 0
         for product in productsActive:
@@ -92,14 +89,14 @@ class ShoppingCart(Base):
         return '{:,}'.format(price)
 
     def total_price_selected(self):
-        productsSelected = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
+        productsSelected = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="selected")
         price = 0
         for product in productsSelected:
             price += product.total_price
         return '{:,}'.format(price)
 
     def total_price_selected_integer(self):
-        products = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="Selected")
+        products = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="selected")
         price = 0
         for product in products:
             price += product.total_price
@@ -112,7 +109,7 @@ class ShoppingCart(Base):
         count = 0
         list_of_products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
         for product in list_of_products:
-            if(not (product.status == "Deleted" or product.status == "Ongoing")):
+            if(not (product.status == "deleted" or product.status == "ongoing")):
                 count+=1
         return count
 

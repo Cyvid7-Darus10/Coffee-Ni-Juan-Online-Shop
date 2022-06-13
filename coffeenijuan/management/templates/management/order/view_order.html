@@ -1,0 +1,66 @@
+{% extends "management/base_overview.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="container mt-4 pb-3 d-flex flex-row justify-content-between">
+            <div>
+                <p class="h5"><span class="fw-bolder">Mode of Payment:</span> {{order.payment}}</p>
+                <p class="h5"><span class="fw-bolder">Status:</span> {{order.status}}</p>
+            </div>
+            <div>
+                <a href="{% url 'management:cancel_order' id=order.id %}" class="btn btn-danger p-2"><i class="bi bi-x"></i>Cancel Order</a>
+                <a href="{% url 'management:approve_order' id=order.id %}" class="btn btn-primary p-2"><i class="bi bi-check"></i>Approve Order</a>
+                <a href="{% url 'management:complete_order' id=order.id %}" class="btn btn-success p-2"><i class="bi bi-check"></i>Complete Order</a>
+            </div>
+        </div>
+        <div class="d-flex flex-column bg-white rounded p-2 border">
+            <p class="h5 fw-bolder">Customer Information</p>
+            <table class="table table-white">
+                <thead class="table-active">
+                    <tr>
+                        <th class="p-3 h6 fw-bolder">Email</th>
+                        <th class="p-3 h6 fw-bolder">Name</th>
+                        <th class="p-3 h6 fw-bolder">Phone Number</th>
+                        <th class="p-3 h6 fw-bolder">Address</th>
+                        <th class="p-3 h6 fw-bolder">Is Verified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-3 h6">{{ order.customer.email }}</td>
+                        <td class="p-3 h6">{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                        <td class="p-3 h6">{{ order.payment.mobile_number }}</td>
+                        <td class="p-3 h6">{{ order.payment.address }}</td>
+                        <td class="p-3 h6">{{ order.customer.is_verified }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="h5 fw-bolder mt-4">Ordered Items</p>
+            <table class="table table-white">
+                <thead class="table-active">
+                    <tr>
+                        <th class="p-3 h6 fw-bolder">Product</th>
+                        <th class="p-3 h6 fw-bolder">Quantity</th>
+                        <th class="p-3 h6 fw-bolder">Price</th>
+                        <th class="p-3 h6 fw-bolder">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order_item in order.order_items %}
+                    <tr>
+                        <td class="p-3 h6">{{ order_item.product }}</td>
+                        <td class="p-3 h6">{{ order_item.quantity }}</td>
+                        <td class="p-3 h6">Php {{ order_item.product.price }}</td>
+                        <td class="p-3 h6">{{ order_item.total_price }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td colspan="3" class="p-3 h6 fw-bolder text-end">Grand Total</td>
+                        <td class="p-3 h6">{{ order.total_price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
