@@ -40,7 +40,7 @@ def product_list(request):
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
-        item_cnt = shopping_cart.countNotDeletedProducts()
+        item_cnt = shopping_cart.count_not_deleted_products()
 
     return render(request, "product/product_list.html", {
         "csss"         : css,
@@ -68,17 +68,18 @@ def product_item(request, id):
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
-        item_cnt = shopping_cart.countNotDeletedProducts()
+        item_cnt = shopping_cart.count_not_deleted_products()
 
-    all_products = Product.objects.all()
+    # get ramdom five products
+    random_products = Product.objects.order_by('?')[:4]
 
     return render(request, "product/product_item.html", {
-        "csss"        : css,
-        "jss"         : js,
-        "product"     : product,
-        "stars"       : range(rating),
-        "empty_stars" : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole'   : not_whole,
-        'item_cnt'    : item_cnt,
-        "all_products": all_products
+        "csss"           : css,
+        "jss"            : js,
+        "product"        : product,
+        "stars"          : range(rating),
+        "empty_stars"    : range(5 - (rating + (1 if not_whole else 0))),
+        'not_whole'      : not_whole,
+        'item_cnt'       : item_cnt,
+        "random_products": random_products
     })
