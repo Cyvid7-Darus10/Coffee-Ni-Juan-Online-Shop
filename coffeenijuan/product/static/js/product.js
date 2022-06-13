@@ -1,16 +1,16 @@
 // $(".productTitle").text("Hello");
 
 $(".plus").on("click", function() {
-	let val = parseInt($(".qty").val());
-	if (val < parseInt($("#stock").text())) {
-		$(".qty").val(val + 1);
+	let val = parseInt($("#quantity").val());
+	if (val < parseInt($(".stock").text())) {
+		$("#quantity").val(val + 1);
 	}
 });
 
 $(".minus").on("click", function() {
-	let val = parseInt($(".qty").val());
+	let val = parseInt($("#quantity").val());
 	if (val > 1) {
-		$(".qty").val(val - 1);
+		$("#quantity").val(val - 1);
 	}
 });
 
