@@ -36,11 +36,14 @@ $(document).ready(function() {
 		let quantity = $(this).find(".quantity").text();
 		let price = $(this).find(".price").text();
 		let productId = $(this).find(".productId").html();
-		if(checked)
+		if(checked) {
 			$(".prices").append(`<span id="itemSummary${productId}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${totalPrice}</span></span>`)
-		else
-			$(".prices").append(`<span id="itemSummary${productId}" class="itemSummary clearfix" hidden>₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${totalPrice}</span></span>`)
-		console.log(`itemSummary${productId}`)
+		}
+		else {
+			$(".prices").append(`<span id="itemSummary${productId}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${totalPrice}</span></span>`)
+			$(`#itemSummary${productId}`).hide()			
+		}
+		// console.log(`itemSummary${productId}`)
 		// console.log($(this).find(".totalPrice").text())
 		// console.log(checked);
 	});
@@ -59,9 +62,11 @@ $(document).ready(function() {
 		let checked = $(this).is(":checked");
 		let priceSummary = $(".prices");
 		let productId = $(this).closest('div').find(".productId").html();
+		console.log(priceSummary.find("#itemSummary"+productId));
+
 		if(!checked) {
 			priceSummary.find("#itemSummary"+productId).fadeOut(300)
-		} else if(checked) {
+		} else {
 			priceSummary.find("#itemSummary"+productId).fadeIn(300)
 		}
 		getGrandTotal();
