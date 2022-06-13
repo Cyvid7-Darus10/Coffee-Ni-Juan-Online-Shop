@@ -24,10 +24,10 @@
         </div>
         
         <div style="overflow-y: scroll; height: 69vh;">
-          <!-- For Loop -->
           {% if order_cnt == 0 %}
             <div class="col-12 h3">You have no orders right now</div>
           {% endif %}
+
           {% for order in orders %}
           <div class="row mt-2 mx-0 col-12" >
             <div>Order {{order.id}}</div>
@@ -42,18 +42,18 @@
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
-                  <!-- For Loop -->
-                  {% for product in order.products %}
-                  <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
-                    <tr>
-                      <th scope="row">{{order.created}}</th>
-                      <td>{{product.product.label}}</td>
-                      <td>{{product.product.price}}</td>
-                      <td>{{product.quantity}}</td>
-                      <td>₱ {{product.totalPrice}}</td>
-                      <td>{{product.status}}</td>
-                    </tr>
-                  </tbody>
+
+                  {% for order_item in order.order_items %}
+                    <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
+                      <tr>
+                        <th scope="row">{{order.created}}</th>
+                        <td>{{order_item.product.label}}</td>
+                        <td>{{order_item.product.price}}</td>
+                        <td>{{order_item.quantity}}</td>
+                        <td>₱ {{order_item.total_price}}</td>
+                        <td>{{order_item.status}}</td>
+                      </tr>
+                    </tbody>
                   {% endfor %}
 
                   <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
@@ -62,7 +62,7 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td>₱ {{order.totalPrice}}</td>
+                      <td>₱ {{order.total_price}}</td>
                       <td></td>
                     </tr> 
                   </tbody>

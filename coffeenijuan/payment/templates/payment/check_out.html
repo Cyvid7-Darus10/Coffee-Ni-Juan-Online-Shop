@@ -2,217 +2,163 @@
 {% load static %}
 
 {% block content %}
-<article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
-  <form class="payment_form" action="{% url 'payment:add_payment' cart.id%}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-        <span class="display-6"><b>Check Out</b></span>
+  <article class="container-fluid m-0 px-5 row col-12 col-lg-12 mt-3">
+    <form class="payment_form" action="{% url 'payment:add_payment'%}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form }}
+          <span class="display-6"><b>Check Out</b></span>
 
-        <section class="row mt-3 glass-backdrop px-5 py-3"> 
-            <div class="mb-4">
-              <div>
-                  <i class="bi bi-geo-alt-fill h5 me-2"></i>
-                  <span class="h5"> Address and Contact Info</span>
-                  <br>
+          <section class="row mt-3 glass-backdrop px-5 py-3"> 
+              <div class="mb-4">
+                <div>
+                    <i class="bi bi-geo-alt-fill h5 me-2"></i>
+                    <span class="h5"> Address and Contact Info</span>
+                    <br>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 ">
+                        <label for="address"></label>
+                        
+                        <input type="text" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address" value="{{request.user.address}}">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="mobile-no"></label>
+                        <input type="text" name="mobile_number" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no" value="{{request.user.contact_number}}">
+                
+                    </div>
+                </div>
               </div>
-              <div class="row">
+
+              <div class="row product_details">
+                <div class="col-3 text-center h6"><b>Product</b></div>
+                <div class="col-3 h6"><b>Price</b></div>
+                <div class="col-3 h6"><b>Amount</b></div>
+                <div class="col-3 h6"><b>Subtotal</b></div>
+              </div>
+              {% for shopping_cart_item in shopping_cart.shopping_cart_items %}
+                {% if shopping_cart_item.status == "Selected" %}
+                  <div class="product product_details row">
+                    <div class="col-3 text-center h6">
+                      <a href="{% url 'product:product_item' shopping_cart_item.product.id %}" target="_blank"><img class="d-none d-md-inline img-fluid p-1 rounded float-left" style="max-width: 10vw"  
+                      src="/media/{{ shopping_cart_item.product.image }}" /></a>
+                      <div class="col-3 d-sm-inline d-md-none">{{shopping_cart_item.product.label}}</div>
+                    </div>
+
+                    <div class="col-3 h6"><b>₱{{shopping_cart_item.product.price}}</b></div>
+                    <div class="col-3 h6"><b>{{shopping_cart_item.quantity}}</b></div>
+                    <div class="col-3 h6"><b>{{shopping_cart_item.total_price}}</b></div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <hr style="height: 3px; border-radius: 5px">
+      
+                <div class="row">
                   <div class="col-12 col-md-6 ">
-                      <label for="address"></label>
-                      
-                      <input type="text" name="address" placeholder="Address" maxlength="60" autofocus required id="id_address" value="{{request.user.address}}">
+                    <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
+                    
+                    <input type="hidden" class="payment_option_input" name="payment_option" value="none">
+
+                    <label for="payment_option">Payment Option:</label>
+                    <select required name="payment_option" id="payment_method" class="select-syle form-select-md" aria-label=".form-select-sm example" required="required" >
+                      <option value="select" selected>Select</option>
+                      <option value="cod">Cash on Delivery</option>
+                      <option value="pickup">Pick-up</option>
+                    </select>
+
                   </div>
 
-                  <div class="col-12 col-md-6">
-                      <label for="mobile-no"></label>
-                      <input type="text" name="mobile_number" placeholder="Mobile Number" maxlength="60" autofocus required id="id_mobile_no" value="{{request.user.contact_number}}">
-              
+                  <input style="display:none" type="text" name="total" class="total_value" value="{{shopping_cart.total_price_selected_integer}}">
+
+                  <div class="col-12 col-md-6 my-auto">
+                      <span class="h5"> GRAND TOTAL: ₱ <span class="total_price">{{shopping_cart.total_price_selected}}</span></span>
                   </div>
-              </div>
-            </div>
-
-            <div class="row product_details">
-              <div class="col-3 text-center h6"><b>Product</b></div>
-              <div class="col-3 h6"><b>Price</b></div>
-              <div class="col-3 h6"><b>Amount</b></div>
-              <div class="col-3 h6"><b>Subtotal</b></div>
-            </div>
-            {% for p in cart.products %}
-              {% if p.status == "Selected" %}
-              <div class="product product_details row">
-                <div class="col-3 text-center h6">
-                  <a href="{% url 'product:product_item' p.product.id %}" target="_blank"><img class="d-none d-md-inline img-fluid p-1 rounded float-left" style="max-width: 10vw"  
-                  src="/media/{{ p.product.image }}" /></a>
-                  <div class="col-3 d-sm-inline d-md-none">{{p.product.label}}</div>
                 </div>
 
-                <div class="col-3 h6"><b>₱{{p.product.price}}</b></div>
-                <div class="col-3 h6"><b>{{p.quantity}}</b></div>
-                <div class="col-3 h6"><b>{{p.totalPrice}}</b></div>
-              </div>
-              {% endif %}
-            {% endfor %}
-
-            <hr style="height: 3px; border-radius: 5px">
-    
-              <div class="row">
-                <div class="col-12 col-md-6 ">
-                  <img class="img-fluid p-1" src="{% static 'resources/products/pay_icon.png' %}" />                        
-                  <!-- <span class="checkout_font fw-bolder"> Payment Option</span> -->
-                  
-                  <input type="hidden" class="payment_option_input" name="payment_option" value="none">
-
-                  <label for="payment_option">Payment Option:</label>
-                  <select required name="payment_option" id="payment_method" class="select-syle form-select-md" aria-label=".form-select-sm example" required="required" >
-                    <option value="select" selected>Select</option>
-                    <option value="cod">Cash on Delivery</option>
-                    <option value="pickup">Pick-up</option>
-                    <!--<option value="online">Online Payment</option>
-                    <option value="bank">Bank Transfer</option> -->
-                  </select>
-
-                </div>
-
-                <input style="display:none" type="text" name="total" class="total_value" value="{{cart.totalPriceSelectedInteger}}">
-
-                <div class="col-12 col-md-6 my-auto">
-                    <span class="h5"> GRAND TOTAL: ₱ <span class="total_price">{{cart.totalPriceSelected}}</span></span>
-                </div>
               </div>
 
-            </div>
+          </section>
 
-        </section>
+      <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">               
+          <button type="button" class="place_order button_text_container custom-btn " data-bs-toggle="modal">
+              PLACE ORDER
+          </button>
+      </section>
 
-    <section class="col-12 col-lg-12 mt-1 mb-1" style="text-align: right;">               
-        <button type="button" class="place_order button_text_container custom-btn " data-bs-toggle="modal">
-            PLACE ORDER
-        </button>
-    </section>
-<!--     <input type="text" name="proof_exist" id="proof_exist" style="display:none" value="None"> -->
-<!--     <input type="file" name="proof" id="proof" class="proof_image form-control" style="display:none"> -->
-    <input type="hidden" class="proof_exist" name="proof_exist" value="None">
-    <input type="hidden" class="payment_option_input" name="payment_option_input" value="none">
-    <input type="submit" class="submit_payment_form" name="action" value="ADD PAYMENT" style="display:none">
-  <form>
-</article>
+      <input type="hidden" class="proof_exist" name="proof_exist" value="None">
+      <input type="hidden" class="payment_option_input" name="payment_option_input" value="none">
+      <input type="submit" class="submit_payment_form" name="action" value="ADD PAYMENT" style="display:none">
+    <form>
+  </article>
 
-<!-- MODALS -->
-<!-- Place Order Prompt -->
-<article class="modal fade" id="defaultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background-color: #fdf6f6;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel"><b>Place Order</b></h5>
-          <!-- Close -->
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>
-                Are you sure you want to place order?
-            </p>
-        </div>
-        <div class="modal-footer">
-          <!-- Yes -->
-            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
-            <a type="button" class="confirm_submit button_text_container custom-btn animation-btn">
-                <span>
-                    Yes
-                </span>
-            </a>  
+  <!-- MODALS -->
+  <!-- Place Order Prompt -->
+  <article class="modal fade" id="defaultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #fdf6f6;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"><b>Place Order</b></h5>
+            <!-- Close -->
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>
+                  Are you sure you want to place order?
+              </p>
+          </div>
+          <div class="modal-footer">
+            <!-- Yes -->
+              <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+              <a type="button" class="confirm_submit button_text_container custom-btn animation-btn">
+                  <span>
+                      Yes
+                  </span>
+              </a>  
+          </div>
         </div>
       </div>
-    </div>
-</article>
+  </article>
 
-<!-- MODALS -->
-<!-- Place Order Prompt -->
-<article class="modal fade" id="noPaymentOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background-color: #fdf6f6;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel"><b>No Payment Method Selected</b></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>
-                Please select a payment method.
-            </p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+  <!-- MODALS -->
+  <!-- Place Order Prompt -->
+  <article class="modal fade" id="noPaymentOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #fdf6f6;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"><b>No Payment Method Selected</b></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>
+                  Please select a payment method.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
-    </div>
-</article>
+  </article>
 
-<!-- MODALS -->
-<!-- Place Order Prompt -->
-<article class="modal fade" id="noProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background-color: #fdf6f6;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel"><b>No Product in Checkout</b></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>
-                Please select some products in the cart.
-            </p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+  <!-- MODALS -->
+  <!-- Place Order Prompt -->
+  <article class="modal fade" id="noProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #fdf6f6;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"><b>No Product in Checkout</b></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>
+                  Please select some products in the cart.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
-    </div>
-</article>
-
-
-
-<!-- <article class="modal fade" id="onlinePayment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"><b>Online Payment</b></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-                <label for="POP" class="form-label">Proof of Payment:</label>
-                <input type="file" name="proof" id="file1" class="proof_image form-control">
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="save_file1" data-bs-dismiss="modal" class="button_text_container custom-btn animation-btn">Save</button>
-        </div>
-      </div>
-    </div>
-</article>
-
-
-<article class="modal fade" id="bankTransfer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"><b>Bank Transfer</b></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-                <label for="POP" class="form-label">Proof of Payment:</label>
-                <input type="file" id="file2" class="proof_image form-control">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class=" button_text_container custom-btn reverse-color animation-btn" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="save_file2" class="button_text_container custom-btn animation-btn">Save</button>
-        </div>
-      </div>
-    </div>
-</article> -->
-
+  </article>
 {% endblock %}

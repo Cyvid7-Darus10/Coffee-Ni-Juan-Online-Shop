@@ -21,7 +21,7 @@
                 </span>
           </div>
           <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
-          {% for p in cart.products %}
+          {% for p in shopping_cart.shopping_cart_items %}
             {% if p.status == "Selected" or p.status == "Pending" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
 
@@ -52,7 +52,7 @@
                           <span class="stock" hidden>{{ p.product.stock }}</span>
                           <br />
 
-                          <span><span class="productId" hidden>{{p.id}}</span>₱ <span class="price">{{ p.product.price }}</span> x <span class="quantity">{{ p.quantity }}</span> = ₱ <span class="totalPrice">{{ p.totalPrice }}</span></span>
+                          <span><span class="productId" hidden>{{p.id}}</span>₱ <span class="price">{{ p.product.price }}</span> x <span class="quantity">{{ p.quantity }}</span> = ₱ <span class="totalPrice">{{ p.total_price }}</span></span>
                       </div>
                   </div>
               </li>
@@ -69,15 +69,15 @@
               <br>
               <div class="prices ps-5">
                 {% comment %}
-                {% for p in cart.products %} 
-                  {% if p.status == "Selected" %}
-                  <span class="clearfix">₱ {{ p.product.price }}  x {{ p.quantity }} = ₱ {{ p.totalPrice }}</span>
-                  {% endif %}
-                {% endfor %}
+                  {% for p in shopping_cart.shopping_cart_items %} 
+                    {% if p.status == "Selected" %}
+                    <span class="clearfix">₱ {{ p.product.price }}  x {{ p.quantity }} = ₱ {{ p.total_price }}</span>
+                    {% endif %}
+                  {% endfor %}
                 {% endcomment %}
               </div>
               <hr>
-              <span class="clearfix">Grand Total = ₱ <span class="grandTotal">{{ cart.totalPriceSelected }}</span></span>
+              <span class="clearfix">Grand Total = ₱ <span class="grandTotal">{{ shopping_cart.total_price_selected }}</span></span>
           </div>
           <button class="custom-btn animation-btn text-center" >
             <input type="submit" name="action" value="Check Out">
