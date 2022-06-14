@@ -22,7 +22,7 @@
           </div>
           <div class=" cart-list col-12 col-sm-9 d-inline ps-md-5">
           {% for p in shopping_cart.shopping_cart_items %}
-            {% if p.status == "selected" or p.status == "Pending" %}
+            {% if p.status != "deleted" %}
               <ul class="cart-products list-group my-md-3" style="list-style: none;">
 
                 <li class="single-product">
@@ -32,7 +32,7 @@
                             <div class="form-check d-block ">
                               {% if p.status == "selected" %}
                                 <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}' checked/>
-                              {% elif p.status == "Pending" %}
+                              {% elif p.status == "pending" %}
                               <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}'/>
                               {% endif %}
                               <span class="productId" hidden>{{p.id}}</span>
