@@ -2,6 +2,7 @@ import io
 import xlsxwriter
 from django.http import FileResponse
 
+
 def excelreport(request, items, item_type):
 
   buffer = io.BytesIO()

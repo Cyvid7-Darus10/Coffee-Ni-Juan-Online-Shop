@@ -5,6 +5,7 @@ from datetime import datetime
 from django.db.models.fields import DateTimeField
 from account.models import Account
 
+
 def login_user(request):
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
@@ -30,6 +31,7 @@ class Base(models.Model):
     class Meta:
         abstract = True
 
+
 class Supply(Base):
     label       = models.CharField(max_length=250, blank=True, null=True)
     price       = models.FloatField(blank=True, null=True)
@@ -43,6 +45,7 @@ class Supply(Base):
     class Meta:
         ordering = ['-created']
 
+
 class Transaction(Base):
     action_type = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -54,6 +57,7 @@ class Transaction(Base):
 
     class Meta:
         ordering = ['-created']
+
 
 def add_transaction(action_type, description, user, action_id):
     Transaction.objects.create(action_type=action_type, description=description, user=user, action_id=action_id)

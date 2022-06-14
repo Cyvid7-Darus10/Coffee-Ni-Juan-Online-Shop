@@ -3,7 +3,6 @@ from .models import add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import InventoryForm, InventoryUpdateForm
 
-# Help Functions
 
 def sort_products(request):
     label = request.GET.get('label')
@@ -54,6 +53,7 @@ def sort_products(request):
         products = paginator.page(paginator.num_pages)
 
     return products, extra_query
+
 
 def add_inventory_form(request):
     if request.POST:

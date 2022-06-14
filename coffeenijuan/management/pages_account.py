@@ -3,7 +3,7 @@ from .model_account import *
 from django.shortcuts import render, redirect
 from .decorators import admin_only
 
-# global variables for js and css
+
 js = []
 css = []
 

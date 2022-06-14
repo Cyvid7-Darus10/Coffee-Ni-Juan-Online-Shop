@@ -72,15 +72,15 @@
                         source: availableProducts
                     });
                 </script>
-                <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
+                <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between mb-3 mb-lg-0">
                     <li class="nav-item">
                         <a href="{% url 'product:product_list' %}" class="h3 mx-3">
                             <i class="bi-shop"></i>
                         </a>
                     </li>
                     <li class="nav-item align-items-center">
-                        <a href="{% url 'payment:shopping_cart' %}" class="h3">
-                            <i class="bi-cart"></i>
+                        <a href="{% url 'payment:shopping_cart' %}" class="h3 text-decoration-none">
+                            <i class="bi bi-cart"></i>
                             <span class="cart-number"> {{ item_cnt }} </span>
                         </a>
                     </li>

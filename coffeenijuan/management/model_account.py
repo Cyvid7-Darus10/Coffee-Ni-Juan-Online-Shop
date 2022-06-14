@@ -3,7 +3,6 @@ from .models import add_transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CreateAccountForm, AccountUpdateForm
 
-# Help Functions
 
 def sort_accounts(request):
     label = request.GET.get('email')

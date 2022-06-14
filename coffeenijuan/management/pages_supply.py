@@ -1,13 +1,13 @@
 from django.contrib import messages
 from .model_supply import *
 from django.shortcuts import render, redirect
-from .decorators import include_farmer
+from .decorators import include_farmer_staff
 
-# global variables for js and css
+
 js = []
 css = []
 
-@include_farmer
+@include_farmer_staff
 def add_supply(request):
     page = "Inventory | Add Supply"
     
@@ -23,7 +23,8 @@ def add_supply(request):
         "supply_form" : supply_form
     })
 
-@include_farmer
+
+@include_farmer_staff
 def delete_supply(request, id):
 
     result = delete_supply_item(request, id)
@@ -35,7 +36,8 @@ def delete_supply(request, id):
 
     return redirect("management:supply")
 
-@include_farmer
+
+@include_farmer_staff
 def view_supply(request, id):
     page = "Inventory | View Supply"
 
@@ -48,7 +50,8 @@ def view_supply(request, id):
         "supply_item" : supply_item
     })
 
-@include_farmer
+
+@include_farmer_staff
 def edit_supply(request, id):
     page = "Inventory | Edit Supply"
 

@@ -74,16 +74,16 @@
                     });
                 </script>
 
-                <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between">
+                <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between mb-3 mb-lg-0">
                     <li class="nav-item align-items-center">
-                        <a href="{% url 'payment:shopping_cart' %}" class="h3">
-                            <i class="bi-cart"></i>
+                        <a href="{% url 'payment:shopping_cart' %}" class="h3 text-decoration-none">
+                            <i class="bi bi-cart"></i>
                             <span class="cart-number"> {{ item_cnt }} </span>
                         </a>
                     </li>
-                    <li class="nav-item justify-content-end align-items-center">
+                    <li class="nav-item justify-content-end align-items-center ps-4">
                         <div class="btn-group">
-                            <img class="col-4 p-0" src="{% static 'resources/profile.png' %}" />
+                            <i class="bi bi-person"></i>
                             <button type="button" class="dropdown-toggle fw-bolder d-flex flex-row align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
                                 {% if request.user.is_authenticated %}
                                     {{ request.user.username }}

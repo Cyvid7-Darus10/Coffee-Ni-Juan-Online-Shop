@@ -4,6 +4,7 @@ from product.models import Product
 from .models import Supply
 from account.forms import RegistrationForm
 
+
 class InventoryForm(forms.ModelForm):
     label       = forms.CharField(label="Label", max_length=250, required=True, widget=forms.TextInput(
                     attrs={
@@ -42,7 +43,6 @@ class InventoryUpdateForm(forms.ModelForm):
         model = Product
         fields = ['label', 'image', 'price', 'stock', 'description']
         
-        # add class name for bootstrap
         widgets = {
             'label': forms.TextInput(attrs={'class':'form-control'}),
             'image': forms.FileInput(attrs={'class':'form-control'}),
@@ -84,7 +84,6 @@ class SupplyUpdateForm(forms.ModelForm):
         model = Supply
         fields = ['label', 'price', 'stock', 'description']
         
-        # add class name for bootstrap
         widgets = {
             'label': forms.TextInput(attrs={'class':'form-control'}),
             'price': forms.NumberInput(attrs={'class':'form-control'}),
@@ -92,14 +91,16 @@ class SupplyUpdateForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
         }
 
+
 class CreateAccountForm(RegistrationForm):
     class Meta:
         model = Account
         fields = ['email', 'username', 'first_name', "last_name", 'account_type']
         widgets = {
              'contact_number': forms.TextInput(attrs={'class':'form-control'}),
-            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer'), ('staff', 'Staff')]),
         }
+
 
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
@@ -112,5 +113,5 @@ class AccountUpdateForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class':'form-control'}),
             'address': forms.TextInput(attrs={'class':'form-control'}),
             'contact_number': forms.TextInput(attrs={'class':'form-control'}),
-            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer'), ('staff', 'Staff')]),
         }
