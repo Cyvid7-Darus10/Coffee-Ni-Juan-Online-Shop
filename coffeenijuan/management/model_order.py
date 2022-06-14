@@ -3,6 +3,7 @@ from payment.models import Order, Payment
 from account.models import Account
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def sort_orders(request):
     customer = request.GET.get('customer')
     

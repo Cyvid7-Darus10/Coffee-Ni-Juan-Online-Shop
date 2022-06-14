@@ -3,6 +3,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SupplyForm, SupplyUpdateForm
 
 
+
+
 def sort_supplies(request):
     label = request.GET.get('label')
     

@@ -1,6 +1,7 @@
 from .models import Transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def sort_transactions(request):
     description = request.GET.get('description')
     

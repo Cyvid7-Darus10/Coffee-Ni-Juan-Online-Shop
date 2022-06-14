@@ -4,6 +4,7 @@ from product.models import Product
 from .models import Supply
 from account.forms import RegistrationForm
 
+
 class InventoryForm(forms.ModelForm):
     label       = forms.CharField(label="Label", max_length=250, required=True, widget=forms.TextInput(
                     attrs={
@@ -90,6 +91,7 @@ class SupplyUpdateForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
         }
 
+
 class CreateAccountForm(RegistrationForm):
     class Meta:
         model = Account
@@ -98,6 +100,7 @@ class CreateAccountForm(RegistrationForm):
              'contact_number': forms.TextInput(attrs={'class':'form-control'}),
             'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer'), ('staff', 'Staff')]),
         }
+
 
 class AccountUpdateForm(forms.ModelForm):
     class Meta:

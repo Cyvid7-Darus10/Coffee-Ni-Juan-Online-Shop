@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .decorators import include_staff
 from .model_order import *
 
-# global variables for js and css
+
 js = []
 css = []
 
