@@ -3,7 +3,7 @@ from .model_supply import *
 from django.shortcuts import render, redirect
 from .decorators import include_farmer_staff
 
-# global variables for js and css
+
 js = []
 css = []
 
@@ -23,6 +23,7 @@ def add_supply(request):
         "supply_form" : supply_form
     })
 
+
 @include_farmer_staff
 def delete_supply(request, id):
 
@@ -34,6 +35,7 @@ def delete_supply(request, id):
         messages.add_message(request, messages.SUCCESS, "Successfully deleted supply")
 
     return redirect("management:supply")
+
 
 @include_farmer_staff
 def view_supply(request, id):
@@ -47,6 +49,7 @@ def view_supply(request, id):
         "page" : page,
         "supply_item" : supply_item
     })
+
 
 @include_farmer_staff
 def edit_supply(request, id):
