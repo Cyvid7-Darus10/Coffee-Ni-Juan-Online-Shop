@@ -10,7 +10,7 @@ from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only, include_farmer_staff, include_staff
 
-# global variables for js and css
+
 js = []
 css = []
 

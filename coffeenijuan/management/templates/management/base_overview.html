@@ -59,7 +59,8 @@
                         <span class="d-none d-lg-inline">Inventory</span>
                     </a>
                   </li>
-                  <li>
+                {% endif %}
+                <li>
                     {% if page == 'supply' %}
                         <a href="{% url 'management:supply' %}" class="nav-link active" aria-current="page">
                     {% else %}
@@ -68,8 +69,7 @@
                         <i class="bi bi-inboxes"></i>
                         <span class="d-none d-lg-inline">Supplies</span>
                     </a>
-                  </li>
-                {% endif %}
+                </li>
                 {% if request.user.account_type == "admin" or request.user.is_admin %}
                   <li>
                     {% if page == 'transactions' %}
