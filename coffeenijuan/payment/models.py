@@ -1,3 +1,4 @@
+from re import L
 from django.db import models
 from datetime import datetime
 from django.db.models.fields import DateTimeField
@@ -136,3 +137,26 @@ class ShoppingCartItem(Base):
     
     class Meta:
         ordering = ['-created']
+
+
+def get_orders_by_status(status):
+    return Order.objects.filter(status=status).count()
+
+def get_orders_timeline():
+    orders = Order.objects.all().order_by('-created')
+
+    orders_timeline = []
+    for order in orders:
+        date = order.created.day
+        if date not in orders_timeline:
+            orders_timeline.append(date)
+
+    timeline = []
+    for date in orders_timeline:
+        count = 0
+        for order in orders:
+            if order.created.date == date:
+                count += 1
+        timeline.append({"date": date, "value": count})
+
+    return timeline

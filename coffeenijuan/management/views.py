@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import login_user
+from .models import login_user, get_unique_vistors, get_total_vistors
 from .model_transaction import sort_transactions
 from .pages_inventory import *
 from .pages_supply import *
@@ -9,6 +9,7 @@ from .pages_order import *
 from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only, include_farmer_staff, include_staff
+from payment.models import get_orders_by_status, get_orders_timeline
 
 
 js = []
@@ -38,21 +39,29 @@ def login(request):
 def overview(request):
     page = "overview"
 
-    js = [
-        "js/management/raphael-min.js",
-        "js/management/morris.min.js",
-        "js/management/overview.js",
-    ]
-
     css = [
         "css/management/overview.css",
         "css/management/morris.css"
     ]
     
+    total_visits  = get_total_vistors()
+    unique_visits = get_unique_vistors()
+    visits        = [total_visits, unique_visits]
+
+    ongoing_orders    = get_orders_by_status("ongoing")
+    approved_orders   = get_orders_by_status("approved")
+    completed_orders  = get_orders_by_status("completed")
+    cancelled_orders  = get_orders_by_status("cancelled")
+    orders_status     = [ongoing_orders, approved_orders, completed_orders, cancelled_orders]
+    orders_timeline   = get_orders_timeline()
+
     return render(request, "management/overview.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page
+        "csss"            : css,
+        "jss"             : js,
+        "page"            : page,
+        "visits"          : visits,
+        "orders_status"   : orders_status,
+        "orders_timeline" : orders_timeline
     })
 
 

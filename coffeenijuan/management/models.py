@@ -74,3 +74,9 @@ class Analytic(Base):
 
 def add_transaction(action_type, description, user, action_id):
     Transaction.objects.create(action_type=action_type, description=description, user=user, action_id=action_id)
+
+def get_total_vistors():
+    return Analytic.objects.all().count()
+
+def get_unique_vistors():
+    return Analytic.objects.all().count()
