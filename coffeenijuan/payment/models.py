@@ -90,9 +90,9 @@ class ShoppingCart(Base):
         return '{:,}'.format(price)
 
     def total_price_selected(self):
-        productsSelected = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="selected")
+        products_selected = ShoppingCartItem.objects.filter(shopping_cart=self.id, status="selected")
         price = 0
-        for product in productsSelected:
+        for product in products_selected:
             price += product.total_price
         return '{:,}'.format(price)
 

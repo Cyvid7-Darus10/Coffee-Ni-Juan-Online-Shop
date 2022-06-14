@@ -56,12 +56,17 @@ def check_out(request):
 
     if shopping_cart:
         item_cnt = shopping_cart.count_not_deleted_products()
-            
+
+    shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
+    if shipping_fee is None:
+        shipping_fee = Product.objects.create(label="Shipping Fee", price=200, stock=100000)
+
     return render(request, "payment/check_out.html", {
         "csss"          : css,
         "jss"           : js,
         "shopping_cart" : shopping_cart,
-        "item_cnt"      : item_cnt
+        "item_cnt"      : item_cnt,
+        "shipping_fee"  : shipping_fee
     })
 
 
@@ -100,6 +105,14 @@ def add_order(request, payment):
             product.stock -= shopping_cart_item.quantity
             product.save()
             shopping_cart_item.save()
+
+    shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
+    if shipping_fee is None:
+        shipping_fee = Product.objects.create(label="Shipping Fee", price=200, stock=100000)
+
+    if(payment.payment_option == "cod"):
+        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
+        new_order_item.save()
 
 
 @users_only
@@ -238,17 +251,16 @@ def add_cart(request, id):
 #     shopping_cart_item.status = "pending"
 #     shopping_cart_item.save()
 
-
 @users_only
 def remove_cart(request, id):
     shopping_cart_item        = ShoppingCartItem.objects.get(id=id)
     shopping_cart_item.status = "deleted"
     shopping_cart_item.save()
 
-    product           =  shopping_cart_item.product
-    quantity          =  shopping_cart_item.quantity
-    product.stock     += quantity
-    product.save()
+    # product           =  shopping_cart_item.product
+    # quantity          =  shopping_cart_item.quantity
+    # product.stock     += quantity
+    # product.save()
 
     return shopping_cart(request)
 
