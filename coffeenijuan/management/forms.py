@@ -42,7 +42,6 @@ class InventoryUpdateForm(forms.ModelForm):
         model = Product
         fields = ['label', 'image', 'price', 'stock', 'description']
         
-        # add class name for bootstrap
         widgets = {
             'label': forms.TextInput(attrs={'class':'form-control'}),
             'image': forms.FileInput(attrs={'class':'form-control'}),
@@ -84,7 +83,6 @@ class SupplyUpdateForm(forms.ModelForm):
         model = Supply
         fields = ['label', 'price', 'stock', 'description']
         
-        # add class name for bootstrap
         widgets = {
             'label': forms.TextInput(attrs={'class':'form-control'}),
             'price': forms.NumberInput(attrs={'class':'form-control'}),
@@ -98,7 +96,7 @@ class CreateAccountForm(RegistrationForm):
         fields = ['email', 'username', 'first_name', "last_name", 'account_type']
         widgets = {
              'contact_number': forms.TextInput(attrs={'class':'form-control'}),
-            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer'), ('staff', 'Staff')]),
         }
 
 class AccountUpdateForm(forms.ModelForm):
@@ -112,5 +110,5 @@ class AccountUpdateForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class':'form-control'}),
             'address': forms.TextInput(attrs={'class':'form-control'}),
             'contact_number': forms.TextInput(attrs={'class':'form-control'}),
-            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer')]),
+            'account_type': forms.Select(attrs={'class':'form-control'}, choices=[('admin', 'Admin'), ('customer', 'Customer'), ('farmer', 'Farmer'), ('staff', 'Staff')]),
         }

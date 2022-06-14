@@ -65,12 +65,12 @@ hr.similarProduct-line{
 
 .cart-number {
   position: relative;
-  top: 10px;
-  left: -10px;
+  top: 3px;
+  left: -20px;
   padding: 5px;
   background-color: rgb(46, 40, 32);
   color: white;
-  border-radius: 50%;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: bold;
 }

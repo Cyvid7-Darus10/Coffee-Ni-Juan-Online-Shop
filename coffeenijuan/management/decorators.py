@@ -13,10 +13,11 @@ def admin_only(view_func):
             return redirect("account:index")
     return wrapper_function
 
-def include_farmer(view_func):
+def include_farmer_staff(view_func):
     def wrapper_function(request, *args, **kwargs):
         if (request.user.is_authenticated and 
             (request.user.account_type == "farmer"
+            or request.user.account_type == "staff"
             or request.user.account_type == "admin")
             ):
             return view_func(request, *args, **kwargs)

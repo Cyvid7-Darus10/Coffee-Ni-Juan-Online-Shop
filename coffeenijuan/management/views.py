@@ -8,7 +8,7 @@ from .pages_account import *
 from .pages_order import *
 from .model_transaction import *
 from .helpers import excelreport
-from .decorators import admin_only, include_farmer, include_staff
+from .decorators import admin_only, include_farmer_staff, include_staff
 
 # global variables for js and css
 js = []
@@ -22,6 +22,8 @@ def login(request):
     if request.user.is_authenticated: 
         if request.user.account_type == "farmer":
             return redirect("management:supply")
+        elif request.user.account_type == "staff":
+            return redirect("management:inventory")
         return redirect("management:overview")
 
     return render(request, "management/login.html", {
@@ -54,7 +56,7 @@ def overview(request):
     })
 
 
-@admin_only
+@include_staff
 def inventory(request):
     page = "inventory"
 
@@ -74,7 +76,7 @@ def inventory(request):
     })
 
 
-@include_farmer
+@include_farmer_staff
 def supply(request):
     page = "supply"
 
