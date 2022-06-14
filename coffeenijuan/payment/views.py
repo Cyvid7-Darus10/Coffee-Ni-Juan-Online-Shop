@@ -56,7 +56,7 @@ def check_out(request):
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
-            
+    
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if shipping_fee is None:
         shipping_fee = Product.objects.create(label="Shipping Fee", price=200, stock=100000)
