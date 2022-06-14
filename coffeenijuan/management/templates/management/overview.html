@@ -62,17 +62,17 @@
                         // the chart.
                         data: [
                             {% for timeline in orders_timeline %}
-                                { day: "{{timeline.date}}", value: "{{timeline.value}}"},
+                                { date: "{{timeline.date}}", value: "{{timeline.value}}"},
                             {% endfor %}
                         ],
 
                         // The name of the data record attribute that contains x-values.
-                        xkey: 'day',
+                        xkey: 'date',
                         // A list of names of data record attributes that contain y-values.
                         ykeys: ['value'],
                         // Labels for the ykeys -- will be displayed when you hover over the
                         // chart.
-                        labels: ['Number of Orders', "Date"]
+                        labels: ['Number of Orders']
                     });
                 </script>
             </div>

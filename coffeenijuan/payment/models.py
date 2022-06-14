@@ -147,7 +147,7 @@ def get_orders_timeline():
 
     orders_timeline = []
     for order in orders:
-        date = order.created.day
+        date = order.created.strftime("%Y-%m-%d")
         if date not in orders_timeline:
             orders_timeline.append(date)
 
@@ -155,7 +155,7 @@ def get_orders_timeline():
     for date in orders_timeline:
         count = 0
         for order in orders:
-            if order.created.date == date:
+            if order.created.strftime("%Y-%m-%d") == date:
                 count += 1
         timeline.append({"date": date, "value": count})
 
