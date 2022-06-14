@@ -96,6 +96,9 @@ def add_order(request, payment):
         if (shopping_cart_item.status == "selected"):
             OrderItem.objects.create(order=new_order, product=shopping_cart_item.product, quantity=shopping_cart_item.quantity, status="ongoing")
             shopping_cart_item.status = "deleted"
+            product = shopping_cart_item.product
+            product.stock -= shopping_cart_item.quantity
+            product.save()
             shopping_cart_item.save()
 
 
@@ -148,10 +151,13 @@ def add_cart(request, id):
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         
-        product.stock -= quantity
-        product.save()
+        # product.stock -= quantity
+        # product.save()
+        if shopping_cart_item.quantity + quantity >= product.stock:
+            shopping_cart_item.quantity = quantity
+        else:
+            shopping_cart_item.quantity += quantity
 
-        shopping_cart_item.quantity += quantity
         shopping_cart_item.status = "pending"
         shopping_cart_item.save()
      
@@ -179,8 +185,8 @@ def add_cart(request, id):
 
         quantity = int(request.POST.get('quantity'))
 
-        product.stock -= quantity
-        product.save()
+        # product.stock -= quantity
+        # product.save()
         
         shopping_cart_item.quantity = quantity
         shopping_cart_item.status = "selected"
@@ -190,48 +196,47 @@ def add_cart(request, id):
 
     return redirect("product:product_item", product.id)
 
-
-@users_only
-def update_item(request, id, quantity):
-    shopping_cart_item = ShoppingCartItem.objects.get(id=id)
-    product            = shopping_cart_item.product
-    quantity           = int(quantity)
+# @users_only
+# def update_item(request, id, quantity):
+#     shopping_cart_item = ShoppingCartItem.objects.get(id=id)
+#     product            = shopping_cart_item.product
+#     quantity           = int(quantity)
            
-    if product.stock > quantity:
-        if quantity < shopping_cart_item.quantity:
-            product.stock += shopping_cart_item.quantity - quantity
-            product.save()
-            shopping_cart_item.quantity = quantity
+#     if product.stock > quantity:
+#         if quantity < shopping_cart_item.quantity:
+#             product.stock += shopping_cart_item.quantity - quantity
+#             product.save()
+#             shopping_cart_item.quantity = quantity
             
 
-        elif quantity > shopping_cart_item.quantity:
-            product.stock -=  quantity - shopping_cart_item.quantity 
-            product.save()
+#         elif quantity > shopping_cart_item.quantity:
+#             product.stock -=  quantity - shopping_cart_item.quantity 
+#             product.save()
 
-            shopping_cart_item.quantity = quantity
+#             shopping_cart_item.quantity = quantity
             
-    elif product.stock < quantity:
-        if quantity < shopping_cart_item.quantity:
-            product.stock += shopping_cart_item.quantity - quantity
-            product.save()
-            shopping_cart_item.quantity = quantity
+#     elif product.stock < quantity:
+#         if quantity < shopping_cart_item.quantity:
+#             product.stock += shopping_cart_item.quantity - quantity
+#             product.save()
+#             shopping_cart_item.quantity = quantity
             
-        elif quantity > shopping_cart_item.quantity:
-            if product.stock + shopping_cart_item.quantity < quantity:       
-                shopping_cart_item.quantity = product.stock + shopping_cart_item.quantity
-                product.stock = 0
-                product.save()
+#         elif quantity > shopping_cart_item.quantity:
+#             if product.stock + shopping_cart_item.quantity < quantity:       
+#                 shopping_cart_item.quantity = product.stock + shopping_cart_item.quantity
+#                 product.stock = 0
+#                 product.save()
                 
-            else:
-                product.stock -= shopping_cart_item.quantity - quantity
-                product.save()
-                shopping_cart_item.quantity = quantity
+#             else:
+#                 product.stock -= shopping_cart_item.quantity - quantity
+#                 product.save()
+#                 shopping_cart_item.quantity = quantity
                 
-    elif product.stock == 0:
-        pass
+#     elif product.stock == 0:
+#         pass
 
-    shopping_cart_item.status = "pending"
-    shopping_cart_item.save()
+#     shopping_cart_item.status = "pending"
+#     shopping_cart_item.save()
 
 
 @users_only
