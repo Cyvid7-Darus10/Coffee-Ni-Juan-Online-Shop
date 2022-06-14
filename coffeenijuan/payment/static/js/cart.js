@@ -6,46 +6,21 @@ $(document).ready(function() {
 	  });
 	})
 
-
-	// $('#check_out_form').on("submit", function(e) {
-      //   $.ajaxSetup({
-      //       headers: {
-      //           "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-      //       }
-      //   });
-
-
-      //   $.ajax({
-	     //    url: `{% url payment:check_out %}`,
-	     //    method: 'POST',
-	     //    data: $(this).serialize(),
-	     //    dataType: 'json',
-	     //    success: function (data) {
-	     //    	console.log("Success");
-      //   	}
-      // });
-	//     e.preventDefault();
-	// });
-
-	let checkedItems = $(".checkItem");
 	let products = $(".single-product");
 
 	products.each(function(i, obj) {
 		let checked = $(this).find(".checkItem").is(":checked");
-		let totalPrice = $(this).find(".totalPrice").text();
+		let total_price = $(this).find(".totalPrice").text();
 		let quantity = $(this).find(".quantity").text();
 		let price = $(this).find(".price").text();
-		let productId = $(this).find(".productId").html();
+		let product_id = $(this).find(".productId").html();
 		if(checked) {
-			$(".prices").append(`<span id="itemSummary${productId}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${totalPrice}</span></span>`)
+			$(".prices").append(`<span id="itemSummary${product_id}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${total_price}</span></span>`)
 		}
 		else {
-			$(".prices").append(`<span id="itemSummary${productId}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${totalPrice}</span></span>`)
-			$(`#itemSummary${productId}`).hide()			
+			$(".prices").append(`<span id="itemSummary${product_id}" class="itemSummary clearfix">₱ <span class="price">${price}</span> x <span class="quantity">${quantity}</span> = ₱ <span class="totalPrice">${total_price}</span></span>`)
+			$(`#itemSummary${product_id}`).hide()			
 		}
-		// console.log(`itemSummary${productId}`)
-		// console.log($(this).find(".totalPrice").text())
-		// console.log(checked);
 	});
 
 	$(".selectAll").on("change", function() {
@@ -60,29 +35,27 @@ $(document).ready(function() {
 
 	$(".checkItem").on("change", function() {
 		let checked = $(this).is(":checked");
-		let priceSummary = $(".prices");
-		let productId = $(this).closest('div').find(".productId").html();
-		console.log(priceSummary.find("#itemSummary"+productId));
+		let price_summary = $(".prices");
+		let product_id = $(this).closest('div').find(".productId").html();
+		console.log(price_summary.find("#itemSummary"+product_id));
 
 		if(!checked) {
-			priceSummary.find("#itemSummary"+productId).fadeOut(300)
+			price_summary.find("#itemSummary"+product_id).fadeOut(300)
 		} else {
-			priceSummary.find("#itemSummary"+productId).fadeIn(300)
+			price_summary.find("#itemSummary"+product_id).fadeIn(300)
 		}
 		getGrandTotal();
 	})
 
 	$(".qty").on("keyup", function() {
-		let newValue = $(this).val()
+		let new_value = $(this).val()
 		let price = $(this).closest('div').find(".price").text();
-		let productId = $(this).closest('div').find(".productId").html();
-		console.log("Hello")
-		console.log(price)
-		$(this).closest('div').find(".quantity").text(newValue.toString())
-		$(this).closest('div').find(".totalPrice").text((parseInt(price)*newValue).toString())
+		let product_id = $(this).closest('div').find(".productId").html();
+		$(this).closest('div').find(".quantity").text(new_value.toString())
+		$(this).closest('div').find(".totalPrice").text((parseInt(price)*new_value).toString())
 
-		$(`#itemSummary${productId}`).find(".quantity").text(newValue.toString())
-		$(`#itemSummary${productId}`).find(".totalPrice").text((parseInt(price)*newValue).toString())
+		$(`#itemSummary${product_id}`).find(".quantity").text(new_value.toString())
+		$(`#itemSummary${product_id}`).find(".totalPrice").text((parseInt(price)*new_value).toString())
 		getGrandTotal();
 	})
 
@@ -91,15 +64,10 @@ $(document).ready(function() {
 		let total = 0;
 		products.each(function(i, obj) {
 			let checked = $(this).find(".checkItem").is(":checked");
-			let totalPrice = $(this).find(".totalPrice").text();
+			let total_price = $(this).find(".totalPrice").text();
 			if(checked)
-				total+=parseFloat(totalPrice);
+				total+=parseFloat(total_price);
 		});
 		$(".grandTotal").text(total.toString());
 	}
-
-	// for(let i = 0; i < checkedItems.length; i++) {
-	// 	let productPrice = 0;
-
-	// }
 });

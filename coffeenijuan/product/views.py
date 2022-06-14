@@ -14,7 +14,6 @@ def product_list(request):
     rating = 0
     # check if there is post request
     label = request.GET.get('label')
-    print(label)
     if label:
         products = Product.objects.filter(label__icontains=label)
     elif request.method == "POST":
