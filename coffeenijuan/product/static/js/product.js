@@ -18,8 +18,8 @@ $(".qty").on("keyup keydown", function() {
 	let $this = $(this);
 	let val = parseInt($this.val());
 	let stock = parseInt($this.closest("div").find(".stock").text());
-	if($this.val() == "") {
-		$this.val(0);
+	if($this.val() == "" || /^(0[0-9]*)+$/.test($(".qty").val())) {
+		$this.val(1);
 	}
 	if(val > stock || !(/^([0-9])+$/.test($(".qty").val()))) {
 		$this.val(stock);
