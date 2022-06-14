@@ -57,11 +57,16 @@ def check_out(request):
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
             
+    shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
+    if shipping_fee is None:
+        shipping_fee = Product.objects.create(label="Shipping Fee", price=200, stock=100000)
+
     return render(request, "payment/check_out.html", {
         "csss" : css,
         "jss"  : js,
         "cart" : shopping_cart,
-        "item_cnt" : item_cnt
+        "item_cnt" : item_cnt,
+        "shipping_fee" : shipping_fee
     })
 
 
@@ -72,6 +77,7 @@ def order(request):
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
         item_cnt = shopping_cart.countNotDeletedProducts()
+
     return render(request, "payment/order.html", {
         "csss" : css,
         "jss"  : js,
@@ -96,8 +102,11 @@ def add_order(request, payment):
             ShoppingCartItem.objects.filter(status="Selected").update(status="Deleted")
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
+    if shipping_fee is None:
+        shipping_fee = Product.objects.create(label="Shipping Fee", price=200, stock=100000)
+
     if(payment.payment_option == "cod"):
-        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Deleted")
+        new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
         new_order_item.save()
 
 @users_only

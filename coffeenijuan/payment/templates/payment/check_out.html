@@ -69,13 +69,13 @@
                     <!--<option value="online">Online Payment</option>
                     <option value="bank">Bank Transfer</option> -->
                   </select>
-
+                  <span class="shipping_fee_price" hidden>{{shipping_fee.price}}</span>
                 </div>
 
                 <input style="display:none" type="text" name="total" class="total_value" value="{{cart.totalPriceSelectedInteger}}">
 
                 <div class="col-12 col-md-6 my-auto">
-                    <span class="h5"> GRAND TOTAL: ₱ <span class="total_price">{{cart.totalPriceSelected}}</span></span>
+                    <span class="h5 grand_total"> GRAND TOTAL: ₱ <span class="total_price">{{cart.totalPriceSelected}}</span></span>
                 </div>
               </div>
 
