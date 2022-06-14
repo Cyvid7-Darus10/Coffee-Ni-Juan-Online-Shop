@@ -79,4 +79,10 @@ def get_total_vistors():
     return Analytic.objects.all().count()
 
 def get_unique_vistors():
-    return Analytic.objects.all().count()
+    analytics = Analytic.objects.all()
+    # count the number of unique users
+    unique_users = set()
+    for analytic in analytics:
+        unique_users.add(analytic.ip_address)
+
+    return len(unique_users)
