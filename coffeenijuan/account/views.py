@@ -4,7 +4,7 @@ from account.forms import RegistrationForm, AccountAuthenticationForm, ForgotPas
 from coffeenijuan import settings
 from django.core.mail import send_mail, BadHeaderError
 from urllib.parse import quote, unquote
-from .support import get_if_exists, encrypt, decrypt
+from .support import get_if_exists, encrypt, decrypt, record_analytic
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Account
 from django.urls import reverse
@@ -13,8 +13,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from product.models import Product
-from management.models import Analytic
-
+    
 
 js = []
 css = []
@@ -34,14 +33,7 @@ def home(request):
     page = "home"
 
     items = Product.objects.all()
-
-    ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')).split(',')[0].strip()
-    
-    if request.user.is_authenticated:
-        Analytic.objects.create(user=request.user, action_type="Home", description=ip)
-    else:
-        Analytic.objects.create(action_type="Home", description=ip)
-    
+    record_analytic(request, "home", "")
 
     return render(request, "account/home.html", {
         "csss" : css,
