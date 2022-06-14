@@ -13,10 +13,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from product.models import Product
+from management.models import Analytic
+
 
 js = []
 css = []
-page = "home"
 
 def prompt_message(request, type):
     page = "prompt_message"
@@ -28,10 +29,19 @@ def prompt_message(request, type):
         'page' : page
     })
 
+
 def home(request):
     page = "home"
 
     items = Product.objects.all()
+
+    ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')).split(',')[0].strip()
+    
+    if request.user.is_authenticated:
+        Analytic.objects.create(user=request.user, action_type="Home", description=ip)
+    else:
+        Analytic.objects.create(action_type="Home", description=ip)
+    
 
     return render(request, "account/home.html", {
         "csss" : css,
@@ -39,6 +49,7 @@ def home(request):
         "page" : page,
         "items" :   items
     })
+
 
 def about(request):
     page = "about"
@@ -48,6 +59,7 @@ def about(request):
         "jss"  : js,
         "page" : page
     })
+
 
 def login_view(request):
     page = "login"
@@ -76,6 +88,7 @@ def login_view(request):
         "login_form" : login_form,
         "page" : page
     })
+
 
 def register(request):
     page = "register"
