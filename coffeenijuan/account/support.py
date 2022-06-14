@@ -1,12 +1,20 @@
 from decouple import config
 from management.models import Analytic
 
+
+LETTERS = config('ENCRYPT_LETTERS')
+WORD = config('SECRET_WORD')
+KEY = config('ENCRYPT_KEY')
+key = KEY.split(',')
+
+
 def get_if_exists(model, **kwargs):
     try:
         obj = model.objects.get(**kwargs)
     except model.DoesNotExist:
         obj = None
     return obj
+
 
 def record_analytic(request, action_type, description):
     ip_address = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')).split(',')[0].strip()
@@ -16,10 +24,6 @@ def record_analytic(request, action_type, description):
     else:
         Analytic.objects.create(action_type=action_type, ip_address=ip_address, description=description)
 
-LETTERS = config('ENCRYPT_LETTERS')
-WORD = config('SECRET_WORD')
-KEY = config('ENCRYPT_KEY')
-key = KEY.split(',')
 
 def encrypt(message):
     encrypted = encrypt_recur(message, 0, 1)
@@ -28,12 +32,14 @@ def encrypt(message):
     encrypted = encrypt_recur(encrypted, 0, 1)
     return encrypted
     
+
 def decrypt(message):
     decrypted = decrypt_recur(message, 0, 1)
     # decrypted = decrypted.replace(WORD, '')
     decrypted = decrypted.replace(WORD, '')
     decrypted = decrypt_recur(decrypted, 0, 1)
     return decrypted
+
 
 def encrypt_recur(message, start, over):
     if start == over: return message
@@ -52,6 +58,7 @@ def encrypt_recur(message, start, over):
             
     return encrypt_recur(encrypted, start, over)
 
+
 def second_layer(message):
     encrypted = ''
     i = 0
@@ -64,6 +71,7 @@ def second_layer(message):
             encrypted += chars
             i += 1
     return encrypted
+
 
 def decrypt_recur(message, start, over):
     if start == over: return message
