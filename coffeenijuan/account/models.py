@@ -61,3 +61,6 @@ class Account(AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return True
+
+def get_accounts_by_type(account_type):
+	return Account.objects.filter(account_type=account_type)

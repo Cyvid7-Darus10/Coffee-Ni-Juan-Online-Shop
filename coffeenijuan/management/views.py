@@ -10,6 +10,7 @@ from .model_transaction import *
 from .helpers import excelreport
 from .decorators import admin_only, include_farmer_staff, include_staff
 from payment.models import get_orders_by_status, get_orders_timeline
+from account.models import get_accounts_by_type
 
 
 js = []
@@ -44,9 +45,14 @@ def overview(request):
         "css/management/morris.css"
     ]
     
-    total_visits  = get_total_vistors()
-    unique_visits = get_unique_vistors()
-    visits        = [total_visits, unique_visits]
+    total_visits      = get_total_vistors()
+    unique_visits     = get_unique_vistors()
+    visits            = [total_visits, unique_visits]
+
+    total_customers   = get_accounts_by_type("customer").count()
+    total_farmers     = get_accounts_by_type("farmer").count()
+    total_staff       = get_accounts_by_type("staff").count()
+    total_users       = [total_customers, total_farmers, total_staff]
 
     ongoing_orders    = get_orders_by_status("ongoing")
     approved_orders   = get_orders_by_status("approved")
@@ -61,7 +67,8 @@ def overview(request):
         "page"            : page,
         "visits"          : visits,
         "orders_status"   : orders_status,
-        "orders_timeline" : orders_timeline
+        "orders_timeline" : orders_timeline,
+        "total_users" : total_users
     })
 
 

@@ -7,8 +7,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 <section>
-    <div class="row mx-2 mt-5 p-0">
-        <div class="col-sm-3 p-0">
+    <div class="row mx-2 p-0">
+        <div class="col-sm-6 p-0">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title text-muted">Unique Visits</h5>
@@ -16,27 +16,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 p-0">
+        <div class="col-sm-6 p-0">
             <div class="card text-center">
                 <div class="card-body">
-                <h5 class="card-title text-muted">Shop Total Visits</h5>
-                <p class="display-6">{{ visits.1 }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 p-0">
-            <div class="card text-center">
-                <div class="card-body">
-                <h5 class="card-title text-muted">Upcoming Shipments</h5>
-                <p class="display-6">331</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 p-0">
-            <div class="card text-center">
-                <div class="card-body">
-                <h5 class="card-title text-muted">Ongoing Orders</h5>
-                <p class="display-6">123</p>
+                    <h5 class="card-title text-muted">Shop Total Visits</h5>
+                    <p class="display-6">{{ visits.1 }}</p>
                 </div>
             </div>
         </div>
@@ -44,7 +28,7 @@
 </section>
 
 <section>
-    <div class="row mx-2 mt-3">
+    <div class="row mx-2">
         <div class="card col-sm-9 p-0">
             <div class="card-header">
                 <span class="h4">Orders Graph</span>
@@ -105,4 +89,34 @@
         </div>
     </div>
 </section>
+
+<section>
+    <div class="row mx-2 p-0">
+        <div class="col-sm-4 p-0">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Customers</h5>
+                    <p class="display-6">{{total_users.0}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-0">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Farmers</h5>
+                    <p class="display-6">{{total_users.1}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-0">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Staff</h5>
+                    <p class="display-6">{{total_users.2}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
