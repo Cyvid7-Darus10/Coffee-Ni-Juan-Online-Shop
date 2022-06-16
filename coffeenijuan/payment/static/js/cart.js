@@ -49,10 +49,12 @@ $(document).ready(function() {
 
 	$(".qty").on("keyup", function() {
 		let new_value = $(this).val()
-		let price = $(this).closest('div').find(".price").text();
+		let price = $(this).closest('div').parent().find(".price").text();
 		let product_id = $(this).closest('div').find(".productId").html();
-		$(this).closest('div').find(".quantity").text(new_value.toString())
-		$(this).closest('div').find(".totalPrice").text((parseInt(price)*new_value).toString())
+		$(this).closest('div').parent().find(".quantity").text(new_value.toString())
+		$(this).closest('div').parent().find(".totalPrice").text((parseInt(price)*new_value).toString())
+
+		console.log(new_value);
 
 		$(`#itemSummary${product_id}`).find(".quantity").text(new_value.toString())
 		$(`#itemSummary${product_id}`).find(".totalPrice").text((parseInt(price)*new_value).toString())

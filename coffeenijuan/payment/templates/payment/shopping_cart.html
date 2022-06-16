@@ -52,9 +52,9 @@
                       <div class="col-6 col-lg-3">
                         <input type='text' name='quantity{{ p.id }}' value='{{ p.quantity }}' class='qty w-100'/>
                         <span class="stock" hidden>{{ p.product.stock }}</span>
+                        <span class="productId" hidden>{{p.id}}</span>
                       </div>
                       <div class="w3-monospace">
-                        <span class="productId" hidden>{{p.id}}</span>
                         ₱ 
                         <span class="price">{{ p.product.price }}</span> 
                         x 

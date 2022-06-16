@@ -20,7 +20,7 @@ class Payment(Base):
     label          = models.CharField(max_length=250, blank=True, null=True)
     customer       = models.ForeignKey(Account, on_delete=models.CASCADE, default=None, null=True)
     mobile_number  = models.CharField(max_length=250, blank=True, null=True)
-    address        = models.CharField(max_length=30, default="None")
+    address        = models.CharField(max_length=250, default="None")
     payment_option = models.CharField(max_length=30, default="None")
     total          = models.FloatField(default=0)
     proof          = models.ImageField(upload_to ='payment/proof/')

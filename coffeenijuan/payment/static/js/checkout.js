@@ -18,8 +18,6 @@ $(document).ready(function(){
         if($(".shipping_fee").length)
           $(".shipping_fee").fadeOut(300)
       }
-<<<<<<< HEAD
-=======
 
     $('.submit_payment_form').trigger("click");
   })
