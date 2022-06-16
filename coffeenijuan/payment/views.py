@@ -1,5 +1,4 @@
-import json
-from django.http import JsonResponse
+from django.contrib import messages
 from math import ceil
 from django.shortcuts import render,redirect
 from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
@@ -147,7 +146,9 @@ def add_cart(request, id):
         # Check if the product is already in the cart
         product = get_if_exists(Product, **{'id':id})
         if product.stock == 0:
+            messages.add_message(request, messages.ERROR, "This product is out of stock.")
             return redirect("product:product_item", product.id)
+
         shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
     
         if shopping_cart_item is None:
@@ -164,8 +165,6 @@ def add_cart(request, id):
         # get the quantity parameter
         quantity = int(request.POST.get('quantity'))
         
-        # product.stock -= quantity
-        # product.save()
         if shopping_cart_item.quantity + quantity >= product.stock:
             shopping_cart_item.quantity = quantity
         else:
@@ -173,6 +172,8 @@ def add_cart(request, id):
 
         shopping_cart_item.status = "pending"
         shopping_cart_item.save()
+        messages.add_message(request, messages.SUCCESS, "Successfully added to shopping cart.")
+
      
     elif request.POST.get('action') == 'BUY NOW':
         for shopping_cart_item in shopping_cart.shopping_cart_items():
