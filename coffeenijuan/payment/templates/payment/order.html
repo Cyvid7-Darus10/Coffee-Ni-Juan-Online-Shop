@@ -30,7 +30,7 @@
 
           {% for order in orders %}
           <div class="row mt-2 mx-0 col-12" >
-            <a class="btn p-0 m-0 text-start" data-bs-toggle="collapse" style="background-color: antiquewhite;" href="#collapse{{order.id}}" role="button" aria-expanded="false" aria-controls="collapse{{order.id}}">
+            <a class="btn p-0 m-0 text-start border border-dark p-2 d-flex flex-row justify-content-between" data-bs-toggle="collapse" style="background-color: antiquewhite;" href="#collapse{{order.id}}" role="button" aria-expanded="false" aria-controls="collapse{{order.id}}">
               <div class="p-0">
                 <span class="h6 text-capitalize">
                   <span class="fw-bold">Ordered Date:</span>
@@ -42,6 +42,7 @@
                   {{order.status}}
                 </span>
               </div>
+              <i class="bi bi-list h1"></i>
             </a>
 
             <div class="collapse p-0 m-0" id="collapse{{order.id}}">  
