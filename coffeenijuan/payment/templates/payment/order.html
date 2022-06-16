@@ -30,49 +30,53 @@
 
           {% for order in orders %}
           <div class="row mt-2 mx-0 col-12" >
-            <div style="border: 1px solid #4f250d;background-color: rgb(255, 235, 222);">Order {{order.id}} created on {{order.created}} with status of {{order.status}}</div>
+            <a class="btn p-0 m-0" data-bs-toggle="collapse" style="background-color: antiquewhite;" href="#collapse{{order.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <div class="p-0">
+                <span class="h6 text-capitalize">
+                  <span class="fw-bold">Ordered Date:</span>
+                  {{order.created}}
+                </span>
+                <br>
+                <span class="h6 text-capitalize">
+                  <span class="fw-bold">Status:</span>
+                  {{order.status}}
+                </span>
+              </div>
+            </a>
+
+            <div class="collapse p-0 m-0" id="collapse{{order.id}}">  
               <table class="table table-bordered table-sm" style=" border-color: #4b2108!important;">
-                  <thead class="table text-center" style="background-color:#4f250d; color: antiquewhite;">
-                    <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Qty</th>
-                      <th scope="col">Total</th>
-                      <th scope="col">Status</th>
-                    </tr>
-                  </thead>
+                <thead class="table text-center" style="background-color:#4f250d; color: antiquewhite;">
+                  <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
 
-                  {% for order_item in order.order_items %}
-                    <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
-                      <tr>
-                        <th scope="row"></th>
-                        <td>{{order_item.product.label}}</td>
-                        <td>{{order_item.product.price}}</td>
-                        <td>{{order_item.quantity}}</td>
-                        <td>₱ {{order_item.total_price}}</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  {% endfor %}
-
+                {% for order_item in order.order_items %}
                   <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
                     <tr>
-                      <th scope="row"></th>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>₱ {{order.total_price}}</td>
-                      <td></td>
-                    </tr> 
+                      <td>{{order_item.product.label}}</td>
+                      <td>{{order_item.product.price}}</td>
+                      <td>{{order_item.quantity}}</td>
+                      <td>₱ {{order_item.total_price}}</td>
+                    </tr>
                   </tbody>
-                  <!-- End Loop -->
-                </table>
+                {% endfor %}
+
+                <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
+                  <tr>
+                    <td colspan="3"></td>
+                    <td>₱ {{order.total_price}}</td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
           </div>
           {% endfor %}
-          <!-- End Loop -->
         </div>
-
     </section>
 </article>	
 
