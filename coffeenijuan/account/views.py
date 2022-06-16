@@ -54,6 +54,24 @@ def about(request):
         "page" : page
     })
 
+def privacy_policy(request):
+    page = "Privacy Policy"
+
+    return render(request, "privacy_policy.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page
+    })
+
+def terms_and_conditions(request):
+    page = "Terms and Conditions"
+
+    return render(request, "terms_and_conditions.html", {
+        "csss" : css,
+        "jss"  : js,
+        "page" : page
+    })
+
 
 def login_view(request):
     page = "login"
