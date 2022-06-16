@@ -70,7 +70,7 @@
                         <span class="d-none d-lg-inline">Supplies</span>
                     </a>
                 </li>
-                {% if request.user.account_type == "admin" or request.user.is_admin %}
+                {% if request.user.account_type == "admin" or request.user.is_admin%}
                   <li>
                     {% if page == 'transactions' %}
                         <a href="{% url 'management:transactions' %}" class="nav-link active" aria-current="page">
@@ -91,6 +91,8 @@
                         <span class="d-none d-lg-inline">Account</span>
                     </a>
                   </li>
+                {% endif %}
+                {% if request.user.account_type == "staff" or request.user.account_type == "admin" or request.user.is_admin %}
                   <li>
                     {% if page == 'orders' %}
                         <a href="{% url 'management:order_list' %}" class="nav-link active" aria-current="page">
@@ -101,7 +103,7 @@
                         <span class="d-none d-lg-inline">Orders</span>
                     </a>
                   </li>
-                  {% endif %}
+                {% endif %}
                 </ul>
                 <hr>
                 <div class="dropdown">
