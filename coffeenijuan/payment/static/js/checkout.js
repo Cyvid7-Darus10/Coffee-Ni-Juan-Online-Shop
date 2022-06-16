@@ -18,9 +18,9 @@ $(document).ready(function(){
         if($(".shipping_fee").length)
           $(".shipping_fee").fadeOut(300)
       }
-  });
+<<<<<<< HEAD
+=======
 
-  $(".confirm_submit").on("click", function() {
     $('.submit_payment_form').trigger("click");
   })
 
