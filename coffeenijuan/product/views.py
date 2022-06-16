@@ -76,9 +76,9 @@ def product_item(request, id):
     product_orders = OrderItem.objects.filter(product=product.id)
     count_sold = 0
     for p in product_orders:
-        if(p.status == "ongoing"):
+        if p.status == "ongoing":
             count_sold += p.quantity
-        if(p.status == "delivered"):
+        elif p.status == "completed":
             count_sold += p.quantity
 
     return render(request, "product/product_item.html", {
