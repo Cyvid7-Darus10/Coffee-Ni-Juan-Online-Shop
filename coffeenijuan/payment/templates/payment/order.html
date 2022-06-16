@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<article class="container-fluid m-0 px-5 row">
+<article class="container-fluid m-0 px-2 px-lg-5 row">
     <section class="col-12 col-lg-3 my-5 pt-4">
         <div class="col-12 row p-2 h3 d-lg-block mx-1 glass-backdrop">
             <span class="col-9  h5"><b>CUSTOMER PROFILE</b></span>
@@ -10,11 +10,17 @@
             <div class="text-center">
                 <span ><i class=" display-5 bi bi-person-square"></i></span>
                 <span class="d-block h6"> {{request.user.first_name}} {{request.user.last_name}}</span>
-                <span class="d-block h6"> {{request.user.username}}</span>
                 <span class="d-block h6"> {{request.user.email}}</span>
-                <span class="d-block h6"> {{request.user.contact_number}}</span>
+                <hr>
             </div>
-            
+            <div class="submit-btn animation-btn-container">
+              <span class="su_button_circle"></span>
+              <div class="animation-btn h4 p-0 m-0">       
+                <button type="button" class="button_text_container" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Update Profile
+                </button>
+              </div>
+            </div>
         </div>	       
     </section>	
     
@@ -81,4 +87,39 @@
     </section>
 </article>	
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        <div class="modal-body">   
+          {% csrf_token %}
+
+          {% for field in form %}
+            <div class="mb-3 h6 text-start">
+                <span class="fw-bolder">{{field.label}}:</span>
+                {{field}}
+            </div>
+            {% for error in field.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+                
+          {% if form.non_field_errors %}
+              <div class="text-danger">
+                  {{form.non_field_errors}}
+              </div>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,11 +1,12 @@
 from django.contrib import messages
-from math import ceil
 from django.shortcuts import render,redirect
 from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
 from product.models import Product
 from account.support import get_if_exists
 from django.shortcuts import redirect
 from .decorators import users_only
+from .forms import AccountUpdateForm
+from account.models import Account
 
 # global variables for js and css
 js = []
@@ -78,13 +79,22 @@ def order(request):
     item_cnt = 0
     if shopping_cart:
         item_cnt = shopping_cart.count_not_deleted_products()
+        
+    account = Account.objects.get(id=request.user.id)
+    if request.POST:
+        form = AccountUpdateForm(request.POST, request.FILES, instance=account)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AccountUpdateForm(instance=account)
 
     return render(request, "payment/order.html", {
         "csss"      : css,
         "jss"       : js,
         "orders"    : orders,
         "order_cnt" : order_cnt,
-        "item_cnt"  : item_cnt
+        "item_cnt"  : item_cnt,
+        "form"      : form
     })
 
 
@@ -199,9 +209,6 @@ def add_cart(request, id):
 
         quantity = int(request.POST.get('quantity'))
 
-        # product.stock -= quantity
-        # product.save()
-        
         shopping_cart_item.quantity = quantity
         shopping_cart_item.status = "selected"
         shopping_cart_item.save()
@@ -210,58 +217,12 @@ def add_cart(request, id):
 
     return redirect("product:product_item", product.id)
 
-# @users_only
-# def update_item(request, id, quantity):
-#     shopping_cart_item = ShoppingCartItem.objects.get(id=id)
-#     product            = shopping_cart_item.product
-#     quantity           = int(quantity)
-           
-#     if product.stock > quantity:
-#         if quantity < shopping_cart_item.quantity:
-#             product.stock += shopping_cart_item.quantity - quantity
-#             product.save()
-#             shopping_cart_item.quantity = quantity
-            
-
-#         elif quantity > shopping_cart_item.quantity:
-#             product.stock -=  quantity - shopping_cart_item.quantity 
-#             product.save()
-
-#             shopping_cart_item.quantity = quantity
-            
-#     elif product.stock < quantity:
-#         if quantity < shopping_cart_item.quantity:
-#             product.stock += shopping_cart_item.quantity - quantity
-#             product.save()
-#             shopping_cart_item.quantity = quantity
-            
-#         elif quantity > shopping_cart_item.quantity:
-#             if product.stock + shopping_cart_item.quantity < quantity:       
-#                 shopping_cart_item.quantity = product.stock + shopping_cart_item.quantity
-#                 product.stock = 0
-#                 product.save()
-                
-#             else:
-#                 product.stock -= shopping_cart_item.quantity - quantity
-#                 product.save()
-#                 shopping_cart_item.quantity = quantity
-                
-#     elif product.stock == 0:
-#         pass
-
-#     shopping_cart_item.status = "pending"
-#     shopping_cart_item.save()
 
 @users_only
 def remove_cart(request, id):
     shopping_cart_item        = ShoppingCartItem.objects.get(id=id)
     shopping_cart_item.status = "deleted"
     shopping_cart_item.save()
-
-    # product           =  shopping_cart_item.product
-    # quantity          =  shopping_cart_item.quantity
-    # product.stock     += quantity
-    # product.save()
 
     return shopping_cart(request)
 
