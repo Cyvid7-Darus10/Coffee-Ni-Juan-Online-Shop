@@ -144,39 +144,41 @@ def add_payment(request):
 
     return redirect("payment:order")
 
+def get_shopping_cart(shopping_cart, product):
+    shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
+    
+    if shopping_cart_item is None:
+        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "selected"})
+
+    if shopping_cart_item is None:
+        shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
+    
+    if shopping_cart_item.status == "deleted":
+        shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
+    elif shopping_cart_item.status == "ongoing":
+        shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
+
+    return shopping_cart_item
 
 @users_only
 def add_cart(request, id):
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})    
-    # Check if the product is already in the cart
+
     if shopping_cart is None:
         shopping_cart = ShoppingCart.objects.create(customer=request.user)
 
-    if request.POST.get('action') == 'ADD TO CART':   
-        # Check if the product is already in the cart
+    quantity = int(request.POST.get('quantity'))
+
+    if request.POST.get('action') == 'ADD TO CART':
         product = get_if_exists(Product, **{'id':id})
         if product.stock == 0:
             messages.add_message(request, messages.ERROR, "This product is out of stock.")
             return redirect("product:product_item", product.id)
 
-        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
-    
-        if shopping_cart_item is None:
-            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "selected"})
-
-        if shopping_cart_item is None:
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
-        
-        if shopping_cart_item.status == "deleted":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
-        elif shopping_cart_item.status == "ongoing":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
-
-        # get the quantity parameter
-        quantity = int(request.POST.get('quantity'))
+        shopping_cart_item = get_shopping_cart(shopping_cart, product)
         
         if shopping_cart_item.quantity + quantity >= product.stock:
-            shopping_cart_item.quantity = quantity
+            shopping_cart_item.quantity = product.stock
         else:
             shopping_cart_item.quantity += quantity
 
@@ -192,28 +194,18 @@ def add_cart(request, id):
                 shopping_cart_item.save()
 
         product = get_if_exists(Product, **{'id':id})
-        if product.stock == 0:
-            return redirect("product:product_item", product.id)
-        shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "pending"})
-    
-        if shopping_cart_item is None:
-            shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart':shopping_cart, 'product':product, 'status': "selected"})
-
-        if shopping_cart_item is None:
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
         
-        if shopping_cart_item.status == "deleted":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
-        elif shopping_cart_item.status == "ongoing":
-            shopping_cart_item = ShoppingCartItem.objects.create(shopping_cart=shopping_cart, product=product, status = "pending")
-
-        quantity = int(request.POST.get('quantity'))
+        if product.stock == 0:
+            messages.add_message(request, messages.ERROR, "This product is out of stock.")
+            return redirect("product:product_item", product.id)
+            
+        shopping_cart_item = get_shopping_cart(shopping_cart, product)
 
         shopping_cart_item.quantity = quantity
         shopping_cart_item.status = "selected"
         shopping_cart_item.save()
 
-        return check_out(request)
+        return redirect("payment:check_out")
 
     return redirect("product:product_item", product.id)
 
