@@ -113,12 +113,16 @@ def add_order(request, payment):
     shopping_cart_items = shopping_cart.shopping_cart_items()
     for shopping_cart_item in shopping_cart_items:
         if (shopping_cart_item.status == "selected"):
-            OrderItem.objects.create(order=new_order, product=shopping_cart_item.product, quantity=shopping_cart_item.quantity, status="ongoing")
-            shopping_cart_item.status = "deleted"
             product = shopping_cart_item.product
-            product.stock -= shopping_cart_item.quantity
-            product.save()
-            shopping_cart_item.save()
+            if product.stock < shopping_cart_item.quantity:
+                messages.error(request, "Sorry, we don't have enough stock for " + product.label + ".")
+                return False
+            else:
+                OrderItem.objects.create(order=new_order, product=shopping_cart_item.product, quantity=shopping_cart_item.quantity, status="ongoing")
+                shopping_cart_item.status = "deleted"
+                product.stock -= shopping_cart_item.quantity
+                product.save()
+                shopping_cart_item.save()
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if shipping_fee is None:
@@ -128,9 +132,12 @@ def add_order(request, payment):
         new_order_item = OrderItem(order=new_order, product=shipping_fee, quantity=1, status="Ongoing")
         new_order_item.save()
 
+    return True
+
 
 @users_only
 def add_payment(request):
+    status = True
     if request.POST.get('action') == 'ADD PAYMENT':
         customer      = request.user
         address       = request.POST['address']
@@ -145,10 +152,13 @@ def add_payment(request):
         payment_option = request.POST['payment_option_input']
         new_payment = Payment.objects.create(customer=customer, address=address, mobile_number=mobile_number, total=total, payment_option=payment_option, proof=proof)
 
-        add_order(request, new_payment)
+        status = add_order(request, new_payment)
 
-    return redirect("payment:order")
-
+    if status:
+        return redirect("payment:order")
+    else:
+        return redirect("payment:shopping_cart")
+        
 
 def get_shopping_cart(shopping_cart, product):
     shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
