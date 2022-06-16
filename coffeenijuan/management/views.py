@@ -68,7 +68,7 @@ def overview(request):
         "visits"          : visits,
         "orders_status"   : orders_status,
         "orders_timeline" : orders_timeline,
-        "total_users" : total_users
+        "total_users"     : total_users
     })
 
 

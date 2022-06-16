@@ -1,0 +1,14 @@
+{% autoescape off %}
+​​Hello {{user.first_name}},
+
+
+Thank you for joining Kape Giting. Click the link below to confirm that this is the correct email to reach you.
+
+<a href="{{ protocol }}://{{ domain }}{% url 'account:verify' token=token %}">Confirm Email</a>
+
+If you didn't request this email, there's nothing to worry about -- you can safely ignore it.
+ 
+ 
+Sincerely,
+Kape Giting Brewers
+{% endautoescape %}

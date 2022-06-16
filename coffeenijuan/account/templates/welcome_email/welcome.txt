@@ -1,0 +1,15 @@
+{% autoescape off %}
+Welcome to KAPE GITING, {{user.first_name}}!
+ 
+ 
+You've activated your customer account. Next time you shop with us, log in for faster checkout.
+
+<a href="{{ protocol }}://{{ domain }}{% url 'account:login' %}">Login</a>
+ 
+If you have any questions, reply to this email or contact us at facebook.com/kapegiting.
+ 
+ 
+Sincerely,
+Kape Giting Brewers
+
+{% endautoescape %}
