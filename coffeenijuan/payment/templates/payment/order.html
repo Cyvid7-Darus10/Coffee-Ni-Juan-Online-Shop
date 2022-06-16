@@ -30,7 +30,7 @@
 
           {% for order in orders %}
           <div class="row mt-2 mx-0 col-12" >
-            <div>Order {{order.id}}</div>
+            <div style="border: 1px solid #4f250d;background-color: rgb(255, 235, 222);">Order {{order.id}} created on {{order.created}} with status of {{order.status}}</div>
               <table class="table table-bordered table-sm" style=" border-color: #4b2108!important;">
                   <thead class="table text-center" style="background-color:#4f250d; color: antiquewhite;">
                     <tr>
@@ -46,12 +46,12 @@
                   {% for order_item in order.order_items %}
                     <tbody style="background-color: rgb(255, 235, 222); overflow-y: scroll;">
                       <tr>
-                        <th scope="row">{{order.created}}</th>
+                        <th scope="row"></th>
                         <td>{{order_item.product.label}}</td>
                         <td>{{order_item.product.price}}</td>
                         <td>{{order_item.quantity}}</td>
                         <td>₱ {{order_item.total_price}}</td>
-                        <td>{{order_item.status}}</td>
+                        <td></td>
                       </tr>
                     </tbody>
                   {% endfor %}

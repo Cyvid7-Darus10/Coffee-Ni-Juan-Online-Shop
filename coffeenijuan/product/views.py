@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Product
 from payment.models import ShoppingCart
+from payment.models import OrderItem
 from account.support import get_if_exists
 
 # global variables for js and css
@@ -72,13 +73,22 @@ def product_item(request, id):
     # get ramdom five products
     random_products = Product.objects.order_by('?')[:4]
 
+    product_orders = OrderItem.objects.filter(product=product.id)
+    count_sold = 0
+    for p in product_orders:
+        if(p.status == "ongoing"):
+            count_sold += p.quantity
+        if(p.status == "delivered"):
+            count_sold += p.quantity
+
     return render(request, "product/product_item.html", {
-        "csss"           : css,
-        "jss"            : js,
-        "product"        : product,
-        "stars"          : range(rating),
-        "empty_stars"    : range(5 - (rating + (1 if not_whole else 0))),
-        'not_whole'      : not_whole,
-        'item_cnt'       : item_cnt,
-        "random_products": random_products
+        "csss"              : css,
+        "jss"               : js,
+        "product"           : product,
+        "stars"             : range(rating),
+        "empty_stars"       : range(5 - (rating + (1 if not_whole else 0))),
+        'not_whole'         : not_whole,
+        'item_cnt'          : item_cnt,
+        "random_products"   : random_products,
+        "count_sold"        : count_sold
     })
