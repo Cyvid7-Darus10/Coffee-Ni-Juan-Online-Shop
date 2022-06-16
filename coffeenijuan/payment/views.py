@@ -1,3 +1,4 @@
+import re
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from .models import Order, OrderItem, ShoppingCart, ShoppingCartItem, Payment
@@ -45,6 +46,10 @@ def check_out(request):
                     ShoppingCartItem.objects.filter(id=pending_cart_item.id).update(quantity=num)
 
             selected_items_ids = request.POST.getlist("checkItem")
+
+            if len(selected_items_ids) == 0:
+                messages.error(request, "Please select at least one item to check out.")
+                return redirect("payment:shopping_cart")
 
             for selected_items_id in selected_items_ids:
                 ShoppingCartItem.objects.filter(id=selected_items_id).update(status="selected")
@@ -144,6 +149,7 @@ def add_payment(request):
 
     return redirect("payment:order")
 
+
 def get_shopping_cart(shopping_cart, product):
     shopping_cart_item = get_if_exists(ShoppingCartItem, **{'shopping_cart': shopping_cart, 'product': product, 'status': "pending"})
     
@@ -215,8 +221,8 @@ def remove_cart(request, id):
     shopping_cart_item        = ShoppingCartItem.objects.get(id=id)
     shopping_cart_item.status = "deleted"
     shopping_cart_item.save()
-
-    return shopping_cart(request)
+    messages.add_message(request, messages.SUCCESS, "Successfully removed from shopping cart.")
+    return redirect("payment:shopping_cart")
 
 
 @users_only
@@ -230,7 +236,7 @@ def check_box(request, id):
 
     shopping_cart_item.save()
 
-    return shopping_cart(request)
+    return redirect("payment:shopping_cart")
 
 
 @users_only
@@ -238,6 +244,8 @@ def delete_cart(request):
     arr = request.POST.getlist("checkItem")
     for i in arr:
         ShoppingCartItem.objects.filter(id=i).update(status="deleted")
-    message = request.POST.get('title')
-
-    return shopping_cart(request)
+    
+    if len(arr) > 0:
+        messages.success(request, "Selected item(s) have been deleted.")
+    
+    return redirect("payment:shopping_cart")
