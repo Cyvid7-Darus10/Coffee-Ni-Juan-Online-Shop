@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body style="margin:0;padding:0;text-align:left;">
+        <div style="text-align: center; ">
+            <img style="width: 200px;" src="https://scontent-nrt1-1.xx.fbcdn.net/v/t1.6435-9/101830579_105815451169559_4953298643163531740_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEYbaMxwSfbrtzxJPODKweTcJu5pG1PZhxwm7mkbU9mHJA8O-Acf-uGWqIWlM_9WXDTNVGUtOsayywkhvWcctCa&_nc_ohc=KjWkBdRtRlEAX-G2KCH&_nc_ht=scontent-nrt1-1.xx&oh=00_AT_1qhABzki96om2EK-LdnO91BGMVW_KsqJemq0h6m9RiA&oe=62D2B933" alt="">
+        </div>
+        Welcome to KAPE GITING, <strong>{{user.first_name}}</strong>!
+        <br>
+        <br>
+        <br>
+        <br>
+        You've activated your customer account. Next time you shop with us, log in for faster checkout.
+        <br>
+        <br>
+        
+        <div style="text-align: center; ">
+        <a style="background-color: #4b2108; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;" href="{{ protocol }}://{{ domain }}{% url 'account:login' %}">Login</a>
+        </div>
+        <br>
+        <br>
+        If you have any questions, reply to this email or contact us at facebook.com/kapegiting.
+        <br>
+        <br>
+        <br>
+        <br>
+        Sincerely,
+        Kape Giting Brewers
+    </body>
+</html>

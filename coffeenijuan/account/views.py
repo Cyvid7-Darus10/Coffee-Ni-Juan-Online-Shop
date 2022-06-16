@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm, ForgotPassword
 from coffeenijuan import settings
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from urllib.parse import quote, unquote
 from .support import get_if_exists, encrypt, decrypt, record_analytic
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,7 +13,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from product.models import Product
-    
+from django.contrib import messages
+
 
 js = []
 css = []
@@ -97,33 +98,31 @@ def register(request):
             account = authenticate(email=email, password=raw_password)
             login(request, account)
 
-            
             # For email verification
-
-            # --------Email Message--------------
-            # User Data
             user = get_if_exists(Account, **{'email':email})
 
-            
-            # Sending Welcome Email
-            subject = "Welcome to Coffee ni Juan Coffee Shop!!"
-            message = "Hello {} {}".format(user.first_name, user.last_name)    
+            subject = "VERIFICATION CODE"
+            email_template_name = "welcome_email/verify.html"
+            c = {
+                "email": user.email,
+                'domain': settings.DOMAIN,
+                'site_name': 'Kape Giting',
+                "user": user,
+                'token': quote(encrypt(email + "+" + str(user.id))),
+                'protocol': 'https',
+                }
+
+            email = render_to_string(email_template_name, c)
             from_email = settings.EMAIL_HOST_USER
-            to_list = [email]
-            try:
-                send_mail(subject, message, from_email, to_list, fail_silently=False)
-            except BadHeaderError:
-                return HttpResponse('Invalid header found.')
-
-            # Sending Verification Email
-            link = settings.DOMAIN + "/verify/" + quote(encrypt(email + "+" + str(user.id)))
-            message = "Hello {} {}, Go to this link to confirm your account: {}".format(user.first_name, user.last_name, link)    
-            to_list = [email]
 
             try:
-                send_mail(subject, message, from_email, to_list, fail_silently=False)
+                message = EmailMessage(subject, email, from_email, [user.email])
+                message.content_subtype = 'html'
+                message.send()
+                messages.add_message(request, messages.SUCCESS, 'An email has been sent to you. Please verify your email address.')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
+            
     
             return redirect('account:home')
         else:
@@ -160,6 +159,28 @@ def verify(request, token):
     if user:
         user.is_verified = True
         user.save(update_fields=['is_verified'])
+
+        subject = "WELCOME TO KAPE GITING"
+        email_template_name = "welcome_email/welcome.html"
+        c = {
+            "email": user.email,
+            'domain': settings.DOMAIN,
+            'site_name': 'Kape Giting',
+            "user": user,
+            'protocol': 'https',
+            }
+
+        email = render_to_string(email_template_name, c)
+        from_email = settings.EMAIL_HOST_USER
+
+        try:
+            message = EmailMessage(subject, email, from_email, [user.email])
+            message.content_subtype = 'html'
+            message.send()
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+
+        messages.add_message(request, messages.SUCCESS, 'Your email has been verified. Thank you for registering.')
     else:
         url = reverse('account:prompt_message', kwargs={'type':"invalid_token"})
         return HttpResponseRedirect(url)

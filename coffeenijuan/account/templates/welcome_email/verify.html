@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body style="margin:0;padding:0;text-align:left;">
+        <div style="text-align: center; ">
+            <img style="width: 200px;" src="https://scontent-nrt1-1.xx.fbcdn.net/v/t1.6435-9/101830579_105815451169559_4953298643163531740_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEYbaMxwSfbrtzxJPODKweTcJu5pG1PZhxwm7mkbU9mHJA8O-Acf-uGWqIWlM_9WXDTNVGUtOsayywkhvWcctCa&_nc_ohc=KjWkBdRtRlEAX-G2KCH&_nc_ht=scontent-nrt1-1.xx&oh=00_AT_1qhABzki96om2EK-LdnO91BGMVW_KsqJemq0h6m9RiA&oe=62D2B933" alt="">
+        </div>
+
+        ​​Hello <strong>{{user.first_name}}</strong>,
+
+        <br>
+        <br>
+
+        Thank you for joining Kape Giting. Click the link below to confirm that this is the correct email to reach you.
+        <br>
+        <br>
+        <div style="text-align: center; ">
+        <a style="background-color: #4b2108; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;"
+        
+        href="{{ protocol }}://{{ domain }}{% url 'account:verify' token=token %}">Confirm Email</a>
+        </div>
+        <br>
+        <br>
+        If you didn't request this email, there's nothing to worry about -- you can safely ignore it.
+        <br>
+        <br>
+        <br>
+        <br>
+        Sincerely,
+        <br>
+        Kape Giting Brewers
+    </body>
+</html>
