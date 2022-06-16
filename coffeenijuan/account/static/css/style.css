@@ -50,7 +50,6 @@ button, input[type="submit"], input[type="reset"] {
   border-radius: 3px;
   text-decoration: none;
   padding: 8px 10px;
-  margin-bottom: 12px;
 }
 
 /* media query for custom-btn */
