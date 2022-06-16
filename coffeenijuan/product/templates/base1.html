@@ -57,7 +57,7 @@
         
             
             <div class="collapse navbar-collapse w-100 px-1 px-lg-0" id="navbarHeader">
-                <form class="form-inline p-0 m-0 row col-12 col-md-7">
+                <form class="form-inline p-0 m-0 row col-12 col-lg-7">
                     <input class="form-control search-input" id="product_item" type="search" name="label" placeholder="Search" aria-label="Search">
                     <button class="btn search-btn" type="submit"><i class="bi bi-search black"></i></button>
                 </form>
@@ -75,14 +75,14 @@
                 </script>
 
                 <ul class="nav mt-3 mt-lg-0 mx-lg-0 ms-lg-auto align-items-center justify-content-between mb-3 mb-lg-0">
-                    <li class="nav-item align-items-center">
+                    <li class="nav-item">
                         <a href="{% url 'payment:shopping_cart' %}" class="h3 text-decoration-none">
                             <i class="bi bi-cart"></i>
                             <span class="cart-number"> {{ item_cnt }} </span>
                         </a>
                     </li>
                     <li class="nav-item justify-content-end align-items-center ps-4">
-                        <div class="btn-group">
+                        <div class="btn-group dropstart">
                             <i class="bi bi-person"></i>
                             <button type="button" class="dropdown-toggle fw-bolder d-flex flex-row align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
                                 {% if request.user.is_authenticated %}
