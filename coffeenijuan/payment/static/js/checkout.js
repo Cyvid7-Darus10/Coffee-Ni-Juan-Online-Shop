@@ -1,3 +1,8 @@
+function placeOrder() {
+  $('.submit_payment_form').trigger("click");
+}
+
+
 $(document).ready(function(){ 
   $('#payment_method').on("change", function() {
 
@@ -19,7 +24,7 @@ $(document).ready(function(){
           $(".shipping_fee").fadeOut(300)
       }
 
-    $('.submit_payment_form').trigger("click");
+    // $('.submit_payment_form').trigger("click");
   })
 
   $('.place_order').on("click", function() { 
