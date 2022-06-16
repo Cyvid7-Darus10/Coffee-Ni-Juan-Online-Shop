@@ -33,14 +33,15 @@ def prompt_message(request, type):
 def home(request):
     page = "home"
 
-    items = Product.objects.all()
+    # get 6 random products
+    items = Product.objects.order_by('?')[:6]
     record_analytic(request, "home", "")
 
     return render(request, "account/home.html", {
-        "csss" : css,
-        "jss"  : js,
-        "page" : page,
-        "items" :   items
+        "csss"  : css,
+        "jss"   : js,
+        "page"  : page,
+        "items" : items
     })
 
 
