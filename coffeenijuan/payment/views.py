@@ -17,6 +17,7 @@ css = []
 @users_only
 def shopping_cart(request):
     shopping_cart = get_if_exists(ShoppingCart, customer = request.user.id)
+    ShoppingCartItem.objects.filter(status="selected").update(status="pending")
     if shopping_cart is None:
         shopping_cart = ShoppingCart.objects.create(customer=request.user)
 
@@ -24,7 +25,7 @@ def shopping_cart(request):
     item_cnt = 0
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
     if shopping_cart:
-        item_cnt = shopping_cart.count_not_deleted_products()
+        item_cnt = shopping_cart.count_selected_products()
     return render(request, "payment/shopping_cart.html", {
         "csss"          : css,
         "jss"           : js,
@@ -58,9 +59,15 @@ def check_out(request):
             return delete_cart(request)
 
     shopping_cart = get_if_exists(ShoppingCart, **{'customer':request.user.id})
-
+    item_cnt = 0
     if shopping_cart:
-        item_cnt = shopping_cart.count_not_deleted_products()
+        item_cnt = shopping_cart.count_items_in_cart()
+        selected_items = shopping_cart.count_selected_products()
+
+        if selected_items == 0:
+            messages.error(request, "Your shopping cart is empty.")
+            return redirect("payment:shopping_cart")
+
 
     shipping_fee = get_if_exists(Product, **{'label':"Shipping Fee"})
     if shipping_fee is None:
@@ -83,7 +90,7 @@ def order(request):
 
     item_cnt = 0
     if shopping_cart:
-        item_cnt = shopping_cart.count_not_deleted_products()
+        item_cnt = shopping_cart.count_selected_products()
         
     account = Account.objects.get(id=request.user.id)
     if request.POST:

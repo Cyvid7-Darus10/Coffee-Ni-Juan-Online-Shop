@@ -106,11 +106,20 @@ class ShoppingCart(Base):
     def shopping_cart_items(self):
         return ShoppingCartItem.objects.filter(shopping_cart=self.id)
 
-    def count_not_deleted_products(self):
+    def count_items_in_cart(self):
         count = 0
         list_of_products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
         for product in list_of_products:
-            if(not (product.status == "deleted" or product.status == "ongoing")):
+            if product.status != "deleted":
+                count+=1
+        print(count)
+        return count
+
+    def count_selected_products(self):
+        count = 0
+        list_of_products = ShoppingCartItem.objects.filter(shopping_cart=self.id)
+        for product in list_of_products:
+            if product.status == "selected":
                 count+=1
         return count
 

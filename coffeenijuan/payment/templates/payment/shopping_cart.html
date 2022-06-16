@@ -30,11 +30,11 @@
                     <div class="col-2 buttons">
                       <a type="button" aria-label="Close" href ="{% url 'payment:remove_cart' p.id %}"><i class="bi bi-x-circle d-block text-start mb-3 h5"></i></a> 
                       <div class="form-check d-block ">
-                        {% if p.status == "selected" %}
+                        {% comment %} {% if p.status == "selected" %}
                           <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}' checked/>
-                        {% elif p.status == "pending" %}
+                        {% elif p.status == "pending" %} {% endcomment %}
                           <input type="checkbox" name="checkItem" class="checkItem form-check-input" value='{{p.id}}'/>
-                        {% endif %}
+                        {% comment %} {% endif %} {% endcomment %}
                         <span class="productId" hidden>{{p.id}}</span>
                       </div>
                     </div>
