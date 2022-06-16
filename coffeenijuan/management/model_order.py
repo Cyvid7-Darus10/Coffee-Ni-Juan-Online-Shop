@@ -1,8 +1,6 @@
-import email
-from payment.models import Order, Payment
-from account.models import Account
+from payment.models import Order
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from .models import add_transaction
 
 def sort_orders(request):
     customer = request.GET.get('customer')
@@ -73,6 +71,7 @@ def sort_orders(request):
 def update_order_status(request, id, status):
     try:
         order = Order.objects.get(id=id)
+        add_transaction("Updated order Status", "Order status updated to " + status + " from " + order.status, request.user, order.id)
         order.status = status
         order.save()
     except:

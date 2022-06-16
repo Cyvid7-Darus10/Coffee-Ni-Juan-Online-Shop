@@ -66,6 +66,7 @@
                         <th class="p-3 h6 fw-bolder">Name</th>
                         <th class="p-3 h6 fw-bolder">Price</th>
                         <th class="p-3 h6 fw-bolder">Stock</th>
+                        <th class="p-3 h6 fw-bolder">Added By</th>
                         <th class="p-3 h6 fw-bolder">Action</th>
                     </tr>
                 </thead>
@@ -75,6 +76,7 @@
                             <td class="p-3 h6">{{ supply.label }}</td>
                             <td class="p-3 h6">{{ supply.price }}</td>
                             <td class="p-3 h6">{{ supply.stock }}</td>
+                            <td class="p-3 h6">{{ supply.added_by }}</td>
                             <td class="p-3 col-3">
                                 <nav class="navbar m-0 navbar-expand-lg navbar-light p-0">
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-{{forloop.counter}}" aria-controls="actions-{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">

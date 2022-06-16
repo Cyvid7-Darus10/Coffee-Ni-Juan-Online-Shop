@@ -11,6 +11,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Price (Php):</strong> {{ supply_item.price }}</li>
             <li class="list-group-item"><strong>Stock:</strong> {{ supply_item.stock }}</li>
+            <li class="list-group-item"><strong>Added by:</strong> {{ supply_item.added_by }}</li>
         </ul>
         <div class="card-body">
             <button data-label="{{ supply_item.label }}" data-url="{% url 'management:delete_supply' id=supply_item.id %}" class="confirm-btn btn btn-danger" type="button" aria-expanded="false">
