@@ -135,13 +135,11 @@
         {% block content %} 
         {% endblock %}
 
-        <footer class="bg-white p-3 text-secondary mt-auto">
-            <div class="text-center">
+        <footer class="bg-white p-0 p-lg-3 text-secondary mt-auto">
+            <div class="d-flex flex-row justify-content-between px-0 px-lg-3">
+                <strong><a href="{% url 'account:privacy_policy' %}">Privacy Policy</a></strong>
                 <strong> © 2022 KAPE GITING. ALL RIGHTS RESERVED.</strong>
-            </div>
-            <div class="float:left;">
-                <div style="margin-left: 2em;"><strong><a href="{% url 'account:privacy_policy' %}">Privacy Policy</a></strong></div>
-                <div style="margin-left: 2em;"><strong><a href="{% url 'account:terms_and_conditions' %}">Terms and Conditions</a></strong></div>
+                <strong><a href="{% url 'account:terms_and_conditions' %}">Terms and Conditions</a></strong>
             </div>
         </footer>
 
